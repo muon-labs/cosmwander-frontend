@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryEpochProvisionsRequest",
+    "definitions": {
+        "QueryEpochProvisionsRequest": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Epoch Provisions Request",
+            "description": "QueryEpochProvisionsRequest is the request type for the Query/EpochProvisions RPC method."
+        }
+    }
+}

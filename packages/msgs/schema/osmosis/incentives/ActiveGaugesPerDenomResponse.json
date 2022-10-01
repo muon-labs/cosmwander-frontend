@@ -1,0 +1,146 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/ActiveGaugesPerDenomResponse",
+    "definitions": {
+        "ActiveGaugesPerDenomResponse": {
+            "properties": {
+                "data": {
+                    "items": {
+                        "$ref": "#/definitions/osmosis.incentives.Gauge"
+                    },
+                    "type": "array",
+                    "description": "Active gagues that match denom in query"
+                },
+                "pagination": {
+                    "$ref": "#/definitions/cosmos.base.query.v1beta1.PageResponse",
+                    "additionalProperties": true,
+                    "description": "Pagination defines pagination for the response"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Active Gauges Per Denom Response"
+        },
+        "cosmos.base.query.v1beta1.PageResponse": {
+            "properties": {
+                "next_key": {
+                    "type": "string",
+                    "description": "next_key is the key to be passed to PageRequest.key to query the next page most efficiently",
+                    "format": "binary",
+                    "binaryEncoding": "base64"
+                },
+                "total": {
+                    "type": "string",
+                    "description": "total is total number of results available if PageRequest.count_total was set, its value is undefined otherwise"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Page Response",
+            "description": "PageResponse is to be embedded in gRPC response messages where the corresponding request message has used PageRequest.  message SomeResponse {          repeated Bar results = 1;          PageResponse page = 2;  }"
+        },
+        "cosmos.base.v1beta1.Coin": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Coin",
+            "description": "Coin defines a token with a denomination and an amount. NOTE: The amount field is an Int which implements the custom method signatures required by gogoproto."
+        },
+        "osmosis.incentives.Gauge": {
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "id is the unique ID of a Gauge"
+                },
+                "is_perpetual": {
+                    "type": "boolean",
+                    "description": "is_perpetual is a flag to show if it's a perpetual or non-perpetual gauge Non-perpetual gauges distribute their tokens equally per epoch while the gauge is in the active period. Perpetual gauges distribute all their tokens at a single time and only distribute their tokens again once the gauge is refilled, Intended for use with incentives that get refilled daily."
+                },
+                "distribute_to": {
+                    "$ref": "#/definitions/osmosis.lockup.QueryCondition",
+                    "additionalProperties": true,
+                    "description": "distribute_to is where the gauge rewards are distributed to. This is queried via lock duration or by timestamp"
+                },
+                "coins": {
+                    "items": {
+                        "$ref": "#/definitions/cosmos.base.v1beta1.Coin"
+                    },
+                    "type": "array",
+                    "description": "coins is the total amount of coins that have been in the gauge Can distribute multiple coin denoms"
+                },
+                "start_time": {
+                    "type": "string",
+                    "description": "start_time is the distribution start time",
+                    "format": "date-time"
+                },
+                "num_epochs_paid_over": {
+                    "type": "string",
+                    "description": "num_epochs_paid_over is the number of total epochs distribution will be completed over"
+                },
+                "filled_epochs": {
+                    "type": "string",
+                    "description": "filled_epochs is the number of epochs distribution has been completed on already"
+                },
+                "distributed_coins": {
+                    "items": {
+                        "$ref": "#/definitions/cosmos.base.v1beta1.Coin"
+                    },
+                    "type": "array",
+                    "description": "distributed_coins are coins that have been distributed already"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Gauge",
+            "description": "Gauge is an object that stores and distributes yields to recipients who satisfy certain conditions. Currently gauges support conditions around the duration for which a given denom is locked."
+        },
+        "osmosis.lockup.QueryCondition": {
+            "properties": {
+                "lock_query_type": {
+                    "enum": [
+                        "ByDuration",
+                        0,
+                        "ByTime",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "title": "Lock Query Type",
+                    "description": "LockQueryType defines the type of the lock query that can either be by duration or start time of the lock."
+                },
+                "denom": {
+                    "type": "string",
+                    "description": "Denom represents the token denomination we are looking to lock up"
+                },
+                "duration": {
+                    "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+                    "type": "string",
+                    "description": "Duration is used to query locks with longer duration than the specified duration. Duration field must not be nil when the lock query type is `ByLockDuration`.",
+                    "format": "regex"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "Timestamp is used by locks started before the specified duration. Timestamp field must not be nil when the lock query type is `ByLockTime`. Querying locks with timestamp is currently not implemented.",
+                    "format": "date-time"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Condition",
+            "description": "QueryCondition is a struct used for querying locks upon different conditions. Duration field and timestamp fields could be optional, depending on the LockQueryType."
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/MsgStableSwapAdjustScalingFactorsResponse",
+    "definitions": {
+        "MsgStableSwapAdjustScalingFactorsResponse": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Msg Stable Swap Adjust Scaling Factors Response"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/MsgSuperfluidDelegateResponse",
+    "definitions": {
+        "MsgSuperfluidDelegateResponse": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Msg Superfluid Delegate Response"
+        }
+    }
+}

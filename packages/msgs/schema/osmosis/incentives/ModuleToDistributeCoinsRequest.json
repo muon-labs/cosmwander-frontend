@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/ModuleToDistributeCoinsRequest",
+    "definitions": {
+        "ModuleToDistributeCoinsRequest": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Module To Distribute Coins Request"
+        }
+    }
+}

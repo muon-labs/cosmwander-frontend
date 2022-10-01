@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryFeeTokensResponse",
+    "definitions": {
+        "QueryFeeTokensResponse": {
+            "properties": {
+                "fee_tokens": {
+                    "items": {
+                        "$ref": "#/definitions/osmosis.txfees.v1beta1.FeeToken"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Fee Tokens Response"
+        },
+        "osmosis.txfees.v1beta1.FeeToken": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "poolID": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Fee Token",
+            "description": "FeeToken is a struct that specifies a coin denom, and pool ID pair. This marks the token as eligible for use as a tx fee asset in Osmosis. Its price in osmo is derived through looking at the provided pool ID. The pool ID must have osmo as one of its assets."
+        }
+    }
+}

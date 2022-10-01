@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/MsgSuperfluidUndelegate",
+    "definitions": {
+        "MsgSuperfluidUndelegate": {
+            "properties": {
+                "sender": {
+                    "type": "string"
+                },
+                "lock_id": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Msg Superfluid Undelegate"
+        }
+    }
+}

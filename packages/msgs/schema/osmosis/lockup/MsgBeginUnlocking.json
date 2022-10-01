@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/MsgBeginUnlocking",
+    "definitions": {
+        "MsgBeginUnlocking": {
+            "properties": {
+                "owner": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "string"
+                },
+                "coins": {
+                    "items": {
+                        "$ref": "#/definitions/cosmos.base.v1beta1.Coin"
+                    },
+                    "type": "array",
+                    "description": "Amount of unlocking coins. Unlock all if not set."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Msg Begin Unlocking"
+        },
+        "cosmos.base.v1beta1.Coin": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Coin",
+            "description": "Coin defines a token with a denomination and an amount. NOTE: The amount field is an Int which implements the custom method signatures required by gogoproto."
+        }
+    }
+}

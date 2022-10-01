@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryTotalSharesRequest",
+    "definitions": {
+        "QueryTotalSharesRequest": {
+            "properties": {
+                "pool_id": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Total Shares Request",
+            "description": "=============================== TotalShares"
+        }
+    }
+}

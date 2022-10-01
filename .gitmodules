@@ -1,0 +1,6 @@
+[submodule "packages/chains/osmosis"]
+	path = packages/chains/osmosis
+	url = https://github.com/osmosis-labs/osmosis.git
+[submodule "packages/wasmd"]
+	path = packages/wasmd
+	url = https://github.com/CosmWasm/wasmd.git

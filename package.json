@@ -1,0 +1,42 @@
+{
+    "name": "fraximalists",
+    "version": "0.0.1",
+    "publishConfig": {
+        "access": "restricted"
+    },
+    "private": true,
+    "scripts": {
+        "elint": "DEBUG=eslint:*,eslintrc:* eslint --ignore-path .gitignore .",
+        "lint": "eslint --ignore-path .gitignore .",
+        "lint:fix": "eslint --ignore-path .gitignore . --fix",
+        "pretest": "yarn lint",
+        "test:watch": "jest --watch",
+        "test": "jest",
+        "build": "ts-node ./scripts/compile-protos.ts && cd packages/msgs && npm run build"
+    },
+    "devDependencies": {
+        "eslint": "8.10.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "jest": "25.1.0",
+        "lerna": "3.22.1",
+        "prettier": "2.5.1"
+    },
+    "workspaces": [
+        "packages/*"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/njerschow/fraximalists"
+    },
+    "dependencies": {
+        "@jest/transform": "27.4.6",
+        "@protobuf-ts/plugin": "^2.7.0",
+        "google-protobuf": "^3.20.1",
+        "grpc-tools": "^1.11.2",
+        "grpc-web": "^1.3.1",
+        "protoc-gen-grpc": "^2.0.3",
+        "protoc-gen-grpc-web": "^1.4.0",
+        "ts-proto": "^1.120.0"
+    }
+}

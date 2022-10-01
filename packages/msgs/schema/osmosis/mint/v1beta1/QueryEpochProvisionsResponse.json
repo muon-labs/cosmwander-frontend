@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryEpochProvisionsResponse",
+    "definitions": {
+        "QueryEpochProvisionsResponse": {
+            "properties": {
+                "epoch_provisions": {
+                    "type": "string",
+                    "description": "epoch_provisions is the current minting per epoch provisions value.",
+                    "format": "binary",
+                    "binaryEncoding": "base64"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Epoch Provisions Response",
+            "description": "QueryEpochProvisionsResponse is the response type for the Query/EpochProvisions RPC method."
+        }
+    }
+}

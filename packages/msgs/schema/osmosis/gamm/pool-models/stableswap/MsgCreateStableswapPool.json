@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/MsgCreateStableswapPool",
+    "definitions": {
+        "MsgCreateStableswapPool": {
+            "properties": {
+                "sender": {
+                    "type": "string"
+                },
+                "pool_params": {
+                    "$ref": "#/definitions/osmosis.gamm.poolmodels.stableswap.v1beta1.PoolParams",
+                    "additionalProperties": true
+                },
+                "initial_pool_liquidity": {
+                    "items": {
+                        "$ref": "#/definitions/cosmos.base.v1beta1.Coin"
+                    },
+                    "type": "array"
+                },
+                "future_pool_governor": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Msg Create Stableswap Pool",
+            "description": "===================== MsgCreatePool"
+        },
+        "cosmos.base.v1beta1.Coin": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Coin",
+            "description": "Coin defines a token with a denomination and an amount. NOTE: The amount field is an Int which implements the custom method signatures required by gogoproto."
+        },
+        "osmosis.gamm.poolmodels.stableswap.v1beta1.PoolParams": {
+            "properties": {
+                "swap_fee": {
+                    "type": "string"
+                },
+                "exit_fee": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Pool Params",
+            "description": "PoolParams defined the parameters that will be managed by the pool governance in the future. This params are not managed by the chain governance. Instead they will be managed by the token holders of the pool. The pool's token holders are specified in future_pool_governor."
+        }
+    }
+}

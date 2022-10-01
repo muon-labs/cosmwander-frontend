@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/ConnectedIntermediaryAccountResponse",
+    "definitions": {
+        "ConnectedIntermediaryAccountResponse": {
+            "properties": {
+                "account": {
+                    "$ref": "#/definitions/osmosis.superfluid.SuperfluidIntermediaryAccountInfo",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Connected Intermediary Account Response"
+        },
+        "osmosis.superfluid.SuperfluidIntermediaryAccountInfo": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "val_addr": {
+                    "type": "string"
+                },
+                "gauge_id": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Superfluid Intermediary Account Info"
+        }
+    }
+}

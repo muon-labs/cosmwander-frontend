@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryDenomsFromCreatorResponse",
+    "definitions": {
+        "QueryDenomsFromCreatorResponse": {
+            "properties": {
+                "denoms": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Denoms From Creator Response",
+            "description": "QueryDenomsFromCreatorRequest defines the response structure for the DenomsFromCreator gRPC query."
+        }
+    }
+}

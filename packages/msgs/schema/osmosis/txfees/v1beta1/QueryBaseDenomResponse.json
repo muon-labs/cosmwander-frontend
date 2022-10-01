@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryBaseDenomResponse",
+    "definitions": {
+        "QueryBaseDenomResponse": {
+            "properties": {
+                "base_denom": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Base Denom Response"
+        }
+    }
+}

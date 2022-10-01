@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryEpochsInfoRequest",
+    "definitions": {
+        "QueryEpochsInfoRequest": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Epochs Info Request"
+        }
+    }
+}

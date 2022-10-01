@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/MsgCreateDenomResponse",
+    "definitions": {
+        "MsgCreateDenomResponse": {
+            "properties": {
+                "new_token_denom": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Msg Create Denom Response",
+            "description": "MsgCreateDenomResponse is the return value of MsgCreateDenom It returns the full string of the newly created denom"
+        }
+    }
+}

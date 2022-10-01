@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryTotalLiquidityRequest",
+    "definitions": {
+        "QueryTotalLiquidityRequest": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Total Liquidity Request"
+        }
+    }
+}

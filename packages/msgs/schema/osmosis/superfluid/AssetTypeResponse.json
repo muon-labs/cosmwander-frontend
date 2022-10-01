@@ -1,0 +1,31 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/AssetTypeResponse",
+    "definitions": {
+        "AssetTypeResponse": {
+            "properties": {
+                "asset_type": {
+                    "enum": [
+                        "SuperfluidAssetTypeNative",
+                        0,
+                        "SuperfluidAssetTypeLPShare",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "title": "Superfluid Asset Type",
+                    "description": "SuperfluidAssetType indicates whether the superfluid asset is a native token itself or the lp share of a pool."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Asset Type Response"
+        }
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "get_config"
+      ],
+      "properties": {
+        "get_config": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_route"
+      ],
+      "properties": {
+        "get_route": {
+          "type": "object",
+          "required": [
+            "destination_denom",
+            "source_denom"
+          ],
+          "properties": {
+            "destination_denom": {
+              "type": "string"
+            },
+            "source_denom": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

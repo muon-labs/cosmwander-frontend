@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryNumPoolsRequest",
+    "definitions": {
+        "QueryNumPoolsRequest": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Num Pools Request",
+            "description": "=============================== NumPools"
+        }
+    }
+}

@@ -1,0 +1,107 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryTotalDelegationByDelegatorResponse",
+    "definitions": {
+        "QueryTotalDelegationByDelegatorResponse": {
+            "properties": {
+                "superfluid_delegation_records": {
+                    "items": {
+                        "$ref": "#/definitions/osmosis.superfluid.SuperfluidDelegationRecord"
+                    },
+                    "type": "array"
+                },
+                "delegation_response": {
+                    "items": {
+                        "$ref": "#/definitions/cosmos.staking.v1beta1.DelegationResponse"
+                    },
+                    "type": "array"
+                },
+                "total_delegated_coins": {
+                    "items": {
+                        "$ref": "#/definitions/cosmos.base.v1beta1.Coin"
+                    },
+                    "type": "array"
+                },
+                "total_equivalent_staked_amount": {
+                    "$ref": "#/definitions/cosmos.base.v1beta1.Coin",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Total Delegation By Delegator Response"
+        },
+        "cosmos.base.v1beta1.Coin": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Coin",
+            "description": "Coin defines a token with a denomination and an amount. NOTE: The amount field is an Int which implements the custom method signatures required by gogoproto."
+        },
+        "cosmos.staking.v1beta1.Delegation": {
+            "properties": {
+                "delegator_address": {
+                    "type": "string",
+                    "description": "delegator_address is the bech32-encoded address of the delegator."
+                },
+                "validator_address": {
+                    "type": "string",
+                    "description": "validator_address is the bech32-encoded address of the validator."
+                },
+                "shares": {
+                    "type": "string",
+                    "description": "shares define the delegation shares received."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Delegation",
+            "description": "Delegation represents the bond with tokens held by an account. It is owned by one delegator, and is associated with the voting power of one validator."
+        },
+        "cosmos.staking.v1beta1.DelegationResponse": {
+            "properties": {
+                "delegation": {
+                    "$ref": "#/definitions/cosmos.staking.v1beta1.Delegation",
+                    "additionalProperties": true
+                },
+                "balance": {
+                    "$ref": "#/definitions/cosmos.base.v1beta1.Coin",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Delegation Response",
+            "description": "DelegationResponse is equivalent to Delegation except that it contains a balance in addition to shares which is more suitable for client responses."
+        },
+        "osmosis.superfluid.SuperfluidDelegationRecord": {
+            "properties": {
+                "delegator_address": {
+                    "type": "string"
+                },
+                "validator_address": {
+                    "type": "string"
+                },
+                "delegation_amount": {
+                    "$ref": "#/definitions/cosmos.base.v1beta1.Coin",
+                    "additionalProperties": true
+                },
+                "equivalent_staked_amount": {
+                    "$ref": "#/definitions/cosmos.base.v1beta1.Coin",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Superfluid Delegation Record",
+            "description": "SuperfluidDelegationRecord is a struct used to indicate superfluid delegations of an account in the state machine in a user friendly form."
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/GaugeByIDRequest",
+    "definitions": {
+        "GaugeByIDRequest": {
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Gague ID being queried"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Gauge By ID Request"
+        }
+    }
+}

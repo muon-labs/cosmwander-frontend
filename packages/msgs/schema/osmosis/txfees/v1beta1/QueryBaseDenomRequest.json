@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryBaseDenomRequest",
+    "definitions": {
+        "QueryBaseDenomRequest": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Base Denom Request"
+        }
+    }
+}

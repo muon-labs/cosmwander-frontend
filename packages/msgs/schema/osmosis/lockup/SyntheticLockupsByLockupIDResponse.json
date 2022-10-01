@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/SyntheticLockupsByLockupIDResponse",
+    "definitions": {
+        "SyntheticLockupsByLockupIDResponse": {
+            "properties": {
+                "synthetic_locks": {
+                    "items": {
+                        "$ref": "#/definitions/osmosis.lockup.SyntheticLock"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Synthetic Lockups By Lockup ID Response"
+        },
+        "osmosis.lockup.SyntheticLock": {
+            "properties": {
+                "underlying_lock_id": {
+                    "type": "string",
+                    "description": "Underlying Lock ID is the underlying native lock's id for this synthetic lockup. A synthetic lock MUST have an underlying lock."
+                },
+                "synth_denom": {
+                    "type": "string",
+                    "description": "SynthDenom is the synthetic denom that is a combination of gamm share + bonding status + validator address."
+                },
+                "end_time": {
+                    "type": "string",
+                    "description": "used for unbonding synthetic lockups, for active synthetic lockups, this value is set to uninitialized value",
+                    "format": "date-time"
+                },
+                "duration": {
+                    "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+                    "type": "string",
+                    "description": "Duration is the duration for a synthetic lock to mature at the point of unbonding has started.",
+                    "format": "regex"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Synthetic Lock",
+            "description": "SyntheticLock is creating virtual lockup where new denom is combination of original denom and synthetic suffix. At the time of synthetic lockup creation and deletion, accumulation store is also being updated and on querier side, they can query as freely as native lockup."
+        }
+    }
+}

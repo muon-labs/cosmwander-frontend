@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryParamsResponse",
+    "definitions": {
+        "QueryParamsResponse": {
+            "properties": {
+                "params": {
+                    "$ref": "#/definitions/osmosis.poolincentives.v1beta1.Params",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Params Response"
+        },
+        "osmosis.poolincentives.v1beta1.Params": {
+            "properties": {
+                "minted_denom": {
+                    "type": "string",
+                    "description": "minted_denom is the denomination of the coin expected to be minted by the minting module. Pool-incentives module doesn’t actually mint the coin itself, but rather manages the distribution of coins that matches the defined minted_denom."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Params"
+        }
+    }
+}

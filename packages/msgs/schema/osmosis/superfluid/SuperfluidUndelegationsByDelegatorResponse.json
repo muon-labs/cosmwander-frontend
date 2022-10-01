@@ -1,0 +1,94 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/SuperfluidUndelegationsByDelegatorResponse",
+    "definitions": {
+        "SuperfluidUndelegationsByDelegatorResponse": {
+            "properties": {
+                "superfluid_delegation_records": {
+                    "items": {
+                        "$ref": "#/definitions/osmosis.superfluid.SuperfluidDelegationRecord"
+                    },
+                    "type": "array"
+                },
+                "total_undelegated_coins": {
+                    "items": {
+                        "$ref": "#/definitions/cosmos.base.v1beta1.Coin"
+                    },
+                    "type": "array"
+                },
+                "synthetic_locks": {
+                    "items": {
+                        "$ref": "#/definitions/osmosis.lockup.SyntheticLock"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Superfluid Undelegations By Delegator Response"
+        },
+        "cosmos.base.v1beta1.Coin": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Coin",
+            "description": "Coin defines a token with a denomination and an amount. NOTE: The amount field is an Int which implements the custom method signatures required by gogoproto."
+        },
+        "osmosis.lockup.SyntheticLock": {
+            "properties": {
+                "underlying_lock_id": {
+                    "type": "string",
+                    "description": "Underlying Lock ID is the underlying native lock's id for this synthetic lockup. A synthetic lock MUST have an underlying lock."
+                },
+                "synth_denom": {
+                    "type": "string",
+                    "description": "SynthDenom is the synthetic denom that is a combination of gamm share + bonding status + validator address."
+                },
+                "end_time": {
+                    "type": "string",
+                    "description": "used for unbonding synthetic lockups, for active synthetic lockups, this value is set to uninitialized value",
+                    "format": "date-time"
+                },
+                "duration": {
+                    "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+                    "type": "string",
+                    "description": "Duration is the duration for a synthetic lock to mature at the point of unbonding has started.",
+                    "format": "regex"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Synthetic Lock",
+            "description": "SyntheticLock is creating virtual lockup where new denom is combination of original denom and synthetic suffix. At the time of synthetic lockup creation and deletion, accumulation store is also being updated and on querier side, they can query as freely as native lockup."
+        },
+        "osmosis.superfluid.SuperfluidDelegationRecord": {
+            "properties": {
+                "delegator_address": {
+                    "type": "string"
+                },
+                "validator_address": {
+                    "type": "string"
+                },
+                "delegation_amount": {
+                    "$ref": "#/definitions/cosmos.base.v1beta1.Coin",
+                    "additionalProperties": true
+                },
+                "equivalent_staked_amount": {
+                    "$ref": "#/definitions/cosmos.base.v1beta1.Coin",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Superfluid Delegation Record",
+            "description": "SuperfluidDelegationRecord is a struct used to indicate superfluid delegations of an account in the state machine in a user friendly form."
+        }
+    }
+}

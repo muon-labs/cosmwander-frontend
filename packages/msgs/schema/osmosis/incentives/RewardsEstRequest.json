@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/RewardsEstRequest",
+    "definitions": {
+        "RewardsEstRequest": {
+            "properties": {
+                "owner": {
+                    "type": "string",
+                    "description": "Address that is being queried for future estimated rewards"
+                },
+                "lock_ids": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "Lock IDs included in future reward estimation"
+                },
+                "end_epoch": {
+                    "type": "string",
+                    "description": "Upper time limit of reward estimation Lower limit is current epoch"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Rewards Est Request"
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/QueryGaugeIdsResponse",
+    "definitions": {
+        "QueryGaugeIdsResponse": {
+            "properties": {
+                "gauge_ids_with_duration": {
+                    "items": {
+                        "$ref": "#/definitions/osmosis.poolincentives.v1beta1.QueryGaugeIdsResponse.GaugeIdWithDuration"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Query Gauge Ids Response"
+        },
+        "osmosis.poolincentives.v1beta1.QueryGaugeIdsResponse.GaugeIdWithDuration": {
+            "properties": {
+                "gauge_id": {
+                    "type": "string"
+                },
+                "duration": {
+                    "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+                    "type": "string",
+                    "format": "regex"
+                },
+                "gauge_incentive_percentage": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Gauge Id With Duration"
+        }
+    }
+}

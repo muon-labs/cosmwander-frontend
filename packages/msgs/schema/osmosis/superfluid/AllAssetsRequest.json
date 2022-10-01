@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/AllAssetsRequest",
+    "definitions": {
+        "AllAssetsRequest": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "All Assets Request"
+        }
+    }
+}

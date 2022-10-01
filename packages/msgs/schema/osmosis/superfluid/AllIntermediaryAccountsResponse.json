@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/AllIntermediaryAccountsResponse",
+    "definitions": {
+        "AllIntermediaryAccountsResponse": {
+            "properties": {
+                "accounts": {
+                    "items": {
+                        "$ref": "#/definitions/osmosis.superfluid.SuperfluidIntermediaryAccountInfo"
+                    },
+                    "type": "array"
+                },
+                "pagination": {
+                    "$ref": "#/definitions/cosmos.base.query.v1beta1.PageResponse",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "All Intermediary Accounts Response"
+        },
+        "cosmos.base.query.v1beta1.PageResponse": {
+            "properties": {
+                "next_key": {
+                    "type": "string",
+                    "description": "next_key is the key to be passed to PageRequest.key to query the next page most efficiently",
+                    "format": "binary",
+                    "binaryEncoding": "base64"
+                },
+                "total": {
+                    "type": "string",
+                    "description": "total is total number of results available if PageRequest.count_total was set, its value is undefined otherwise"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Page Response",
+            "description": "PageResponse is to be embedded in gRPC response messages where the corresponding request message has used PageRequest.  message SomeResponse {          repeated Bar results = 1;          PageResponse page = 2;  }"
+        },
+        "osmosis.superfluid.SuperfluidIntermediaryAccountInfo": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "val_addr": {
+                    "type": "string"
+                },
+                "gauge_id": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Superfluid Intermediary Account Info"
+        }
+    }
+}

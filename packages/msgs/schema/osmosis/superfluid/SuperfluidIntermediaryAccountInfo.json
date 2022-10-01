@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/SuperfluidIntermediaryAccountInfo",
+    "definitions": {
+        "SuperfluidIntermediaryAccountInfo": {
+            "properties": {
+                "denom": {
+                    "type": "string"
+                },
+                "val_addr": {
+                    "type": "string"
+                },
+                "gauge_id": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Superfluid Intermediary Account Info"
+        }
+    }
+}

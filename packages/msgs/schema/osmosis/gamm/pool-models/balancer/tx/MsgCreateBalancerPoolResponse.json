@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/MsgCreateBalancerPoolResponse",
+    "definitions": {
+        "MsgCreateBalancerPoolResponse": {
+            "properties": {
+                "pool_id": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Msg Create Balancer Pool Response",
+            "description": "Returns the poolID"
+        }
+    }
+}
