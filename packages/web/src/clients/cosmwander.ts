@@ -36,7 +36,8 @@ export async function fetchCode (
   const codeSchemaResponse = await axios.get(
     CODE_SCHEMA_ENDPOINT(chainId, codeId)
   )
-  return { ...codeResponse.data, schemas: codeSchemaResponse.data?.definition }
+  console.log({codeSchemaResponse})
+  return { ...codeResponse.data, schemas: codeSchemaResponse.data }
   // let code: ICode = {
   //   code_id: 100,
   //   creator: 'ya mom',

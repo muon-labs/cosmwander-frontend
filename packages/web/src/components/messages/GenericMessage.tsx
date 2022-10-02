@@ -109,6 +109,8 @@ function getDefaultValueFromSchema (
       return constructStateFromObjectSchema(rootSchema, schema, propKey)
     case 'array':
       return []
+    case undefined:
+      return {}
     default:
       throw new Error('Unsupported type: ' + schema.type)
   }
@@ -564,8 +566,7 @@ const GenericMessage = ({
                 )}
               </>
             )}
-              {renderPropertyEditor(msgSchema, '', schemaName)}
-            
+            {renderPropertyEditor(msgSchema, '', schemaName)}
           </div>
           <Button
             onClick={sendMessage}
