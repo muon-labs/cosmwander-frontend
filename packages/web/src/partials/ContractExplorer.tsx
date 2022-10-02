@@ -9,22 +9,23 @@ import {
 } from '@material-ui/core'
 import { KeyboardArrowRight, Refresh } from '@material-ui/icons'
 import axios from 'axios'
-import ContractInterface from '../src/partials/ContractInterface'
+import ContractInterface from './ContractInterface'
 
-import { HttpJsonSchemaOrgDraft04Schema } from '../src/types/HttpJsonSchemaOrgDraft04Schema'
+import { HttpJsonSchemaOrgDraft04Schema } from '../types/HttpJsonSchemaOrgDraft04Schema'
 import {
   getClient,
   getQueryClientCosmWasm,
   getQueryClientStargate
-} from '../src/utils/utils'
+} from '../utils/utils'
 import { Coin, StargateClient, StdFee } from '@cosmjs/stargate'
 
-import GenericMessage from '../src/components/messages/GenericMessage'
-import instantiateSchema from '../resources/schema/instantiate_msg.json'
-import querySchema from '../resources/schema/query_msg.json'
-import executeSchema from '../resources/schema/execute_msg.json'
-import AppNav from '../src/components/AppNav'
-import config from '../config'
+import GenericMessage from '../components/messages/GenericMessage'
+// import instantiateSchema from '../../resources/schema/instantiate_msg.json'
+// import querySchema from '../../resources/schema/query_msg.json'
+// import executeSchema from '../../resources/schema/execute_msg.json'
+import AppNav from '../components/AppNav'
+import config from '../../config'
+import UnverifiedBox from '../components/UnverifiedBox'
 
 const useStyles = makeStyles({
   root: {},
@@ -36,8 +37,12 @@ const useStyles = makeStyles({
   }
 })
 
-const Address = props => {
+const ContractExplorer = ({
+  mutableProps: { code, setCode, address, setAddress },
+  codeMetadata
+}) => {
   const classes = useStyles()
+  const { querySchema, executeSchema, instantiateSchema } = codeMetadata?.schemas || {}
 
   const [activeWindow, setActiveWindow] = useState<
     'instantiate' | 'query' | 'execute'
@@ -46,44 +51,13 @@ const Address = props => {
   const [contractAddress, setContractAddress] = useState(
     'osmo1ha6g022yw4dz2gkg4fdq6p3cntzrfx37mctr4xxrfflmzpgk6sesnmm4h2'
   )
-  const [codeId, setCodeId] = useState('951')
-  const [addrInfo, setAddrInfo] = useState({ balance: [], account: {} })
-  const [loading, setLoading] = useState(false)
+
   const [queryExpanded, setQueryExpanded] = useState(
-    new Array(querySchema.oneOf.length).fill(false)
+    new Array(querySchema?.oneOf?.length || 0).fill(false)
   )
   const [executeExpanded, setExecuteExpanded] = useState(
-    new Array(executeSchema.oneOf.length).fill(false)
+    new Array(executeSchema?.oneOf?.length || 0).fill(false)
   )
-  console.log(addrInfo)
-
-  async function getContractInfo () {
-    const client = await getQueryClientCosmWasm('osmo-test-4')
-    const contractInfo = await client.getContract(contractAddress)
-    console.log({ contractInfo })
-  }
-
-  async function getTXs() {
-    
-  }
-
-  useEffect(() => {
-    getContractInfo()
-    if (contractAddress) getAddrInfo(contractAddress)
-  }, [contractAddress])
-
-  async function getAddrInfo (address: string) {
-    setLoading(true)
-    const client = await getQueryClientStargate('osmo-test-4')
-    const balance = (await client.getAllBalances(address)) as Coin[]
-    const account = await client.getAccount(address)
-
-    setAddrInfo({
-      balance,
-      account
-    })
-    setLoading(false)
-  }
 
   async function queryContract (
     queryMsg: any
@@ -148,7 +122,9 @@ const Address = props => {
   function renderActiveWindow () {
     switch (activeWindow) {
       case 'instantiate':
-        return (
+        return instantiateSchema &&
+          instantiateSchema.oneOf &&
+          instantiateSchema.oneOf.length ? (
           <ContractInterface
             instantiateSchema={
               instantiateSchema as HttpJsonSchemaOrgDraft04Schema
@@ -158,9 +134,11 @@ const Address = props => {
             contractAddress={contractAddress}
             setContractAddress={setContractAddress}
             setActiveWindow={setActiveWindow}
-            codeId={codeId}
-            setCodeId={setCodeId}
+            codeId={code}
+            setCodeId={setCode}
           />
+        ) : (
+          <UnverifiedBox codeMetadata={codeMetadata} />
         )
       case 'query':
         const queryChildren = []
@@ -290,91 +268,16 @@ const Address = props => {
     }
   }
 
-  function reloadBalance () {
-    getAddrInfo(contractAddress)
-  }
-
-  function Balance ({ balance }) {
-    console.log(balance)
-    if (!balance.length) return null
-    const { amount, denom } = balance[0]
-    return (
-      <span>
-        {amount} {denom}
-      </span>
-    )
-  }
-
   function isActive (activeWindowStr: string) {
     return activeWindow === activeWindowStr ? ' active' : ''
   }
 
   return (
-    <div className={classes.root}>
-      <AppNav />
-      <Container
-        maxWidth='lg'
-        style={{
-          paddingTop: 16
-        }}
-      >
-        <div className={classes.addrInfoContainer}>
-          <div className='horiz'>
-            <Typography
-              variant='body2'
-              className='detail-text'
-              style={{ marginRight: 8 }}
-            >
-              Code ID:
-            </Typography>
-            <Typography variant='body2' className='detail-text bright'>
-              {codeId}
-            </Typography>
-          </div>
-          <div className='horiz'>
-            <Typography
-              variant='body2'
-              className='detail-text'
-              style={{ marginRight: 8 }}
-            >
-              Contract Address:
-            </Typography>
-            <Typography variant='body2' className='detail-text bright'>
-              {contractAddress}
-            </Typography>
-          </div>
-          <div className='horiz'>
-            <Typography
-              variant='body2'
-              className='detail-text'
-              style={{ marginRight: 8 }}
-            >
-              Balance:
-            </Typography>
-            <Typography variant='body2' className='detail-text bright'>
-              <Balance balance={addrInfo.balance} />
-            </Typography>
-            {loading ? (
-              <CircularProgress
-                style={{ width: 14, height: 14, opacity: 0.85, color: '#FFF' }}
-              />
-            ) : (
-              <Refresh
-                style={{
-                  opacity: 0.85,
-                  width: 16,
-                  height: 16,
-                  cursor: 'pointer'
-                }}
-                onClick={reloadBalance}
-              />
-            )}
-          </div>
-        </div>
-        {txs && <pre>
-          {JSON.stringify(txs, null, 2)}
-          </pre>}
-        <div className={classes.addrInfoContainer} style={{ marginTop: 16 }}>
+    <div className={classes.addrInfoContainer} style={{ marginTop: 16 }}>
+      {!codeMetadata?.schemas ? (
+        <UnverifiedBox codeMetadata={codeMetadata} />
+      ) : (
+        <>
           <div className='toolbar' style={{ margin: -16, marginBottom: 8 }}>
             <Button
               className={'toolbar-button' + isActive('instantiate')}
@@ -402,10 +305,10 @@ const Address = props => {
             </Button>
           </div>
           {renderActiveWindow()}
-        </div>
-      </Container>
+        </>
+      )}
     </div>
   )
 }
 
-export default Address
+export default ContractExplorer

@@ -214,6 +214,14 @@ button.toolbar-button.active {
   align-items: center;
 }
 
+.mr {
+  margin-right: 12px !important;
+}
+
+.ml {
+  margin-left: 12px !important;
+}
+
 .paragraph {
   margin-bottom: 12px;
 }
