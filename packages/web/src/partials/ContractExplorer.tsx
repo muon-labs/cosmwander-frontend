@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import { KeyboardArrowRight, Refresh } from '@material-ui/icons'
 import axios from 'axios'
-import ContractInterface from './ContractInterface'
+import ContractInitInterface from './ContractInterface'
 
 import { HttpJsonSchemaOrgDraft04Schema } from '../types/HttpJsonSchemaOrgDraft04Schema'
 import {
@@ -21,7 +21,7 @@ import { Coin, StargateClient, StdFee } from '@cosmjs/stargate'
 
 import GenericMessage from '../components/messages/GenericMessage'
 // import instantiateSchema from '../../resources/schema/instantiate_msg.json'
-// import querySchema from '../../resources/schema/query_msg.json'
+// import query from '../../resources/schema/query_msg.json'
 // import executeSchema from '../../resources/schema/execute_msg.json'
 import AppNav from '../components/AppNav'
 import config from '../../config'
@@ -42,7 +42,7 @@ const ContractExplorer = ({
   codeMetadata
 }) => {
   const classes = useStyles()
-  const { querySchema, executeSchema, instantiateSchema } = codeMetadata?.schemas || {}
+  const { query, execute, instantiate } = codeMetadata?.schemas || {}
 
   const [activeWindow, setActiveWindow] = useState<
     'instantiate' | 'query' | 'execute'
@@ -53,10 +53,10 @@ const ContractExplorer = ({
   )
 
   const [queryExpanded, setQueryExpanded] = useState(
-    new Array(querySchema?.oneOf?.length || 0).fill(false)
+    new Array(query?.oneOf?.length || 0).fill(false)
   )
   const [executeExpanded, setExecuteExpanded] = useState(
-    new Array(executeSchema?.oneOf?.length || 0).fill(false)
+    new Array(execute?.oneOf?.length || 0).fill(false)
   )
 
   async function queryContract (
@@ -122,32 +122,27 @@ const ContractExplorer = ({
   function renderActiveWindow () {
     switch (activeWindow) {
       case 'instantiate':
-        return instantiateSchema &&
-          instantiateSchema.oneOf &&
-          instantiateSchema.oneOf.length ? (
-          <ContractInterface
+        return (
+          <ContractInitInterface
             instantiateSchema={
-              instantiateSchema as HttpJsonSchemaOrgDraft04Schema
+              instantiate as HttpJsonSchemaOrgDraft04Schema
             }
-            querySchema={{}}
-            executeSchema={{}}
             contractAddress={contractAddress}
             setContractAddress={setContractAddress}
             setActiveWindow={setActiveWindow}
             codeId={code}
             setCodeId={setCode}
           />
-        ) : (
-          <UnverifiedBox codeMetadata={codeMetadata} />
         )
       case 'query':
         const queryChildren = []
         for (
           let propertyIdx = 0;
-          propertyIdx < querySchema.oneOf.length;
+          propertyIdx < query?.oneOf?.length;
           propertyIdx++
         ) {
-          const property = querySchema.oneOf[propertyIdx]
+          const property = query.oneOf[propertyIdx]
+          
           const name = property.required[0]
           queryChildren.push(
             <div className={classes.tableRow}>
@@ -181,7 +176,7 @@ const ContractExplorer = ({
                   schemaName={name}
                   msgSchema={property as HttpJsonSchemaOrgDraft04Schema}
                   rootSchema={
-                    (querySchema as unknown) as HttpJsonSchemaOrgDraft04Schema
+                    (query as unknown) as HttpJsonSchemaOrgDraft04Schema
                   }
                   hideTitle={true}
                   onSubmit={queryContract}
@@ -206,10 +201,10 @@ const ContractExplorer = ({
         const executeChildren = []
         for (
           let propertyIdx = 0;
-          propertyIdx < querySchema.oneOf.length;
+          propertyIdx < query?.oneOf?.length;
           propertyIdx++
         ) {
-          const property = executeSchema.oneOf[propertyIdx]
+          const property = execute.oneOf[propertyIdx]
           const name = property.required[0]
           executeChildren.push(
             <div className={classes.tableRow}>
@@ -243,7 +238,7 @@ const ContractExplorer = ({
                   schemaName={name}
                   msgSchema={property as HttpJsonSchemaOrgDraft04Schema}
                   rootSchema={
-                    (executeSchema as unknown) as HttpJsonSchemaOrgDraft04Schema
+                    (execute as unknown) as HttpJsonSchemaOrgDraft04Schema
                   }
                   hideTitle={true}
                   onSubmit={executeContract}
@@ -274,39 +269,38 @@ const ContractExplorer = ({
 
   return (
     <div className={classes.addrInfoContainer} style={{ marginTop: 16 }}>
-      {!codeMetadata?.schemas ? (
-        <UnverifiedBox codeMetadata={codeMetadata} />
-      ) : (
-        <>
-          <div className='toolbar' style={{ margin: -16, marginBottom: 8 }}>
-            <Button
-              className={'toolbar-button' + isActive('instantiate')}
-              onClick={() => setActiveWindow('instantiate')}
-            >
-              Instantiate
-            </Button>
-            <Button
-              className={'toolbar-button' + isActive('query')}
-              onClick={() => setActiveWindow('query')}
-            >
-              Query
-            </Button>
-            <Button
-              className={'toolbar-button' + isActive('execute')}
-              onClick={() => setActiveWindow('execute')}
-            >
-              Execute
-            </Button>
-            <Button
-              className='toolbar-button disabled'
-              style={{ marginLeft: 'auto' }}
-            >
-              Upload a new Contract
-            </Button>
-          </div>
-          {renderActiveWindow()}
-        </>
-      )}
+      <>
+        <div className='toolbar' style={{ margin: -16, marginBottom: 8 }}>
+          <Button
+            className={'toolbar-button' + isActive('instantiate')}
+            onClick={() => setActiveWindow('instantiate')}
+          >
+            Instantiate
+          </Button>
+          <Button
+            className={'toolbar-button' + isActive('query')}
+            onClick={() => setActiveWindow('query')}
+          >
+            Query
+          </Button>
+          <Button
+            className={'toolbar-button' + isActive('execute')}
+            onClick={() => setActiveWindow('execute')}
+          >
+            Execute
+          </Button>
+          <Button
+            className='toolbar-button disabled'
+            style={{ marginLeft: 'auto' }}
+          >
+            Upload a new Contract
+          </Button>
+        </div>
+        {!codeMetadata?.schemas && (
+          <UnverifiedBox codeMetadata={codeMetadata} />
+        )}
+        {renderActiveWindow()}
+      </>
     </div>
   )
 }

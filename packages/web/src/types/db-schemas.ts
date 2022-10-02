@@ -10,9 +10,9 @@ export interface IContract {
 }
 
 export interface ICodeSchema {
-    executeSchema?: HttpJsonSchemaOrgDraft04Schema
-    querySchema?: HttpJsonSchemaOrgDraft04Schema
-    instantiateSchema?: HttpJsonSchemaOrgDraft04Schema
+    execute?: HttpJsonSchemaOrgDraft04Schema
+    query?: HttpJsonSchemaOrgDraft04Schema
+    instantiate?: HttpJsonSchemaOrgDraft04Schema
 }
 
 export interface ICode {

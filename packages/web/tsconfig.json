@@ -65,5 +65,5 @@
     "incremental": true
   },
   "exclude": ["webworkers", "dist"],
-  "include": ["next-env.d.ts", "candid.d.ts", "**/*.ts", "**/*.tsx", "src/partials/CodeAddressInfo.js"]
+  "include": ["next-env.d.ts", "candid.d.ts", "**/*.ts", "**/*.tsx", "src/partials/CodeAddressInfo.js", "src/partials/VerifyContractDialog.js", "src/components/UnverifiedBox.jsx"]
 }

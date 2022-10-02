@@ -26,17 +26,14 @@ const CodeAddressInfo = ({
 
   const [addrInfo, setAddrInfo] = useState({ balance: [], account: {} })
 
-  console.log(addrInfo)
-
   useEffect(() => {
-    getContractInfo()
+    if (address) getContractInfo(address)
     if (address) getAddrInfo(address)
   }, [address])
 
-  async function getContractInfo () {
+  async function getContractInfo (address: string) {
     const client = await getQueryClientCosmWasm('osmo-test-4')
     const contractInfo = await client.getContract(address)
-    console.log({ contractInfo })
   }
 
   async function getAddrInfo (address: string) {

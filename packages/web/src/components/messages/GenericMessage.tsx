@@ -9,7 +9,7 @@ import { Add } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import axios, { AxiosResponse } from 'axios'
 import dynamic from 'next/dynamic'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { HttpJsonSchemaOrgDraft04Schema } from '../../types/HttpJsonSchemaOrgDraft04Schema'
 import swag from './tmpswagger.json'
@@ -20,6 +20,7 @@ import {
   QueryPoolsRequest,
   QueryPoolsResponse
 } from '../../codegen/osmosis/gamm/v1beta1/query'
+import Editor, { Monaco } from '@monaco-editor/react'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
 
@@ -154,36 +155,43 @@ const GenericMessage = ({
   const classes = useStyles()
 
   const [message, setMessage] = useState({
-    [schemaName]: constructStateFromSchema(rootSchema, msgSchema)
+    [schemaName]: msgSchema
+      ? constructStateFromSchema(rootSchema, msgSchema)
+      : {}
   })
   const [response, setResponse] = useState()
   const [error, setError] = useState()
-  console.log({ message, flat: flattenObject(message), buttonText, onSubmit })
+
+  const editorRef = useRef(null)
+
+  function handleEditorDidMount (editor: any, monaco: Monaco) {
+    editorRef.current = editor
+  }
 
   // DELETABLE - REFACTOR asap
-  function flattenObject (obj: any) {
-    if (!obj) return
-    if (obj.hasOwnProperty(schemaName)) {
-      obj = obj[schemaName]
-    }
-    const result: any = {}
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        const value = obj[key]
-        if (typeof value === 'object') {
-          const flat = flattenObject(value)
-          for (const k in flat) {
-            if (flat.hasOwnProperty(k)) {
-              result[`${key}.${k}`] = flat[k]
-            }
-          }
-        } else {
-          result[key] = value
-        }
-      }
-    }
-    return result
-  }
+  // function flattenObject (obj: any) {
+  //   if (!obj) return
+  //   if (obj.hasOwnProperty(schemaName)) {
+  //     obj = obj[schemaName]
+  //   }
+  //   const result: any = {}
+  //   for (const key in obj) {
+  //     if (obj.hasOwnProperty(key)) {
+  //       const value = obj[key]
+  //       if (typeof value === 'object') {
+  //         const flat = flattenObject(value)
+  //         for (const k in flat) {
+  //           if (flat.hasOwnProperty(k)) {
+  //             result[`${key}.${k}`] = flat[k]
+  //           }
+  //         }
+  //       } else {
+  //         result[key] = value
+  //       }
+  //     }
+  //   }
+  //   return result
+  // }
 
   function getModuleFromPath (path: string) {
     const pathParts = path.split('.')
@@ -199,7 +207,20 @@ const GenericMessage = ({
     setResponse(null)
     setError(null)
     if (onSubmit) {
-      const result = await onSubmit(message[schemaName])
+      // get the message to submit depending on whether we have msgSchema or not
+      let msgToSubmit
+      if (msgSchema) msgToSubmit = message[schemaName]
+      else {
+        try {
+          msgToSubmit = JSON.parse(editorRef.current.getValue())
+        } catch (e) {
+          alert('Custom message is invalid JSON')
+          return
+        }
+      }
+
+      // submit that boi
+      const result = await onSubmit(msgToSubmit)
       if (result.error) {
         setError(result.error)
       } else {
@@ -468,6 +489,19 @@ const GenericMessage = ({
     //   definition.type,
     //   definition.properties
     // )
+
+    // if definition is null it means we don't have even have a partial schema for this, just render freefoorm
+    if (!definition) {
+      return (
+        <Editor
+          height='100px'
+          defaultLanguage='json'
+          defaultValue='{}'
+          onMount={handleEditorDidMount}
+        />
+      )
+    }
+
     if (definition['$ref']) {
       const defKey = definition['$ref'].replace('#/definitions/', '')
       return renderPropertyEditor(
@@ -476,6 +510,19 @@ const GenericMessage = ({
         propKey
       )
     }
+
+    // if properties are null it means we have a partial schema and we should render a freeform
+    if (!definition.properties) {
+      return (
+        <Editor
+          height='100px'
+          defaultLanguage='json'
+          defaultValue={`{\n\t"${propKey}" : {}\n}`}
+          onMount={handleEditorDidMount}
+        />
+      )
+    }
+
     switch (definition.type) {
       case 'object':
         return renderObjectPropEditor(definition, propPath, propKey)
@@ -506,7 +553,7 @@ const GenericMessage = ({
                 <Typography variant='h6' className='main-text'>
                   {schemaName}
                 </Typography>
-                {msgSchema.description && (
+                {msgSchema?.description && (
                   <Typography
                     variant='body1'
                     className='detail-text'
@@ -517,7 +564,8 @@ const GenericMessage = ({
                 )}
               </>
             )}
-            {renderPropertyEditor(msgSchema, '', schemaName)}
+              {renderPropertyEditor(msgSchema, '', schemaName)}
+            
           </div>
           <Button
             onClick={sendMessage}
@@ -564,15 +612,22 @@ const GenericMessage = ({
         </form>
       </Grid>
       <Grid item xs={12} md={6}>
-        <Typography variant='body2' className='main-text paragraph-important'>
-          Raw Message Preview:
-        </Typography>
-        <DynamicReactJson
-          style={{ background: 'transparent' }}
-          src={message[schemaName]}
-          theme='summerfruit'
-          collapsed={false}
-        />
+        {!!msgSchema && (
+          <>
+            <Typography
+              variant='body2'
+              className='main-text paragraph-important'
+            >
+              Raw Message Preview:
+            </Typography>
+            <DynamicReactJson
+              style={{ background: 'transparent' }}
+              src={message[schemaName]}
+              theme='summerfruit'
+              collapsed={false}
+            />
+          </>
+        )}
       </Grid>
     </Grid>
   )

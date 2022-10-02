@@ -11,10 +11,8 @@ const useStyles = makeStyles({
   root: {}
 })
 
-const ContractInterface = ({
+const ContractInitInterface = ({
   instantiateSchema,
-  querySchema,
-  executeSchema,
   contractAddress,
   setContractAddress,
   setActiveWindow,
@@ -22,8 +20,6 @@ const ContractInterface = ({
   setCodeId
 }: {
   instantiateSchema: HttpJsonSchemaOrgDraft04Schema
-  querySchema: HttpJsonSchemaOrgDraft04Schema
-  executeSchema: HttpJsonSchemaOrgDraft04Schema
   contractAddress: string
   setContractAddress: (contractAddress: string) => void
   setActiveWindow: (activeWindow: 'instantiate' | 'query' | 'execute') => void
@@ -108,22 +104,6 @@ const ContractInterface = ({
 
   return (
     <div className={classes.root}>
-      <div>
-        <Typography variant='h6'>Code ID:</Typography>
-        <TextField
-          InputProps={{
-            style: { padding: 0, color: '#222222' },
-            classes: {
-              input: 'input',
-              notchedOutline: 'notched-outline',
-              focused: 'input-focused'
-            }
-          }}
-          placeholder='Code ID'
-          value={codeId}
-          onChange={e => setCodeId(e.currentTarget.value)}
-        />
-      </div>
       <GenericMessage
         schemaName='InstantiateMsg'
         msgSchema={instantiateSchema}
@@ -135,4 +115,4 @@ const ContractInterface = ({
   )
 }
 
-export default ContractInterface
+export default ContractInitInterface

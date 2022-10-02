@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import { KeyboardArrowRight, Refresh } from '@material-ui/icons'
 import axios from 'axios'
-import ContractInterface from '../src/partials/ContractInterface'
+import ContractInitInterface from '../src/partials/ContractInterface'
 
 import { HttpJsonSchemaOrgDraft04Schema } from '../src/types/HttpJsonSchemaOrgDraft04Schema'
 import {
@@ -48,11 +48,9 @@ const Search = props => {
     'instantiate' | 'query' | 'execute'
   >('instantiate')
 
-  const [address, setAddress] = useState(
-    'osmo1ha6g022yw4dz2gkg4fdq6p3cntzrfx37mctr4xxrfflmzpgk6sesnmm4h2'
-  )
+  const [address, setAddress] = useState('')
   const [chainId, setChainId] = useState('osmo-test-4')
-  const [code, setCode] = useState('951')
+  const [code, setCode] = useState('')
   const [loadingMetadata, setLoadingMetadata] = useState(true)
   const [codeMetadata, setCodeMetadata] = useState<ICode>(null)
   const [contractMetadata, setContractMetadata] = useState<IContract>(null)
@@ -73,12 +71,13 @@ const Search = props => {
 
   async function getMetadata () {
     setLoadingMetadata(true)
+    if (!code && !address) return
     if (code) {
       const codeMeta = await fetchCode(chainId, code)
       setCodeMetadata(codeMeta)
     }
     if (address) {
-      const contractMeta = await fetchContract(address)
+      const contractMeta = await fetchContract(chainId, address)
       setContractMetadata(contractMeta)
     }
     setLoadingMetadata(false)
@@ -168,7 +167,10 @@ const Search = props => {
           paddingTop: 16
         }}
       >
-        <CodeAddressInfo mutableProps={mutableProps} codeMetadata={codeMetadata} />
+        <CodeAddressInfo
+          mutableProps={mutableProps}
+          codeMetadata={codeMetadata}
+        />
 
         {/* {txs && <pre>
           {JSON.stringify(txs, null, 2)}

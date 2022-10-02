@@ -89,10 +89,22 @@ const values = [
 const Hero = () => {
   const classes = useStyles()
 
+  const [codeOrAddress, setCodeOrAddress] = useState('')
+
   function handleLogin (e: MouseEvent<any, any>) {
     e.preventDefault()
     window.location.href =
       'https://us-central1-wapfp-25052.cloudfunctions.net/app/auth/twitter'
+  }
+
+  function handleSearch (e) {
+    e.preventDefault()
+
+    if (codeOrAddress.startsWith('osmo')) {
+      window.location.href = `/search?contractAddress=${codeOrAddress}`
+    } else {
+      window.location.href = `/search?codeId=${codeOrAddress}`
+    }
   }
 
   return (
@@ -101,10 +113,12 @@ const Hero = () => {
       <Container maxWidth='sm' className={classes.content}>
         <Grid container spacing={3} alignItems='center'>
           <Grid
+            component='form'
             item
             xs={12}
             // data-aos='fade-up'
             className={classes.text}
+            onSubmit={handleSearch}
           >
             <Typography
               paragraph
@@ -140,7 +154,9 @@ const Hero = () => {
                 ),
                 endAdornment: (
                   <Button
+                    type='submit'
                     className='action-button small'
+                    onClick={() => {}}
                     style={{
                       padding: '2px 24px',
                       marginRight: 9,
@@ -155,8 +171,8 @@ const Hero = () => {
               }}
               fullWidth
               placeholder={'Contract address, account, or codeid...'}
-              value={''}
-              onChange={() => {}}
+              value={codeOrAddress}
+              onChange={e => setCodeOrAddress(e.currentTarget.value)}
             />
           </Grid>
         </Grid>
