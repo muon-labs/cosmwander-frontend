@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 const UnverifiedBox = ({ codeMetadata }: { codeMetadata: ICode }) => {
   const classes = useStyles()
   
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   return (
     <div className={classes.root}>
