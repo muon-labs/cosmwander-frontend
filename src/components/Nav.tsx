@@ -52,22 +52,14 @@ const Nav = props => {
             >
               {/* {hovering ? ( */}
               <div
+                style={{
+                  cursor: 'pointer'
+                }}
                 onClick={() => {
                   window.location.href = '/'
                 }}
               >
-                <Typography
-                  variant='h6'
-                  display='inline'
-                  style={{
-                    fontWeight: 100,
-                    marginLeft: 14,
-                    fontFamily:
-                      'Comfortaa, Quicksand, Arial, Helvetica, sans-serif'
-                  }}
-                >
-                  {config.DISPLAY_COMPANY_NAME}
-                </Typography>
+                <img src='/logo_cosmwander.svg' />
               </div>
 
               <div

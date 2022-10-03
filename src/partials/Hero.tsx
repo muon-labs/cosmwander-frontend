@@ -112,10 +112,10 @@ const Hero = () => {
                 fontFamily:
                   'Comfortaa, Quicksand, Arial, Helvetica, sans-serif !important'
               }}
-              variant='h3'
-              className={'main-text'}
+              variant='h5'
+              className={'label-text'}
             >
-              CosmWander
+              The easiest way to explore CosmWasm smart contacts
             </Typography>
             <Typography
               style={{ opacity: 0.65 }}
@@ -129,7 +129,7 @@ const Hero = () => {
             <TextField
               autoFocus
               InputProps={{
-                style: { padding: 0, color: '#222222', marginTop: 16 },
+                style: { padding: 0,height: 60, color: '#222222', marginTop: 16 },
                 classes: {
                   input: 'input-huge',
                   notchedOutline: 'notched-outline-huge',
@@ -144,7 +144,8 @@ const Hero = () => {
                     style={{
                       backgroundColor: config.PALETTE.BORDER_COLOR,
                       border: 'none',
-                      padding: '4px',
+                      padding: '12px',
+                      
                       marginRight: 7,
                       color: '#F5F7FF',
                       fontSize: 14,

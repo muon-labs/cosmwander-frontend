@@ -10,6 +10,81 @@ function findChainEndpoint (chainId: string, type: 'rpc' | 'rest') {
   }
   return chain.apis[type]?.[0]?.address // TODO: Could fail if first RPC is bad
 }
+const juno_prod = {
+  chainId: 'juno-1',
+  chainName: 'Juno',
+  addressPrefix: 'juno',
+  rpcUrl: 'https://rpc-juno.itastakers.com/',
+  httpUrl: 'https://lcd-juno.itastakers.com/',
+  feeToken: 'ujuno',
+  stakingToken: 'ujuno',
+  coinMap: {
+    ujunox: { denom: 'JUNO', fractionalDigits: 6 }
+  },
+  gasPrice: 0.025
+}
+
+const juno_testnet = {
+  chainId: 'uni-5',
+  chainName: 'Juno Testnet',
+  addressPrefix: 'juno',
+  rpcUrl: 'https://rpc.uni.juno.deuslabs.fi:443',
+  httpUrl: 'https://lcd.uni.juno.deuslabs.fi',
+  feeToken: 'ujunox',
+  stakingToken: 'ujunox',
+  coinMap: {
+    ujunox: { denom: 'JUNOX', fractionalDigits: 6 }
+  },
+  gasPrice: 0.025
+}
+
+const configKeplr = (config): any => {
+  return {
+    chainId: config.chainId,
+    chainName: config.chainName,
+    rpc: config.rpcUrl,
+    rest: config.httpUrl,
+    bech32Config: {
+      bech32PrefixAccAddr: `${config.addressPrefix}`,
+      bech32PrefixAccPub: `${config.addressPrefix}pub`,
+      bech32PrefixValAddr: `${config.addressPrefix}valoper`,
+      bech32PrefixValPub: `${config.addressPrefix}valoperpub`,
+      bech32PrefixConsAddr: `${config.addressPrefix}valcons`,
+      bech32PrefixConsPub: `${config.addressPrefix}valconspub`
+    },
+    currencies: [
+      {
+        coinDenom: config.coinMap[config.feeToken].denom,
+        coinMinimalDenom: config.feeToken,
+        coinDecimals: config.coinMap[config.feeToken].fractionalDigits
+      },
+      {
+        coinDenom: config.coinMap[config.stakingToken].denom,
+        coinMinimalDenom: config.stakingToken,
+        coinDecimals: config.coinMap[config.stakingToken].fractionalDigits
+      }
+    ],
+    feeCurrencies: [
+      {
+        coinDenom: config.coinMap[config.feeToken].denom,
+        coinMinimalDenom: config.feeToken,
+        coinDecimals: config.coinMap[config.feeToken].fractionalDigits
+      }
+    ],
+    stakeCurrency: {
+      coinDenom: config.coinMap[config.stakingToken].denom,
+      coinMinimalDenom: config.stakingToken,
+      coinDecimals: config.coinMap[config.stakingToken].fractionalDigits
+    },
+    gasPriceStep: {
+      low: config.gasPrice / 2,
+      average: config.gasPrice,
+      high: config.gasPrice * 2
+    },
+    bip44: { coinType: 118 },
+    coinType: 118
+  }
+}
 
 /// these were found in the keplr extension package of the keplr repo: https://github.com/chainapsis/keplr-wallet/blob/master/packages/extension/src/config.ts
 // cross referenced against cosmos chain registry to get the RPC endpoints & such
@@ -118,5 +193,7 @@ export const EmbedChainInfos: ChainInfo[] = [
       high: 0.04
     },
     features: ['ibc-transfer', 'ibc-go', 'cosmwasm']
-  }
+  },
+  configKeplr(juno_testnet),
+  configKeplr(juno_prod)
 ]

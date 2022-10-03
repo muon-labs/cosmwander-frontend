@@ -59,28 +59,16 @@ const AppNav = props => {
               }}
             >
               {/* {hovering ? ( */}
-              <a className='horiz'>
-                {/* ) : (
-                <Image
-                  alt='logo'
-                  width={50}
-                  height={50}
-                  src={config.COMPANY_LOGO_URL}
-                />
-              )} */}
-                <Typography
-                  variant='h6'
-                  display='inline'
-                  style={{
-                    fontWeight: 100,
-                    marginLeft: 14,
-                    fontFamily:
-                      'Comfortaa, Quicksand, Arial, Helvetica, sans-serif'
-                  }}
-                >
-                  {config.DISPLAY_COMPANY_NAME}
-                </Typography>
-              </a>
+              <div
+                style={{
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  window.location.href = '/'
+                }}
+              >
+                <img src='/logo_cosmwander.svg' />
+              </div>
               <div
                 className='horiz'
                 style={{

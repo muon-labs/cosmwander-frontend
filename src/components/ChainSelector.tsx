@@ -61,7 +61,7 @@ const ChainSelector = ({
             InputProps={{
               ...params.InputProps,
               type: 'search',
-              style: { padding: 0, color: '#222222' },
+              style: { padding: 0, height:40, color: '#222222', backgroundColor: "#1A191B" },
               classes: {
                 input: 'input',
                 notchedOutline: 'notched-outline',
