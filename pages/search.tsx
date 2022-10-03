@@ -27,17 +27,17 @@ const useStyles = makeStyles({
   }
 })
 
-function getParams () {
-  const params = new URLSearchParams(window.location.search)
-  const codeId = params.get('codeId')
-  const contractAddress = params.get('contractAddress')
-  return { codeId, contractAddress }
-}
-
 const Search = props => {
   const classes = useStyles()
 
-  const { chainId, setChainId, code, setCode, address, setAddress } = useAppContext()
+  const {
+    chainId,
+    setChainId,
+    code,
+    setCode,
+    address,
+    setAddress
+  } = useAppContext()
   const [loadingMetadata, setLoadingMetadata] = useState(true)
   const [codeMetadata, setCodeMetadata] = useState<ICode>(null)
   const [contractMetadata, setContractMetadata] = useState<IContract>(null)
@@ -47,12 +47,6 @@ const Search = props => {
   )
 
   console.log({ codeMetadata })
-
-  useEffect(() => {
-    const { codeId, contractAddress } = getParams()
-    if (codeId) setCode(codeId)
-    if (contractAddress) setAddress(contractAddress)
-  }, [])
 
   useEffect(() => {
     // fetch code & address info
