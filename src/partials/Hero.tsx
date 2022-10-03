@@ -87,9 +87,9 @@ const Hero = () => {
     e.preventDefault()
 
     if (codeOrAddress.length > 10) {
-      goToPage(`/search?chainId=${chainId}&contractAddress=${codeOrAddress}`)
+      goToPage(`/search?chainId=${chainId}&contractAddress=${codeOrAddress}&activeWindow=instantiate&activeTab=see-contract`)
     } else {
-      goToPage(`/search?chainId=${chainId}&codeId=${codeOrAddress}`)
+      goToPage(`/search?chainId=${chainId}&codeId=${codeOrAddress}&activeWindow=instantiate&activeTab=see-contract`)
     }
   }
 
