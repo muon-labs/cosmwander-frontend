@@ -128,7 +128,12 @@ const ContractExplorer = ({
         ) {
           const property = queryProps[propertyIdx]
 
-          const name = property.required[0]
+          let name
+          if (!property.required) {
+            name = Object.keys(property.properties)[0]
+          } else {
+            name = property.required[0]
+          }
           queryChildren.push(
             <div>
               <div
@@ -172,29 +177,27 @@ const ContractExplorer = ({
         }
         return (
           <>
-            <div className='horiz'>
+            <div >
               <Typography
                 variant='body1'
                 className='label-text paragraph-important'
               >
                 Query Contract
               </Typography>
-              {!address && (
-                <div className='horiz ml'>
-                  <Warning style={{ color: 'red', height: 14, width: 14 }} />
+              {query.isAborted && (
+                <div className='horiz' style={{padding: 8, marginBottom: 16, border: '1px solid #F4E53388', borderRadius: 8, backgroundColor: "#F4E53322"}}>
+                  <Warning style={{ color: 'yellow', height: 14, width: 14 }} />
                   <Typography
                     variant='body2'
                     className='detail-text ml'
-                    style={{ color: '#FF000066' }}
+                    style={{color: "#d2d2d2"}}
                   >
-                    Cannot query contract if no address is selected{' '}
-                    <Link
-                      href='#'
-                      onClick={() => setActiveWindow('instantiate')}
-                    >
-                      instantiate
+                    Could not infer full contract schema for this code id, some methods may not work. If
+                    this is your contract please{' '}
+                    <Link href={'/verify' + window.location.search} style={{color: config.PALETTE.COLOR_SECONDARY}}>
+                      verify it
                     </Link>{' '}
-                    or <Link href='#'>select</Link> a contract first
+                    to enable full functionality
                   </Typography>
                 </div>
               )}
@@ -212,7 +215,14 @@ const ContractExplorer = ({
           propertyIdx++
         ) {
           const property = executeProps[propertyIdx]
-          const name = property.required[0]
+
+          let name
+          if (!property.required) {
+            name = Object.keys(property.properties)[0]
+          } else {
+            name = property.required[0]
+          }
+
           executeChildren.push(
             <div>
               <div
@@ -262,6 +272,23 @@ const ContractExplorer = ({
             >
               Execute Contract
             </Typography>
+            {query.isAborted && (
+                <div className='horiz' style={{padding: 8, marginBottom: 16, border: '1px solid #F4E53388', borderRadius: 8, backgroundColor: "#F4E53322"}}>
+                  <Warning style={{ color: 'yellow', height: 14, width: 14 }} />
+                  <Typography
+                    variant='body2'
+                    className='detail-text ml'
+                    style={{color: "#d2d2d2"}}
+                  >
+                    Could not infer full contract schema for this code id, some methods may not work. If
+                    this is your contract please{' '}
+                    <Link href={'/verify' + window.location.search} style={{color: config.PALETTE.COLOR_SECONDARY}}>
+                      verify it
+                    </Link>{' '}
+                    to enable full functionality
+                  </Typography>
+                </div>
+              )}
             {executeChildren}
           </>
         )

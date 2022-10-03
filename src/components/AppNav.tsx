@@ -19,20 +19,20 @@ const useStyles = makeStyles({
   root: { height: 66 }
 })
 
-let gradient2 = null
 
 const AppNav = props => {
   const classes = useStyles()
 
-  const { chainId, setChainId } = useAppContext()
+  const { chainId, setChainId, setAddress, setCode } = useAppContext()
   const [codeOrAddress, setCodeOrAddress] = useState('')
 
   function handleSearch (e) {
     e.preventDefault()
-    if (codeOrAddress.startsWith('osmo')) {
-      window.location.href = `/search?contractAddress=${codeOrAddress}`
+    if (codeOrAddress.length > 10) {
+      setAddress(codeOrAddress)
+      setCode('')
     } else {
-      window.location.href = `/search?codeId=${codeOrAddress}`
+      setCode(codeOrAddress)
     }
   }
 

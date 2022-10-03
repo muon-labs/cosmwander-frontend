@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 const ContractInfo = ({ address }: { address: string }) => {
   const classes = useStyles()
 
-  const { chainId, setAddress } = useAppContext()
+  const { chainId, setAddress, setActiveTab } = useAppContext()
   const [loading, setLoading] = useState(true)
   const [contractMetadata, setContractMetadata] = useState<IContract>(null)
 
@@ -50,7 +50,7 @@ const ContractInfo = ({ address }: { address: string }) => {
   return (
     <div className={classes.root}>
       {loading ? (
-        <Skeleton height={32}/>
+        <Skeleton height={32} />
       ) : (
         <Grid container spacing={1}>
           <Grid item xs={6}>
@@ -70,7 +70,10 @@ const ContractInfo = ({ address }: { address: string }) => {
               <Link
                 style={{ color: config.PALETTE.COLOR_SECONDARY }}
                 href='#'
-                onClick={() => setAddress(address)}
+                onClick={() => {
+                  setAddress(address)
+                  setActiveTab('see-contract')
+                }}
               >
                 Open this contract
               </Link>
@@ -82,8 +85,8 @@ const ContractInfo = ({ address }: { address: string }) => {
             </Typography>
           </Grid>
           <Grid item xs={8}>
-          <Typography
-          align='right'
+            <Typography
+              align='right'
               variant='body1'
               className='detail-text'
               style={{ fontSize: 12 }}

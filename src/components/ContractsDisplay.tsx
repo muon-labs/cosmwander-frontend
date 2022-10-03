@@ -13,23 +13,12 @@ const useStyles = makeStyles({
 const ContractsDisplay = ({ codeMetadata }: { codeMetadata: ICode }) => {
   const classes = useStyles()
 
-  const { setAddress, setActiveTab } = useAppContext()
-
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         {codeMetadata?.contracts?.map((contractAddress: string) => {
           return (
-            <Grid
-              onClick={() => {
-                setAddress(contractAddress)
-                setActiveTab('see-contract')
-              }}
-              key={contractAddress}
-              item
-              xs={12}
-              md={6}
-            >
+            <Grid key={contractAddress} item xs={12} md={6}>
               <ContractInfo address={contractAddress} />
             </Grid>
           )

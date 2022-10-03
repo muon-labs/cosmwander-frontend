@@ -71,7 +71,7 @@ export function AppWrapper ({
     try {
       const _ = fromBech32(contractAddressParam)
     } catch (e) {
-      setAddress(null)
+      setAddress('')
       contractAddressParam = null
     }
 

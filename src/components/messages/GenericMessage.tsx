@@ -273,7 +273,8 @@ const GenericMessage = ({
                 backgroundColor: '#1B1B1B',
                 border: '1px solid ' + config.PALETTE.BORDER_COLOR,
                 borderRadius: 6,
-                padding: 8
+                padding: 8,
+                marginTop:8
               }
             : isPrimitive
             ? {}
@@ -281,19 +282,20 @@ const GenericMessage = ({
                 background: '#222222',
                 borderRadius: 6,
                 padding: 8,
-                border: '1px solid ' + config.PALETTE.BORDER_COLOR
+                border: '1px solid ' + config.PALETTE.BORDER_COLOR,
+                marginTop:8
               }
         }
       >
         {isPrimitive ? (
-          <div className='horiz justify-between' style={{ marginTop: 16 }}>
+          <div className='horiz justify-between' style={{ marginTop: 8 }}>
             <Typography variant='body2' className='label-text'>
               {propKey || definition.title}:
             </Typography>
             {children}
           </div>
         ) : (
-          <div>
+          <div style={{ marginTop: 8 }}>
             <Typography variant='body2' className='detail-text'>
               {propKey || definition.title}
             </Typography>
@@ -562,7 +564,7 @@ const GenericMessage = ({
           {!!address || schemaName === 'InstantiateMsg' ? (
             <Button
               onClick={sendMessage}
-              className='action-button small squircle paragraph-important'
+              className='submit-button small squircle paragraph-important'
             >
               {buttonText}
             </Button>
