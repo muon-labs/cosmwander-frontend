@@ -4,6 +4,7 @@ import { Grid, Typography } from '@material-ui/core'
 import axios from 'axios'
 import { useAppContext } from '../context/state'
 import { ICode } from '../types/db-schemas'
+import ContractInfo from './ContractInfo'
 
 const useStyles = makeStyles({
   root: {}
@@ -12,7 +13,7 @@ const useStyles = makeStyles({
 const ContractsDisplay = ({ codeMetadata }: { codeMetadata: ICode }) => {
   const classes = useStyles()
 
-  const {setAddress, setActiveTab} = useAppContext()
+  const { setAddress, setActiveTab } = useAppContext()
 
   return (
     <div className={classes.root}>
@@ -29,7 +30,7 @@ const ContractsDisplay = ({ codeMetadata }: { codeMetadata: ICode }) => {
               xs={12}
               md={6}
             >
-              {contractAddress}
+              <ContractInfo address={contractAddress} />
             </Grid>
           )
         })}

@@ -11,8 +11,8 @@ const CODE_METADATA_ENDPOINT = (chainId: string, codeId: string) =>
 const CODE_SCHEMA_ENDPOINT = (chainId: string, codeId: string) =>
   `${BASE_URL}/api/code/${chainId}/${codeId}/schema`
 // /api/contract/osmo-test-4/osmo1nkanykc4506zynh379gm3w7zqg305x23je6halr25ydtlspv8uzsg82unl/schema
-const CONTRACT_SCHEMA_ENDPOINT = (chainId: string, contractAddress: string) =>
-  `${BASE_URL}/api/contract/${chainId}/${contractAddress}/schema`
+const CONTRACT_METADATA_ENDPOINT = (chainId: string, contractAddress: string) =>
+  `${BASE_URL}/api/contract/${chainId}/${contractAddress}/metadata`
 
 const CODE_UPLOAD_ENDPOINT = (chainId: string, codeId: string) =>
   `${BASE_URL}/api/code/${chainId}/${codeId}/schema`
@@ -88,7 +88,7 @@ export async function fetchContract (
 ): Promise<IContract> {
   if (!chainId || !address) throw new Error('Missing chainId or address')
   const contractResponse = await axios.get(
-    CONTRACT_SCHEMA_ENDPOINT(chainId, address)
+    CONTRACT_METADATA_ENDPOINT(chainId, address)
   )
   return contractResponse.data
   // let contract: IContract = {

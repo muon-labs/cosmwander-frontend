@@ -8,6 +8,7 @@ import { Coin } from '@cosmjs/stargate'
 import { Refresh } from '@material-ui/icons'
 import { ICode } from '../types/db-schemas'
 import config from '../../config'
+import { useAppContext } from '../context/state'
 
 const useStyles = makeStyles({
   root: {},
@@ -26,6 +27,9 @@ const CodeAddressInfo = ({
   codeMetadata: ICode
 }) => {
   const classes = useStyles()
+
+  const { chainId } = useAppContext()
+
   const [loading, setLoading] = useState(false)
 
   const [addrInfo, setAddrInfo] = useState({ balance: [], account: {} })
@@ -36,14 +40,14 @@ const CodeAddressInfo = ({
   }, [address])
 
   async function getContractInfo (address: string) {
-    const client = await getQueryClientCosmWasm('osmo-test-4')
+    const client = await getQueryClientCosmWasm(chainId)
     const contractInfo = await client.getContract(address)
   }
 
   async function getAddrInfo (address: string) {
     setLoading(true)
-    const client = await getQueryClientStargate('osmo-test-4')
-    console.log({address})
+    const client = await getQueryClientStargate(chainId)
+    console.log({ address })
     const balance = (await client.getAllBalances(address)) as Coin[]
     const account = await client.getAccount(address)
 

@@ -262,6 +262,7 @@ const GenericMessage = ({
     isPrimitive: boolean = false,
     index: number
   ) {
+    console.log({ index })
     return (
       <div
         key={propKey}
@@ -274,7 +275,14 @@ const GenericMessage = ({
                 borderRadius: 6,
                 padding: 8
               }
-            : {}
+            : isPrimitive
+            ? {}
+            : {
+                background: '#222222',
+                borderRadius: 6,
+                padding: 8,
+                border: '1px solid ' + config.PALETTE.BORDER_COLOR
+              }
         }
       >
         {isPrimitive ? (
@@ -570,7 +578,11 @@ const GenericMessage = ({
                 <Link href='#' onClick={() => setActiveWindow('instantiate')}>
                   instantiate
                 </Link>{' '}
-                or <Link href='#' onClick={() => setActiveTab('contracts')}>select</Link> a contract first
+                or{' '}
+                <Link href='#' onClick={() => setActiveTab('contracts')}>
+                  select
+                </Link>{' '}
+                a contract first
               </Typography>
             </div>
           )}
