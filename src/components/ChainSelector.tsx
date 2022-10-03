@@ -38,9 +38,10 @@ const ChainSelector = ({
   return (
     <div className={classes.root}>
       <Autocomplete
+      className='mr'
         value={chainId || ''}
         onChange={handleChainIdChange}
-        style={{ minWidth: 250 }}
+        style={{ minWidth: 125 }}
         disableClearable
         options={supportedChainIds}
         classes={{
