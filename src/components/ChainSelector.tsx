@@ -43,6 +43,10 @@ const ChainSelector = ({
         style={{ minWidth: 250 }}
         disableClearable
         options={supportedChainIds}
+        classes={{
+          paper: 'dropdown',
+          popper: 'dropdown'
+        }}
         renderOption={(props, chainId) => {
           const chain = getChainById(chainId)
           return (

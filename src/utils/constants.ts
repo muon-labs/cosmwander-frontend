@@ -19,7 +19,8 @@ const juno_prod = {
   feeToken: 'ujuno',
   stakingToken: 'ujuno',
   coinMap: {
-    ujunox: { denom: 'JUNO', fractionalDigits: 6 }
+    ujunox: { denom: 'JUNO', fractionalDigits: 6 },
+    ujuno: { denom: 'JUNO', fractionalDigits: 6 }
   },
   gasPrice: 0.025
 }
@@ -33,7 +34,8 @@ const juno_testnet = {
   feeToken: 'ujunox',
   stakingToken: 'ujunox',
   coinMap: {
-    ujunox: { denom: 'JUNOX', fractionalDigits: 6 }
+    ujunox: { denom: 'JUNOX', fractionalDigits: 6 },
+    ujuno: { denom: 'JUNOX', fractionalDigits: 6 }
   },
   gasPrice: 0.025
 }

@@ -393,3 +393,7 @@ div>.input.dark {
 .glare-wrapper {
   border-radius: 24px !important;
 }
+
+.dropdown {
+  background: #141414;
+}
