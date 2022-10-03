@@ -40,7 +40,9 @@ async function tryConnectWallet (
         // If the user rejects it or the suggested chain information doesn't include the required fields, it will throw an error.
         // If the same chain id is already registered, it will resolve and not require the user interactions.
         await (window.keplr as Keplr).experimentalSuggestChain(chainInfo)
-      } catch {
+      } catch(e) {
+        console.log({chainInfo})
+        console.error(e)
         alert('Failed to suggest the chain')
       }
     } else {

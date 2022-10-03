@@ -82,7 +82,7 @@ export function AppWrapper ({
       undefined,
       { shallow: true }
     )
-  }, [chainId, code, address])
+  }, [chainId, code, address, activeWindow, activeTab])
 
   let sharedState = {
     chainId,

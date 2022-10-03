@@ -70,7 +70,7 @@ export const EmbedChainInfos: ChainInfo[] = [
   {
     rpc: 'https://testnet-rpc.osmosis.zone/', // returns something with cors disabled: findChainEndpoint('osmosis-1', 'rpc'),
     rpcConfig: {},
-    rest: '', //findChainEndpoint('osmosis-1', 'rest'),
+    rest: findChainEndpoint('osmosis-1', 'rest'),
     restConfig: {},
     chainId: 'osmo-test-4',
     chainName: 'Osmosis Testnet',
