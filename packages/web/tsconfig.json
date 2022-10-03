@@ -64,6 +64,6 @@
     "isolatedModules": true,
     "incremental": true
   },
-  "include": ["next-env.d.ts", "candid.d.ts", "src/**/*", "pages/**/*"],
-  "exclude": ["webworkers", "dist", "./src/codegen/**/*.ts"]
+  "exclude": ["webworkers", "dist"],
+  "include": ["next-env.d.ts", "candid.d.ts", "**/*.ts", "**/*.tsx"]
 }

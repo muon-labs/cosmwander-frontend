@@ -1,8 +1,4 @@
-import {
-  Button, Grid,
-  TextField,
-  Typography
-} from '@material-ui/core'
+import { Button, Grid, TextField, Typography } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import Editor, { Monaco } from '@monaco-editor/react'
@@ -10,7 +6,8 @@ import axios from 'axios'
 import dynamic from 'next/dynamic'
 import React, { useRef, useState } from 'react'
 import config from '../../../config'
-import { osmosis } from '../../codegen'
+// to restore when i figure out type issues (nextjs build does not ignore excluded typescript files)
+// import { osmosis } from '../../codegen'
 import { HttpJsonSchemaOrgDraft04Schema } from '../../types/HttpJsonSchemaOrgDraft04Schema'
 import swag from './tmpswagger.json'
 
@@ -19,41 +16,7 @@ const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
 const RPC_ENDPOINT = 'https://rpc.osmosis.zone/'
 const REST_ENDPOINT = 'https://lcd.osmosis.zone/'
 
-const mapping = {
-  QueryNumPoolsRequest: '/osmosis/gamm/v1beta1/num_pools',
-  QueryPoolParamsRequest: '/osmosis/gamm/v1beta1/pools/{pool_id}/params',
-  QueryPoolRequest: '/osmosis/gamm/v1beta1/pools/{pool_id}',
-  QueryPoolsRequest: '/osmosis/gamm/v1beta1/pools',
-  QuerySpotPriceRequest: '/osmosis/gamm/v1beta1/pools/{pool_id}/prices',
-  QuerySwapExactAmountInRequest:
-    '/osmosis/gamm/v1beta1/{pool_id}/estimate/swap_exact_amount_in',
-  QuerySwapExactAmountOutRequest:
-    '/osmosis/gamm/v1beta1/{pool_id}/estimate/swap_exact_amount_out',
-  QueryTotalLiquidityRequest: '/osmosis/gamm/v1beta1/total_liquidity',
-  QueryTotalPoolLiquidityRequest:
-    '/osmosis/gamm/v1beta1/pools/{pool_id}/total_pool_liquidity',
-  QueryTotalSharesRequest: '/osmosis/gamm/v1beta1/pools/{pool_id}/total_shares'
-}
 
-async function sendRequest (schemaName: string, flattenedMessage: any) {
-  const providerURL = 'https://testnet-rest.osmosis.zone'
-  let path = mapping[schemaName]
-  const query = {}
-  const requestDef = swag.paths[path]
-  if (requestDef.get.parameters) {
-    for (let param of requestDef.get.parameters) {
-      if (param.in === 'path') {
-        path = path.replace(`{${param.name}}`, flattenedMessage[param.name])
-      } else if (param.in === 'query') {
-        query[param.name] = flattenedMessage[param.name]
-      }
-    }
-  }
-  const response = await axios.get(providerURL + path, {
-    params: query
-  })
-  return response.data
-}
 
 const useStyles = makeStyles({
   root: {
@@ -177,40 +140,15 @@ const GenericMessage = ({
     editorRef.current = editor
   }
 
-  // DELETABLE - REFACTOR asap
-  // function flattenObject (obj: any) {
-  //   if (!obj) return
-  //   if (obj.hasOwnProperty(schemaName)) {
-  //     obj = obj[schemaName]
+  // function getModuleFromPath (path: string) {
+  //   const pathParts = path.split('.')
+  //   let module = osmosis
+  //   for (let i = 0; i < pathParts.length; i++) {
+  //     let part = pathParts[i]
+  //     module = module[part]
   //   }
-  //   const result: any = {}
-  //   for (const key in obj) {
-  //     if (obj.hasOwnProperty(key)) {
-  //       const value = obj[key]
-  //       if (typeof value === 'object') {
-  //         const flat = flattenObject(value)
-  //         for (const k in flat) {
-  //           if (flat.hasOwnProperty(k)) {
-  //             result[`${key}.${k}`] = flat[k]
-  //           }
-  //         }
-  //       } else {
-  //         result[key] = value
-  //       }
-  //     }
-  //   }
-  //   return result
+  //   return module
   // }
-
-  function getModuleFromPath (path: string) {
-    const pathParts = path.split('.')
-    let module = osmosis
-    for (let i = 0; i < pathParts.length; i++) {
-      let part = pathParts[i]
-      module = module[part]
-    }
-    return module
-  }
 
   async function sendMessage () {
     setResponse(null)
@@ -243,13 +181,10 @@ const GenericMessage = ({
       //     return
       //   }
       //   const module = getModuleFromPath(schemaPath)
-
       //   // const chain =
-
       //   const queryClient = new osmosis.gamm.v1beta1.LCDQueryClient({
       //     restEndpoint: REST_ENDPOINT
       //   })
-
       //   const poolparams = await queryClient.pool({ poolId: 1 })
       //   console.log({ poolparams })
       //   const tfqclient = new osmosis.tokenfactory.v1beta1.LCDQueryClient({
@@ -562,13 +497,13 @@ const GenericMessage = ({
     // }
 
     //  type might be ["string", "null"], extract the non null type from type
-  let type = definition.type
-  if (Array.isArray(definition.type)) {
-    const nonNullType = definition.type.filter(t => t !== 'null')
-    if (nonNullType.length ===  1) {
-      type = nonNullType[0]
+    let type = definition.type
+    if (Array.isArray(definition.type)) {
+      const nonNullType = definition.type.filter(t => t !== 'null')
+      if (nonNullType.length === 1) {
+        type = nonNullType[0]
+      }
     }
-  }
 
     switch (type) {
       case 'object':
