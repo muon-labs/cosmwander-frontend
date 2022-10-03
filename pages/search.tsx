@@ -2,7 +2,8 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Container
+  Container,
+  Grid
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useEffect, useState } from 'react'
@@ -67,7 +68,7 @@ const Search = props => {
       setContractMetadata(contractMeta)
       if (contractMeta?.code_id) setCode(contractMeta.code_id + '')
     }
-    setLoadingMetadata(false)
+    // setLoadingMetadata(false)
   }
 
   async function getContractInfo () {
@@ -153,7 +154,13 @@ const Search = props => {
     switch (activeTab) {
       case 'see-contract':
         return loadingMetadata ? (
-          <CircularProgress />
+          <Grid container justifyContent={'center'} style={{ marginTop: 90 }}>
+            <Grid item xs={12} md={6} lg={4}>
+              <div>
+                <CircularProgress />
+              </div>
+            </Grid>
+          </Grid>
         ) : (
           <ContractExplorer
             mutableProps={mutableProps}
