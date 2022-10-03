@@ -1,21 +1,10 @@
-import { MouseEvent, useState } from 'react'
-import { makeStyles } from '@material-ui/styles'
 import {
-  Grid,
-  Typography,
-  Container,
-  Link,
-  Button,
-  AppBar,
-  Toolbar,
-  TextField
+  Button, Container, Grid, TextField, Typography
 } from '@material-ui/core'
-import Tilt from 'react-parallax-tilt'
-import CheckIcon from '@material-ui/icons/Check'
+import { Search } from '@material-ui/icons'
+import { makeStyles } from '@material-ui/styles'
+import { useState } from 'react'
 import config from '../../config'
-import { ArrowRightAlt, Search } from '@material-ui/icons'
-import { useEffect } from 'react'
-import { Gradient } from '../utils/gradient'
 import Nav from '../components/Nav'
 import { useAppContext } from '../context/state'
 
