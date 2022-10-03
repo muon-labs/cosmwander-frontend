@@ -1,7 +1,4 @@
-import {
-  Button,
-  ButtonGroup, Typography
-} from '@material-ui/core'
+import { Button, ButtonGroup, Typography } from '@material-ui/core'
 import { KeyboardArrowRight } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import { useState } from 'react'
@@ -9,10 +6,7 @@ import ContractInitInterface from './ContractInterface'
 
 import { StdFee } from '@cosmjs/stargate'
 import { HttpJsonSchemaOrgDraft04Schema } from '../types/HttpJsonSchemaOrgDraft04Schema'
-import {
-  getClient,
-  getQueryClientCosmWasm
-} from '../utils/utils'
+import { getClient, getQueryClientCosmWasm } from '../utils/utils'
 
 import GenericMessage from '../components/messages/GenericMessage'
 // import instantiateSchema from '../../resources/schema/instantiate_msg.json'
@@ -126,13 +120,14 @@ const ContractExplorer = ({
         )
       case 'query':
         const queryChildren = []
+
+        console.log({ querySchema: query })
         for (
           let propertyIdx = 0;
           propertyIdx < query?.oneOf?.length;
           propertyIdx++
         ) {
           const property = query.oneOf[propertyIdx]
-          console.log('query',{property})
 
           const name = property.required[0]
           queryChildren.push(

@@ -106,7 +106,16 @@ function getDefaultValueFromSchema (
     )
   }
 
-  switch (schema.type) {
+  //  type might be ["string", "null"], extract the non null type from type
+  let type = schema.type
+  if (Array.isArray(schema.type)) {
+    const nonNullType = schema.type.filter(t => t !== 'null')
+    if (nonNullType.length === 1) {
+      type = nonNullType[0]
+    }
+  }
+
+  switch (type) {
     case 'string':
     case 'number':
     case 'integer':
@@ -340,7 +349,7 @@ const GenericMessage = ({
         }
       >
         {isPrimitive ? (
-          <div className='horiz justify-between' style={{ marginTop: 16}}>
+          <div className='horiz justify-between' style={{ marginTop: 16 }}>
             <Typography variant='body2' className='label-text'>
               {propKey || definition.title}:
             </Typography>
@@ -484,25 +493,28 @@ const GenericMessage = ({
   ) {
     return wrapInPropContainer(
       definition,
-      <TextField
-        InputProps={{
-          type: 'number',
-          style: { padding: 0, color: '#222222' },
-          classes: {
-            input: 'input',
-            notchedOutline: 'notched-outline',
-            focused: 'input-focused'
+      <div style={{ flexBasis: '50%' }}>
+        <TextField
+          style={{ flex: 1, display: 'flex' }}
+          InputProps={{
+            type: 'number',
+            style: { padding: 0, color: '#222222' },
+            classes: {
+              input: 'input',
+              notchedOutline: 'notched-outline',
+              focused: 'input-focused'
+            }
+          }}
+          placeholder={('type: ' + definition.type) as string}
+          value={getValueFromPath(concatPath(propPath, propKey)) || ''}
+          onChange={e =>
+            setValueAtPath(
+              concatPath(propPath, propKey),
+              Number(e.currentTarget.value)
+            )
           }
-        }}
-        placeholder={('type: ' + definition.type) as string}
-        value={getValueFromPath(concatPath(propPath, propKey)) || ''}
-        onChange={e =>
-          setValueAtPath(
-            concatPath(propPath, propKey),
-            Number(e.currentTarget.value)
-          )
-        }
-      />,
+        />
+      </div>,
       propKey,
       true,
       index
@@ -557,7 +569,16 @@ const GenericMessage = ({
     //   )
     // }
 
-    switch (definition.type) {
+    //  type might be ["string", "null"], extract the non null type from type
+  let type = definition.type
+  if (Array.isArray(definition.type)) {
+    const nonNullType = definition.type.filter(t => t !== 'null')
+    if (nonNullType.length === 1) {
+      type = nonNullType[0]
+    }
+  }
+
+    switch (type) {
       case 'object':
         return renderObjectPropEditor(definition, propPath, propKey, index)
       case 'string':

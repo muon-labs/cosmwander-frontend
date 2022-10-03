@@ -326,7 +326,8 @@ div>.input-focused {
 }
 
 div>.input {
-  font-family: 'Quicksand', Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  background: #141414;
   font-size: 14px;
   opacity: 0.85;
   border-radius: 25%;
