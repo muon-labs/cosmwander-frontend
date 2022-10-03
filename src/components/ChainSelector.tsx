@@ -14,16 +14,25 @@ const useStyles = makeStyles({
   root: {}
 })
 
-const supportedChainIds = ['osmo-test-4', 'osmosis-1', 'uni-5', 'juno-1']
+const supportedChainIds = [
+  'osmo-test-4',
+  'osmosis-1',
+  'uni-5',
+  'juno-1',
+  'stargaze-1',
+  'elgafar-1'
+]
 
 const ChainSelector = ({
   chainId,
   setChainId,
-  onSelectRedirectToHome
+  onSelectRedirectToHome,
+  width
 }: {
   chainId: string
   setChainId: (chainId: string) => void
   onSelectRedirectToHome?: boolean
+  width?: number
 }) => {
   const classes = useStyles()
 
@@ -38,10 +47,10 @@ const ChainSelector = ({
   return (
     <div className={classes.root}>
       <Autocomplete
-      className='mr'
+        className='mr'
         value={chainId || ''}
         onChange={handleChainIdChange}
-        style={{ minWidth: 125 }}
+        style={{ minWidth: width || 125 }}
         disableClearable
         options={supportedChainIds}
         classes={{
@@ -66,7 +75,12 @@ const ChainSelector = ({
             InputProps={{
               ...params.InputProps,
               type: 'search',
-              style: { padding: 0, height:40, color: '#222222', backgroundColor: "#1A191B" },
+              style: {
+                padding: 0,
+                height: 40,
+                color: '#222222',
+                backgroundColor: '#1A191B'
+              },
               classes: {
                 input: 'input smaller',
                 notchedOutline: 'notched-outline',

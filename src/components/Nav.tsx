@@ -62,7 +62,7 @@ const Nav = props => {
                   marginLeft: 'auto'
                 }}
               >
-                <ChainSelector chainId={chainId} setChainId={setChainId} />
+                <ChainSelector width={200} chainId={chainId} setChainId={setChainId} />
               </div>
             </Grid>
           </Grid>

@@ -115,8 +115,9 @@ const AppNav = props => {
                             style={{
                               backgroundColor: config.PALETTE.BORDER_COLOR,
                               border: 'none',
-                              padding: '4px',
-                              width: '36px  !important',
+                              padding: '6px',
+                              minWidth: 'auto',
+                              width: '28px',
                               marginRight: 7,
                               color: '#F5F7FF',
                               fontSize: 10,

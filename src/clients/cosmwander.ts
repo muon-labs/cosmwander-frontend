@@ -4,11 +4,11 @@ import axios from "axios";
 
 console.log("RUNNING PROCESS IN " + process.env.NODE_ENV + " MODE");
 
-// const BASE_URL ='http://localhost:3001' //process.env.NODE_ENV ==='test' ? 'http://localhost:3001' : 'https://api.cosmwander.xyz'
-const BASE_URL =
-  process.env.NODE_ENV === "test"
-    ? "http://localhost:3001"
-    : "https://api.cosmwander.xyz";
+const BASE_URL ='http://localhost:3001' //process.env.NODE_ENV ==='test' ? 'http://localhost:3001' : 'https://api.cosmwander.xyz'
+// const BASE_URL =
+//   process.env.NODE_ENV === "test"
+//     ? "http://localhost:3001"
+//     : "https://api.cosmwander.xyz";
 
 const CODE_METADATA_ENDPOINT = (chainId: string, codeId: string) =>
   `${BASE_URL}/api/code/${chainId}/${codeId}/metadata`;

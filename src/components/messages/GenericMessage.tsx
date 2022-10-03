@@ -161,8 +161,7 @@ const GenericMessage = ({
       let msgToSubmit
       if (msgSchema && !forceManual) {
         if (schemaName === 'InstantiateMsg') {
-          
-            msgToSubmit = message[schemaName]
+          msgToSubmit = message[schemaName]
         } else {
           msgToSubmit = message
         }
@@ -175,8 +174,8 @@ const GenericMessage = ({
         }
       }
 
-      if (Object.keys(msgToSubmit).includes("InstantiateMsg")) {
-        msgToSubmit = msgToSubmit["InstantiateMsg"]
+      if (Object.keys(msgToSubmit).includes('InstantiateMsg')) {
+        msgToSubmit = msgToSubmit['InstantiateMsg']
       }
 
       // submit that boi
@@ -663,14 +662,19 @@ const GenericMessage = ({
             >
               Raw Message Preview:
             </Typography>
-            {/* 
-            // @ts-ignore */}
-            <DynamicReactJson
-              style={{ background: 'transparent' }}
-              src={message[schemaName]}
-              theme='summerfruit'
-              collapsed={false}
-            />
+            {!msgSchema || forceManual ? (
+              <Typography variant='body1' className='detail-text'>
+                No Preview available for raw messages
+              </Typography>
+            ) : (
+              // @ts-ignore
+              <DynamicReactJson
+                style={{ background: 'transparent' }}
+                src={message[schemaName]}
+                theme='summerfruit'
+                collapsed={false}
+              />
+            )}
           </>
         )}
       </Grid>
