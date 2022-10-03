@@ -5,6 +5,8 @@ import axios from 'axios'
 import { Gradient } from '../utils/gradient'
 import Image from 'next/image'
 import config from '../../config'
+import { useAppContext } from '../context/state'
+import ChainSelector from './ChainSelector'
 
 const useStyles = makeStyles({
   root: {},
@@ -29,22 +31,8 @@ const Nav = ({
 }) => {
   const classes = useStyles()
 
+  const { chainId, setChainId } = useAppContext()
   const [hovering, setHovering] = useState(false)
-
-  function onHoverStart () {
-    setHovering(true)
-    setTimeout(() => {
-      try {
-        gradient2 = new Gradient()
-        // @ts-ignore
-        gradient2.initGradient('#gradient-canvas-2')
-      } catch {}
-    }, 30)
-  }
-
-  function onHoverEnd () {
-    setHovering(false)
-  }
 
   return (
     <AppBar color='transparent' elevation={0} position='static'>
@@ -58,11 +46,7 @@ const Nav = ({
           <Grid item xs={12}>
             <Grid
               container
-              component='a'
-              href='/'
               spacing={0}
-              onMouseEnter={onHoverStart}
-              onMouseLeave={onHoverEnd}
               style={{
                 paddingTop: 16,
                 paddingLeft: 16,
@@ -74,50 +58,41 @@ const Nav = ({
               }}
             >
               {/* {hovering ? ( */}
-              <canvas
-                id='gradient-canvas-2'
-                // style={{'--gradient-color-1':'#ef008f','--gradient-color-2':'#6ec3f4', '--gradient-color-3':'#7038ff','--gradient-color-4':'#e2e2e2'}}
-                // "--gradient-color-1:#ef008f;--gradient-color-2:#6ec3f4;--gradient-color-3:#7038ff;--gradient-color-4:#e2e2e2;"
+              <div onClick={() => {
+                (window.location.href = '/')
+              }}>
+                <canvas
+                  id='gradient-canvas-2'
+                  // style={{'--gradient-color-1':'#ef008f','--gradient-color-2':'#6ec3f4', '--gradient-color-3':'#7038ff','--gradient-color-4':'#e2e2e2'}}
+                  // "--gradient-color-1:#ef008f;--gradient-color-2:#6ec3f4;--gradient-color-3:#7038ff;--gradient-color-4:#e2e2e2;"
+                  style={{
+                    width: '50px',
+                    height: '50px',
+                    clipPath: 'url(#hex-hw-shapeclip-clipconfig)'
+                  }}
+                  data-transition-in
+                ></canvas>
+                <Typography
+                  variant='h6'
+                  display='inline'
+                  style={{
+                    fontWeight: 100,
+                    marginLeft: 14,
+                    fontFamily:
+                      'Comfortaa, Quicksand, Arial, Helvetica, sans-serif'
+                  }}
+                >
+                  {config.DISPLAY_COMPANY_NAME}
+                </Typography>
+              </div>
+
+              <div
                 style={{
-                  width: '50px',
-                  height: '50px',
-                  clipPath: 'url(#hex-hw-shapeclip-clipconfig)'
-                }}
-                data-transition-in
-              ></canvas>
-              {/* ) : (
-                <Image
-                  alt='logo'
-                  width={50}
-                  height={50}
-                  src={config.COMPANY_LOGO_URL}
-                />
-              )} */}
-              <Typography
-                variant='h6'
-                display='inline'
-                style={{
-                  fontWeight: 100,
-                  marginLeft: 14,
-                  fontFamily:
-                    'Comfortaa, Quicksand, Arial, Helvetica, sans-serif'
+                  marginLeft: 'auto'
                 }}
               >
-                {config.DISPLAY_COMPANY_NAME}
-              </Typography>
-              {signin && twitterLoginHandler && (
-                <Button
-                  className='action-button small'
-                  style={{
-                    marginLeft: 'auto',
-                    borderRadius: 8,
-                    fontSize: 14
-                  }}
-                  onClick={twitterLoginHandler}
-                >
-                  Sign in with Twitter
-                </Button>
-              )}
+                <ChainSelector chainId={chainId} setChainId={setChainId}/>
+              </div>
             </Grid>
           </Grid>
         </Grid>

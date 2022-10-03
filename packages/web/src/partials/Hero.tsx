@@ -17,6 +17,7 @@ import { ArrowRightAlt, Search } from '@material-ui/icons'
 import { useEffect } from 'react'
 import { Gradient } from '../utils/gradient'
 import Nav from '../components/Nav'
+import { useAppContext } from '../context/state'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -89,6 +90,7 @@ const values = [
 const Hero = () => {
   const classes = useStyles()
 
+  const { chainId } = useAppContext()
   const [codeOrAddress, setCodeOrAddress] = useState('')
 
   function handleLogin (e: MouseEvent<any, any>) {
@@ -101,9 +103,9 @@ const Hero = () => {
     e.preventDefault()
 
     if (codeOrAddress.startsWith('osmo')) {
-      window.location.href = `/search?contractAddress=${codeOrAddress}`
+      window.location.href = `/${chainId}/search?contractAddress=${codeOrAddress}`
     } else {
-      window.location.href = `/search?codeId=${codeOrAddress}`
+      window.location.href = `/${chainId}/search?codeId=${codeOrAddress}`
     }
   }
 
@@ -140,6 +142,7 @@ const Hero = () => {
             >
               Search for a contract address, and account, or a codeid
             </Typography>
+
             <TextField
               autoFocus
               InputProps={{

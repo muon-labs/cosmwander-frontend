@@ -7,17 +7,20 @@ import { ThemeProvider } from '@material-ui/styles'
 import AOS from 'aos'
 import Head from 'next/head'
 import config from '../config'
+import { AppWrapper } from '../src/context/state'
 import 'aos/dist/aos.css'
 import '../styles/globals.css'
+import { NextRouter } from 'next/router'
 
 export const cache = createCache()
-
 function MyApp ({
   Component,
-  pageProps
+  pageProps,
+  router
 }: {
   Component: FunctionComponent
-  pageProps: object
+  pageProps: object,
+  router:NextRouter
 }) {
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -46,8 +49,10 @@ function MyApp ({
         <meta property='og:url' content={config.COMPANY_URL} />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* <CssBaseline /> */}
-        <Component {...pageProps} />
+        <AppWrapper router={router}>
+          {/* <CssBaseline /> */}
+          <Component {...pageProps} />
+        </AppWrapper>
       </ThemeProvider>
     </CacheProvider>
   )

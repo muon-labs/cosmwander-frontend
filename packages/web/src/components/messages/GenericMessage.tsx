@@ -514,7 +514,8 @@ const GenericMessage = ({
     }
 
     // if properties are null it means we have a partial schema and we should render a freeform
-    if (!definition.properties) {
+    console.log('dlwef', definition.properties)
+    if (!definition.properties || !Object.keys(definition.properties).length) {
       return (
         <Editor
           height='100px'

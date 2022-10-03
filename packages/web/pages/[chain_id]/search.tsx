@@ -1,34 +1,22 @@
-import React, { Component, useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/styles'
 import {
-  Button,
   CircularProgress,
-  Container,
-  Grid,
-  Typography
+  Container
 } from '@material-ui/core'
-import { KeyboardArrowRight, Refresh } from '@material-ui/icons'
-import axios from 'axios'
-import ContractInitInterface from '../src/partials/ContractInterface'
+import { makeStyles } from '@material-ui/styles'
+import { useEffect, useState } from 'react'
 
-import { HttpJsonSchemaOrgDraft04Schema } from '../src/types/HttpJsonSchemaOrgDraft04Schema'
+import { StdFee } from '@cosmjs/stargate'
 import {
   getClient,
-  getQueryClientCosmWasm,
-  getQueryClientStargate
-} from '../src/utils/utils'
-import { Coin, StargateClient, StdFee } from '@cosmjs/stargate'
+  getQueryClientCosmWasm
+} from '../../src/utils/utils'
 
-import GenericMessage from '../src/components/messages/GenericMessage'
-import instantiateSchema from '../resources/schema/instantiate_msg.json'
-import querySchema from '../resources/schema/query_msg.json'
-import executeSchema from '../resources/schema/execute_msg.json'
-import AppNav from '../src/components/AppNav'
-import config from '../config'
-import ContractExplorer from '../src/partials/ContractExplorer'
-import CodeAddressInfo from '../src/partials/CodeAddressInfo'
-import { fetchCode, fetchContract } from '../src/clients/cosmwander'
-import { ICode, IContract } from '../src/types/db-schemas'
+import { fetchCode, fetchContract } from '../../src/clients/cosmwander'
+import AppNav from '../../src/components/AppNav'
+import { useAppContext } from '../../src/context/state'
+import CodeAddressInfo from '../../src/partials/CodeAddressInfo'
+import ContractExplorer from '../../src/partials/ContractExplorer'
+import { ICode, IContract } from '../../src/types/db-schemas'
 
 const useStyles = makeStyles({
   root: {}
@@ -47,9 +35,9 @@ const Search = props => {
   const [activeWindow, setActiveWindow] = useState<
     'instantiate' | 'query' | 'execute'
   >('instantiate')
-
+  
+  const {chainId, setChainId} = useAppContext()
   const [address, setAddress] = useState('')
-  const [chainId, setChainId] = useState('osmo-test-4')
   const [code, setCode] = useState('')
   const [loadingMetadata, setLoadingMetadata] = useState(true)
   const [codeMetadata, setCodeMetadata] = useState<ICode>(null)
