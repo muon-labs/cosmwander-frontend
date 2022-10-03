@@ -16,7 +16,6 @@ const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
 const RPC_ENDPOINT = 'https://rpc.osmosis.zone/'
 const REST_ENDPOINT = 'https://lcd.osmosis.zone/'
 
-
 const useStyles = makeStyles({
   root: {
     background: '#222222',
