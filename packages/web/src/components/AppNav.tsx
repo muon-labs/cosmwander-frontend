@@ -9,7 +9,6 @@ import {
   Typography
 } from '@material-ui/core'
 import axios from 'axios'
-import { Gradient } from '../utils/gradient'
 import Image from 'next/image'
 import config from '../../config'
 import { Search } from '@material-ui/icons'
@@ -22,19 +21,11 @@ const useStyles = makeStyles({
 
 let gradient2 = null
 
-const AppNav = (props) => {
+const AppNav = props => {
   const classes = useStyles()
 
   const { chainId, setChainId } = useAppContext()
   const [codeOrAddress, setCodeOrAddress] = useState('')
-
-  useEffect(() => {
-    try {
-      gradient2 = new Gradient()
-      // @ts-ignore
-      gradient2.initGradient('#gradient-canvas-2')
-    } catch {}
-  }, [])
 
   function handleSearch (e) {
     e.preventDefault()
@@ -69,18 +60,6 @@ const AppNav = (props) => {
             >
               {/* {hovering ? ( */}
               <a className='horiz'>
-                <canvas
-                  id='gradient-canvas-2'
-                  // style={{'--gradient-color-1':'#ef008f','--gradient-color-2':'#6ec3f4', '--gradient-color-3':'#7038ff','--gradient-color-4':'#e2e2e2'}}
-                  // "--gradient-color-1:#ef008f;--gradient-color-2:#6ec3f4;--gradient-color-3:#7038ff;--gradient-color-4:#e2e2e2;"
-                  style={{
-                    width: '66px',
-                    height: '66px',
-                    borderRadius: '0 2px 8px 2px',
-                    clipPath: 'url(#hex-hw-shapeclip-clipconfig)'
-                  }}
-                  data-transition-in
-                ></canvas>
                 {/* ) : (
                 <Image
                   alt='logo'
@@ -108,7 +87,11 @@ const AppNav = (props) => {
                   marginLeft: 'auto'
                 }}
               >
-                <ChainSelector chainId={chainId} setChainId={setChainId} onSelectRedirectToHome={true}/>
+                <ChainSelector
+                  chainId={chainId}
+                  setChainId={setChainId}
+                  onSelectRedirectToHome={true}
+                />
                 <form onSubmit={handleSearch}>
                   <TextField
                     required

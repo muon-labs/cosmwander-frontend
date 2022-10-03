@@ -2,7 +2,6 @@ import React, { Component, MouseEventHandler, useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { AppBar, Button, Grid, Toolbar, Typography } from '@material-ui/core'
 import axios from 'axios'
-import { Gradient } from '../utils/gradient'
 import Image from 'next/image'
 import config from '../../config'
 import { useAppContext } from '../context/state'
@@ -22,7 +21,7 @@ const useStyles = makeStyles({
 
 let gradient2 = null
 
-const Nav = (props) => {
+const Nav = props => {
   const classes = useStyles()
 
   const { chainId, setChainId } = useAppContext()
@@ -57,17 +56,6 @@ const Nav = (props) => {
                   window.location.href = '/'
                 }}
               >
-                <canvas
-                  id='gradient-canvas-2'
-                  // style={{'--gradient-color-1':'#ef008f','--gradient-color-2':'#6ec3f4', '--gradient-color-3':'#7038ff','--gradient-color-4':'#e2e2e2'}}
-                  // "--gradient-color-1:#ef008f;--gradient-color-2:#6ec3f4;--gradient-color-3:#7038ff;--gradient-color-4:#e2e2e2;"
-                  style={{
-                    width: '50px',
-                    height: '50px',
-                    clipPath: 'url(#hex-hw-shapeclip-clipconfig)'
-                  }}
-                  data-transition-in
-                ></canvas>
                 <Typography
                   variant='h6'
                   display='inline'
