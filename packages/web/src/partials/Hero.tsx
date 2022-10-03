@@ -103,9 +103,9 @@ const Hero = () => {
     e.preventDefault()
 
     if (codeOrAddress.startsWith('osmo')) {
-      window.location.href = `/${chainId}/search?contractAddress=${codeOrAddress}`
+      window.location.href = `/search?chainId=${chainId}&contractAddress=${codeOrAddress}`
     } else {
-      window.location.href = `/${chainId}/search?codeId=${codeOrAddress}`
+      window.location.href = `/search?chainId=${chainId}&codeId=${codeOrAddress}`
     }
   }
 
@@ -146,29 +146,32 @@ const Hero = () => {
             <TextField
               autoFocus
               InputProps={{
-                style: { padding: 0, color: '#222222', marginTop: 16 },
+                style: { padding: 0, color: '#222222', marginTop: 16 ,},
                 classes: {
                   input: 'input-huge',
                   notchedOutline: 'notched-outline-huge',
-                  focused: 'input-focused'
+                  focused: 'input-focused',
+                  root: 'input-root-huge'
                 },
-                startAdornment: (
-                  <Search style={{ color: '#858fa5', marginLeft: 8 }} />
-                ),
+                // startAdornment: (
+                //   <Search style={{ color: '#858fa5', marginLeft: 8 }} />
+                // ),
                 endAdornment: (
                   <Button
                     type='submit'
                     className='action-button small'
                     onClick={() => {}}
                     style={{
-                      padding: '2px 24px',
-                      marginRight: 9,
+                      backgroundColor: config.PALETTE.BORDER_COLOR,
+                      border: 'none',
+                      padding: '4px',
+                      marginRight: 7,
                       color: '#F5F7FF',
                       fontSize: 14,
-                      borderRadius: 8
+                      borderRadius: 4
                     }}
                   >
-                    Search
+                    <Search style={{ color: '#8E8E8E'}} />
                   </Button>
                 )
               }}

@@ -1,21 +1,53 @@
 import { AppContext } from 'next/app'
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
+import { NextRouter } from 'next/router'
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 
-function defaultSetChainId() {}
+function defaultSetChainId () {}
 
 const AppContext = createContext({
   chainId: 'osmo-test-4',
   setChainId: defaultSetChainId as Dispatch<SetStateAction<string>>
 })
 
-export function AppWrapper ({ children, router }) {
-  const [chainId, setChainId] = useState('osmo-test-4')
+const defaultChainId = 'osmo-test-4'
+
+export function AppWrapper ({
+  children,
+  router
+}: {
+  children: any
+  router: any
+}) {
+  const [chainId, setChainId] = useState(defaultChainId)
+  const [code, setCode] = useState('')
 
   useEffect(() => {
     // get chain Id from params
-    const { chain_id } = router.query
-    setChainId(chain_id)
+    const urlParams = new URLSearchParams(window.location.search)
+    const chainIdParam = urlParams.get('chainId')
+    const codeIdParam = urlParams.get('codeId')
+
+    console.log({ chainIdParam, codeIdParam }, router.state)
+    if (chainIdParam) setChainId(chainIdParam as string)
+    if (codeIdParam) setCode(codeIdParam as string)
   }, [])
+
+  useEffect(() => {
+    // update url params
+    console.log(router.query)
+    router.push(
+      `${router.pathname}?chainId=${chainId}&codeId=${code}`,
+      undefined,
+      { shallow: true }
+    )
+  }, [chainId, code])
 
   let sharedState = {
     chainId,

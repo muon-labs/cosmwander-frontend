@@ -6,20 +6,25 @@ import Balance from '../components/Balance'
 import { getQueryClientCosmWasm, getQueryClientStargate } from '../utils/utils'
 import { Coin } from '@cosmjs/stargate'
 import { Refresh } from '@material-ui/icons'
+import { ICode } from '../types/db-schemas'
+import config from '../../config'
 
 const useStyles = makeStyles({
   root: {},
   addrInfoContainer: {
     overflow: 'hidden',
-    border: '1px solid #394456;',
-    borderRadius: '8px',
-    padding: '16px'
+    // border: '1px solid #394456;',
+    padding: '16px 0px',
+    borderBottom: '1px solid ' + config.PALETTE.BORDER_COLOR
   }
 })
 
 const CodeAddressInfo = ({
   mutableProps: { code, address, setCode, setAddress },
   codeMetadata
+}: {
+  mutableProps: any
+  codeMetadata: ICode
 }) => {
   const classes = useStyles()
   const [loading, setLoading] = useState(false)
@@ -52,46 +57,56 @@ const CodeAddressInfo = ({
   function reloadBalance () {
     getAddrInfo(address)
   }
+
+  const codeInfo = [
+    {
+      label: 'Code ID',
+      value: code
+    },
+    {
+      label: 'Creator',
+      value: codeMetadata?.creator
+    },
+    {
+      label: 'Checksum',
+      value: codeMetadata?.checksum
+    },
+    {
+      label: 'Repository',
+      value: codeMetadata?.repository,
+      shouldDisplay: () => !!codeMetadata?.repository
+    }
+    // {
+    //   label: 'Checksum',
+    //   value: codeMetadata?.
+    // }
+  ]
+
   return (
     <div className={classes.root}>
       <div className={classes.addrInfoContainer}>
-        <div className='horiz'>
-          <Typography
-            variant='body2'
-            className='detail-text'
-            style={{ marginRight: 8 }}
-          >
-            Code ID:
-          </Typography>
-          <Typography variant='body2' className='detail-text bright'>
-            {code}
-          </Typography>
-        </div>
-        <div className='horiz'>
-          <Typography
-            variant='body2'
-            className='detail-text'
-            style={{ marginRight: 8 }}
-          >
-            Creator:
-          </Typography>
-          <Typography variant='body2' className='detail-text bright'>
-            {codeMetadata?.creator}
-          </Typography>
-        </div>
-        <div className='horiz'>
-          <Typography
-            variant='body2'
-            className='detail-text'
-            style={{ marginRight: 8 }}
-          >
-            Contract Address:
-          </Typography>
-          <Typography variant='body2' className='detail-text bright'>
-            {address}
-          </Typography>
-        </div>
-        <div className='horiz'>
+        <Grid container spacing={2}>
+          {codeInfo
+            .filter(i => (i.shouldDisplay ? i.shouldDisplay() : true))
+            .map(i => {
+              return (
+                <React.Fragment key={i.label}>
+                  <Grid item xs={4} md={2}>
+                    <Typography variant='body2' className='detail-text'>
+                      {i.label}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={8} md={10}>
+                    <Typography variant='body2' className='main-text colored'>
+                      {i.value}
+                    </Typography>
+                  </Grid>
+                </React.Fragment>
+              )
+            })}
+        </Grid>
+
+        {/* <div className='horiz'>
           <Typography
             variant='body2'
             className='detail-text'
@@ -117,7 +132,7 @@ const CodeAddressInfo = ({
               onClick={reloadBalance}
             />
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   )

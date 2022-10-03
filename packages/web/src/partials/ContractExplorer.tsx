@@ -1,29 +1,23 @@
-import React, { Component, useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/styles'
 import {
   Button,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography
+  ButtonGroup, Typography
 } from '@material-ui/core'
-import { KeyboardArrowRight, Refresh } from '@material-ui/icons'
-import axios from 'axios'
+import { KeyboardArrowRight } from '@material-ui/icons'
+import { makeStyles } from '@material-ui/styles'
+import { useState } from 'react'
 import ContractInitInterface from './ContractInterface'
 
+import { StdFee } from '@cosmjs/stargate'
 import { HttpJsonSchemaOrgDraft04Schema } from '../types/HttpJsonSchemaOrgDraft04Schema'
 import {
   getClient,
-  getQueryClientCosmWasm,
-  getQueryClientStargate
+  getQueryClientCosmWasm
 } from '../utils/utils'
-import { Coin, StargateClient, StdFee } from '@cosmjs/stargate'
 
 import GenericMessage from '../components/messages/GenericMessage'
 // import instantiateSchema from '../../resources/schema/instantiate_msg.json'
 // import query from '../../resources/schema/query_msg.json'
 // import executeSchema from '../../resources/schema/execute_msg.json'
-import AppNav from '../components/AppNav'
 import config from '../../config'
 import UnverifiedBox from '../components/UnverifiedBox'
 
@@ -31,9 +25,7 @@ const useStyles = makeStyles({
   root: {},
   addrInfoContainer: {
     overflow: 'hidden',
-    border: '1px solid #394456;',
-    borderRadius: '8px',
-    padding: '16px'
+    padding: '16px 0px'
   }
 })
 
@@ -124,9 +116,7 @@ const ContractExplorer = ({
       case 'instantiate':
         return (
           <ContractInitInterface
-            instantiateSchema={
-              instantiate as HttpJsonSchemaOrgDraft04Schema
-            }
+            instantiateSchema={instantiate as HttpJsonSchemaOrgDraft04Schema}
             contractAddress={contractAddress}
             setContractAddress={setContractAddress}
             setActiveWindow={setActiveWindow}
@@ -142,7 +132,8 @@ const ContractExplorer = ({
           propertyIdx++
         ) {
           const property = query.oneOf[propertyIdx]
-          
+          console.log('query',{property})
+
           const name = property.required[0]
           queryChildren.push(
             <div className={classes.tableRow}>
@@ -270,8 +261,16 @@ const ContractExplorer = ({
   return (
     <div className={classes.addrInfoContainer} style={{ marginTop: 16 }}>
       <>
-        <div className='toolbar' style={{ margin: -16, marginBottom: 8 }}>
+        <ButtonGroup
+          style={{
+            border: '1px solid ' + config.PALETTE.BORDER_COLOR,
+            borderRadius: 8,
+            overflow: 'hiidden',
+            marginBottom: 16
+          }}
+        >
           <Button
+            style={{ borderRadius: '8px 0 0 8px' }}
             className={'toolbar-button' + isActive('instantiate')}
             onClick={() => setActiveWindow('instantiate')}
           >
@@ -284,18 +283,19 @@ const ContractExplorer = ({
             Query
           </Button>
           <Button
+            style={{ borderRadius: '0 8px 8px 0' }}
             className={'toolbar-button' + isActive('execute')}
             onClick={() => setActiveWindow('execute')}
           >
             Execute
           </Button>
-          <Button
+          {/* <Button
             className='toolbar-button disabled'
             style={{ marginLeft: 'auto' }}
           >
             Upload a new Contract
-          </Button>
-        </div>
+          </Button> */}
+        </ButtonGroup>
         {!codeMetadata?.schemas && (
           <UnverifiedBox codeMetadata={codeMetadata} />
         )}

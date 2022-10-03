@@ -16,16 +16,22 @@ const useStyles = makeStyles({
 
 const supportedChainIds = ['osmo-test-4', 'osmosis-1', 'uni-5', 'juno-1']
 
-const ChainSelector = ({ chainId, setChainId }) => {
+const ChainSelector = ({ chainId, setChainId, onSelectRedirectToHome }) => {
   const classes = useStyles()
+
+  function handleChainIdChange (e, v) {
+    if (onSelectRedirectToHome) {
+      window.location.href = '/?chainId=' + v
+    } else {
+      setChainId(v)
+    }
+  }
 
   return (
     <div className={classes.root}>
       <Autocomplete
         value={chainId || ''}
-        onChange={(e, v) => {
-          setChainId(v)
-        }}
+        onChange={handleChainIdChange}
         style={{ minWidth: 250 }}
         disableClearable
         options={supportedChainIds}

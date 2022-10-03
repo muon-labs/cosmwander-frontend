@@ -21,6 +21,7 @@ import {
   QueryPoolsResponse
 } from '../../codegen/osmosis/gamm/v1beta1/query'
 import Editor, { Monaco } from '@monaco-editor/react'
+import config from '../../../config'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
 
@@ -64,7 +65,13 @@ async function sendRequest (schemaName: string, flattenedMessage: any) {
 }
 
 const useStyles = makeStyles({
-  root: {},
+  root: {
+    background: '#222222',
+    borderRadius: 6,
+    padding: 8,
+    border: '1px solid ' + config.PALETTE.BORDER_COLOR,
+    borderLeft: '6px solid ' + config.PALETTE.COLOR_PRIMARY
+  },
   subProp: {
     paddingLeft: 8,
     borderLeft: '1px solid #678'
@@ -161,8 +168,8 @@ const GenericMessage = ({
       ? constructStateFromSchema(rootSchema, msgSchema)
       : {}
   })
-  const [response, setResponse] = useState()
-  const [error, setError] = useState()
+  const [response, setResponse] = useState(null)
+  const [error, setError] = useState(null)
 
   const editorRef = useRef(null)
 
@@ -313,28 +320,41 @@ const GenericMessage = ({
   function wrapInPropContainer (
     definition: HttpJsonSchemaOrgDraft04Schema,
     children: any,
-    propKey?: string,
-    isPrimitive: boolean = false
+    propKey: string | undefined,
+    isPrimitive: boolean = false,
+    index: number
   ) {
     return (
       <div
         key={propKey}
-        className={isPrimitive ? classes.primitiveProp : classes.subProp}
+        // className={isPrimitive ? classes.primitiveProp : classes.subProp}
+        style={
+          index % 2 === 1
+            ? {
+                backgroundColor: '#1B1B1B',
+                border: '1px solid ' + config.PALETTE.BORDER_COLOR,
+                borderRadius: 6,
+                padding: 8
+              }
+            : {}
+        }
       >
         {isPrimitive ? (
-          <Typography
-            variant='body2'
-            className='detail-text'
-            style={{ fontWeight: '200 !important' }}
-          >
-            {propKey || definition.title}:
-          </Typography>
+          <div className='horiz justify-between' style={{ marginTop: 16}}>
+            <Typography variant='body2' className='label-text'>
+              {propKey || definition.title}:
+            </Typography>
+            {children}
+          </div>
         ) : (
-          <Typography variant='body2' className='detail-text'>
-            {propKey || definition.title}
-          </Typography>
+          <div>
+            <Typography variant='body2' className='detail-text'>
+              {propKey || definition.title}
+            </Typography>
+            {children}
+          </div>
         )}
-        {definition.description && (
+        {/* {definition.description && (
           <Typography
             variant='body2'
             className='detail-text'
@@ -342,8 +362,7 @@ const GenericMessage = ({
           >
             {definition.description.substring(0, 60)}...
           </Typography>
-        )}
-        {children}
+        )} */}
       </div>
     )
   }
@@ -351,29 +370,32 @@ const GenericMessage = ({
   function renderObjectPropEditor (
     definition: HttpJsonSchemaOrgDraft04Schema,
     propPath: string,
-    propKey?: string
+    propKey: string | undefined,
+    index: number
   ) {
     const children = []
     for (const propName in definition.properties) {
       const property = definition.properties[propName]
       children.push(
-        <div className={classes.subProp} key={definition.title + propName}>
+        <div key={definition.title + propName}>
           {renderPropertyEditor(
             property,
             concatPath(propPath, propKey),
-            propName
+            propName,
+            index + 1
           )}
         </div>
       )
     }
 
-    return wrapInPropContainer(definition, children, propKey)
+    return wrapInPropContainer(definition, children, propKey, false, index + 1)
   }
 
   function renderArrayPropEditor (
     definition: HttpJsonSchemaOrgDraft04Schema,
     propPath: string,
-    propKey?: string
+    propKey: string | undefined,
+    index: number
   ) {
     const rootPath = concatPath(propPath, propKey)
 
@@ -384,7 +406,8 @@ const GenericMessage = ({
         renderPropertyEditor(
           property as HttpJsonSchemaOrgDraft04Schema,
           rootPath,
-          idx + ''
+          idx + '',
+          index + 1
         )
       )
     }
@@ -402,6 +425,7 @@ const GenericMessage = ({
     children.push(
       <div className='horiz' style={{ cursor: 'pointer' }} onClick={addProp}>
         <Add
+          component={null}
           size='small'
           style={{ color: '#667788', height: 14, width: 14, marginRight: 4 }}
         />
@@ -415,19 +439,21 @@ const GenericMessage = ({
       </div>
     )
 
-    return wrapInPropContainer(definition, children, propKey)
+    return wrapInPropContainer(definition, children, propKey, false, index + 1)
   }
 
   function renderStringPropEditor (
     definition: HttpJsonSchemaOrgDraft04Schema,
     propPath: string,
-    propKey?: string
+    propKey: string | undefined,
+    index: number
   ) {
     const hasDenom = propKey.toLowerCase().includes('denom')
     return wrapInPropContainer(
       definition,
-      <div className='horiz'>
+      <div style={{ flexBasis: '50%' }}>
         <TextField
+          style={{ flex: 1, display: 'flex' }}
           InputProps={{
             style: { padding: 0, color: '#222222' },
             classes: {
@@ -445,14 +471,16 @@ const GenericMessage = ({
         {/* {hasDenom && <DenomResolver />} */}
       </div>,
       propKey,
-      true
+      true,
+      index + 1
     )
   }
 
   function renderNumberPropEditor (
     definition: HttpJsonSchemaOrgDraft04Schema,
     propPath: string,
-    propKey?: string
+    propKey: string | undefined,
+    index: number
   ) {
     return wrapInPropContainer(
       definition,
@@ -476,14 +504,16 @@ const GenericMessage = ({
         }
       />,
       propKey,
-      true
+      true,
+      index
     )
   }
 
   function renderPropertyEditor (
     definition: HttpJsonSchemaOrgDraft04Schema,
     propPath: string,
-    propKey?: string
+    propKey: string | undefined,
+    index: number
   ) {
     // console.log(
     //   definition['$ref'],
@@ -509,33 +539,34 @@ const GenericMessage = ({
       return renderPropertyEditor(
         rootSchema.definitions[defKey],
         propPath,
-        propKey
+        propKey,
+        index // same level
       )
     }
 
     // if properties are null it means we have a partial schema and we should render a freeform
-    console.log('dlwef', definition.properties)
-    if (!definition.properties || !Object.keys(definition.properties).length) {
-      return (
-        <Editor
-          height='100px'
-          defaultLanguage='json'
-          defaultValue={`{\n\t"${propKey}" : {}\n}`}
-          onMount={handleEditorDidMount}
-        />
-      )
-    }
+    // console.log('dlwef', definition.properties)
+    // if (!definition.properties || !Object.keys(definition.properties).length) {
+    //   return (
+    //     <Editor
+    //       height='100px'
+    //       defaultLanguage='json'
+    //       defaultValue={`{\n\t"${propKey}" : {}\n}`}
+    //       onMount={handleEditorDidMount}
+    //     />
+    //   )
+    // }
 
     switch (definition.type) {
       case 'object':
-        return renderObjectPropEditor(definition, propPath, propKey)
+        return renderObjectPropEditor(definition, propPath, propKey, index)
       case 'string':
-        return renderStringPropEditor(definition, propPath, propKey)
+        return renderStringPropEditor(definition, propPath, propKey, index)
       case 'array':
-        return renderArrayPropEditor(definition, propPath, propKey)
+        return renderArrayPropEditor(definition, propPath, propKey, index)
       case 'number':
       case 'integer':
-        return renderNumberPropEditor(definition, propPath, propKey)
+        return renderNumberPropEditor(definition, propPath, propKey, index)
       case 'boolean':
       default:
         return (
@@ -553,7 +584,7 @@ const GenericMessage = ({
           <div className='paragraph'>
             {!hideTitle && (
               <>
-                <Typography variant='h6' className='main-text'>
+                <Typography variant='body1' className='label-text'>
                   {schemaName}
                 </Typography>
                 {msgSchema?.description && (
@@ -567,7 +598,7 @@ const GenericMessage = ({
                 )}
               </>
             )}
-            {renderPropertyEditor(msgSchema, '', schemaName)}
+            {renderPropertyEditor(msgSchema, '', schemaName, 0)}
           </div>
           <Button
             onClick={sendMessage}
@@ -579,7 +610,7 @@ const GenericMessage = ({
             <div>
               <Typography
                 variant='body2'
-                className='main-text paragraph-important'
+                className='label-text paragraph-important'
               >
                 Response:
               </Typography>
@@ -618,7 +649,7 @@ const GenericMessage = ({
           <>
             <Typography
               variant='body2'
-              className='main-text paragraph-important'
+              className='label-text paragraph-important'
             >
               Raw Message Preview:
             </Typography>

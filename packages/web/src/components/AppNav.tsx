@@ -13,6 +13,8 @@ import { Gradient } from '../utils/gradient'
 import Image from 'next/image'
 import config from '../../config'
 import { Search } from '@material-ui/icons'
+import { useAppContext } from '../context/state'
+import ChainSelector from './ChainSelector'
 
 const useStyles = makeStyles({
   root: { height: 66 }
@@ -29,6 +31,7 @@ const AppNav = ({
 }) => {
   const classes = useStyles()
 
+  const { chainId, setChainId } = useAppContext()
   const [codeOrAddress, setCodeOrAddress] = useState('')
 
   useEffect(() => {
@@ -71,10 +74,7 @@ const AppNav = ({
               }}
             >
               {/* {hovering ? ( */}
-              <a
-                className='horiz'
-                
-              >
+              <a className='horiz'>
                 <canvas
                   id='gradient-canvas-2'
                   // style={{'--gradient-color-1':'#ef008f','--gradient-color-2':'#6ec3f4', '--gradient-color-3':'#7038ff','--gradient-color-4':'#e2e2e2'}}
@@ -108,53 +108,59 @@ const AppNav = ({
                   {config.DISPLAY_COMPANY_NAME}
                 </Typography>
               </a>
-              <form onSubmit={handleSearch} style={{
+              <div
+                className='horiz'
+                style={{
                   marginLeft: 'auto'
-                }}>
-                <TextField
-                  required
-                  InputProps={{
-                    style: {
-                      padding: 0,
-                      color: '#222222',
-                      marginLeft: 'auto'
-                    },
-                    classes: {
-                      input: 'input',
-                      notchedOutline: 'notched-outline',
-                      focused: 'input-focused'
-                    },
-                    startAdornment: (
-                      <Search
-                        style={{
-                          color: '#858fa5',
-                          marginLeft: 8,
-                          width: 14,
-                          height: 14
-                        }}
-                      />
-                    ),
-                    endAdornment: (
-                      <Button
-                        type='submit'
-                        className='action-button small'
-                        style={{
-                          padding: '2px 24px',
-                          // marginRight: 11,
-                          color: '#F5F7FF',
-                          fontSize: 12,
-                          borderRadius: 8
-                        }}
-                      >
-                        Search
-                      </Button>
-                    )
-                  }}
-                  placeholder={'Contract address, account, or codeid...'}
-                  value={codeOrAddress}
-                  onChange={e => setCodeOrAddress(e.currentTarget.value)}
-                />
-              </form>
+                }}
+              >
+                <ChainSelector chainId={chainId} setChainId={setChainId} onSelectRedirectToHome={true}/>
+                <form onSubmit={handleSearch}>
+                  <TextField
+                    required
+                    InputProps={{
+                      style: {
+                        padding: 0,
+                        color: '#222222',
+                        marginLeft: 'auto'
+                      },
+                      classes: {
+                        input: 'input',
+                        notchedOutline: 'notched-outline',
+                        focused: 'input-focused'
+                      },
+                      startAdornment: (
+                        <Search
+                          style={{
+                            color: '#858fa5',
+                            marginLeft: 8,
+                            width: 14,
+                            height: 14
+                          }}
+                        />
+                      ),
+                      endAdornment: (
+                        <Button
+                          type='submit'
+                          className='action-button small'
+                          style={{
+                            padding: '2px 24px',
+                            // marginRight: 11,
+                            color: '#F5F7FF',
+                            fontSize: 12,
+                            borderRadius: 8
+                          }}
+                        >
+                          Search
+                        </Button>
+                      )
+                    }}
+                    placeholder={'Contract address, account, or codeid...'}
+                    value={codeOrAddress}
+                    onChange={e => setCodeOrAddress(e.currentTarget.value)}
+                  />
+                </form>
+              </div>
             </Grid>
           </Grid>
         </Grid>

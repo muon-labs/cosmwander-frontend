@@ -1,18 +1,17 @@
 import React from 'react'
 import Footer from '../src/partials/Footer'
-import App from '../src/partials/App'
+import Hero from '../src/partials/Hero'
 
-export async function getServerSideProps ({ req, res }) {
-  console.log({ req, res })
-  // redirect to osmosis-1
-  res.writeHead(307, {
-    Location: '/osmosis-1'
-  })
-  res.end()
-  return {
-    props: {}
-  }
-}
+// export function getServerSideProps (context) {
+//   // redirect to app
+//   context.res.writeHead(307, {
+//     Location: '/app'
+//   })
+//   context.res.end()
+//   return {
+//     props: {}
+//   }
+// }
 
 function Home () {
   return (
@@ -23,16 +22,16 @@ function Home () {
       {/*  Page content */}
       <main
         className='flex-grow'
-        // style={{
-        //   background: 'radial-gradient(#0089, transparent);',
-        //   marginBottom: '6rem'
-        // }}
+        style={{
+          marginBottom: '6rem'
+        }}
       >
         {/*  Page sections */}
-        <App />
+        <Hero />
       </main>
+
       {/*  Site footer */}
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

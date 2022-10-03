@@ -9,17 +9,21 @@ import { StdFee } from '@cosmjs/stargate'
 import {
   getClient,
   getQueryClientCosmWasm
-} from '../../src/utils/utils'
+} from '../src/utils/utils'
 
-import { fetchCode, fetchContract } from '../../src/clients/cosmwander'
-import AppNav from '../../src/components/AppNav'
-import { useAppContext } from '../../src/context/state'
-import CodeAddressInfo from '../../src/partials/CodeAddressInfo'
-import ContractExplorer from '../../src/partials/ContractExplorer'
-import { ICode, IContract } from '../../src/types/db-schemas'
+import { fetchCode, fetchContract } from '../src/clients/cosmwander'
+import AppNav from '../src/components/AppNav'
+import { useAppContext } from '../src/context/state'
+import CodeAddressInfo from '../src/partials/CodeAddressInfo'
+import ContractExplorer from '../src/partials/ContractExplorer'
+import { ICode, IContract } from '../src/types/db-schemas'
 
 const useStyles = makeStyles({
-  root: {}
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh'
+  }
 })
 
 function getParams () {

@@ -101,11 +101,12 @@ const ContractInitInterface = ({
   //   }
   //   return obj
   // }
-
+console.log({instantiateSchema})
   return (
     <div className={classes.root}>
       <GenericMessage
-        schemaName='InstantiateMsg'
+        schemaName={'InstantiateMsg'}
+        hideTitle={true}
         msgSchema={instantiateSchema}
         buttonText='Init Contract'
         onSubmit={instantiate}
