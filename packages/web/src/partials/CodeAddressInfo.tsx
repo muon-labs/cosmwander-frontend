@@ -15,7 +15,6 @@ const useStyles = makeStyles({
     overflow: 'hidden',
     // border: '1px solid #394456;',
     padding: '16px 0px',
-    borderBottom: '1px solid ' + config.PALETTE.BORDER_COLOR
   }
 })
 

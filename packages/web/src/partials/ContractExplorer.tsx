@@ -1,5 +1,5 @@
-import { Button, ButtonGroup, Typography } from '@material-ui/core'
-import { KeyboardArrowRight } from '@material-ui/icons'
+import { Button, ButtonGroup, Link, Typography } from '@material-ui/core'
+import { KeyboardArrowRight, Warning } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import { useState } from 'react'
 import ContractInitInterface from './ContractInterface'
@@ -34,15 +34,14 @@ const ContractExplorer = ({
     'instantiate' | 'query' | 'execute'
   >('instantiate')
 
-  const [contractAddress, setContractAddress] = useState(
-    'osmo1ha6g022yw4dz2gkg4fdq6p3cntzrfx37mctr4xxrfflmzpgk6sesnmm4h2'
-  )
+  const queryProps = query?.oneOf || query?.anyOf
+        const executeProps = execute?.oneOf || execute?.anyOf
 
   const [queryExpanded, setQueryExpanded] = useState(
-    new Array(query?.oneOf?.length || 0).fill(false)
+    new Array(queryProps?.length || 0).fill(false)
   )
   const [executeExpanded, setExecuteExpanded] = useState(
-    new Array(execute?.oneOf?.length || 0).fill(false)
+    new Array(executeProps?.length || 0).fill(false)
   )
 
   async function queryContract (
@@ -51,7 +50,7 @@ const ContractExplorer = ({
     try {
       const client = await getQueryClientCosmWasm('osmo-test-4')
       console.log({ queryMsg })
-      const result = await client.queryContractSmart(contractAddress, queryMsg)
+      const result = await client.queryContractSmart(address, queryMsg)
       console.log(result)
       return { response: result, error: null }
     } catch (error) {
@@ -85,7 +84,7 @@ const ContractExplorer = ({
       console.log({ execMsg })
       const result = await client.execute(
         accounts[0]?.address,
-        contractAddress,
+        address,
         execMsg,
         fee,
         'CosmWander execute'
@@ -111,8 +110,8 @@ const ContractExplorer = ({
         return (
           <ContractInitInterface
             instantiateSchema={instantiate as HttpJsonSchemaOrgDraft04Schema}
-            contractAddress={contractAddress}
-            setContractAddress={setContractAddress}
+            contractAddress={address}
+            setContractAddress={setAddress}
             setActiveWindow={setActiveWindow}
             codeId={code}
             setCodeId={setCode}
@@ -122,12 +121,14 @@ const ContractExplorer = ({
         const queryChildren = []
 
         console.log({ querySchema: query })
+
+        
         for (
           let propertyIdx = 0;
-          propertyIdx < query?.oneOf?.length;
+          propertyIdx < queryProps?.length;
           propertyIdx++
         ) {
-          const property = query.oneOf[propertyIdx]
+          const property = queryProps[propertyIdx]
 
           const name = property.required[0]
           queryChildren.push(
@@ -173,24 +174,35 @@ const ContractExplorer = ({
         }
         return (
           <>
+          <div className='horiz'>
             <Typography
               variant='body1'
-              className='main-text paragraph-important'
+              className='label-text paragraph-important'
             >
               Query Contract
             </Typography>
+            <div className='horiz ml'>
+              <Warning style={{color: 'red', height: 14, width:14}} />
+              <Typography variant='body2' className='detail-text ml' style={{color: '#FF000066'}}>
+                Cannot query contract if no address is selected <Link href='#' onClick={() => setActiveWindow('instantiate')}>instantiate</Link> or <Link href='#'>select</Link> a contract first
+              </Typography>
+            </div>
+            </div>
             {queryChildren}
           </>
         )
       case 'execute':
         // woah, scary variable name, bro
         const executeChildren = []
+
+        
+
         for (
           let propertyIdx = 0;
-          propertyIdx < query?.oneOf?.length;
+          propertyIdx < executeProps?.length;
           propertyIdx++
         ) {
-          const property = execute.oneOf[propertyIdx]
+          const property = executeProps[propertyIdx]
           const name = property.required[0]
           executeChildren.push(
             <div className={classes.tableRow}>

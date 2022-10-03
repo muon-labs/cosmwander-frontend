@@ -1,4 +1,6 @@
 import {
+  Button,
+  ButtonGroup,
   CircularProgress,
   Container
 } from '@material-ui/core'
@@ -6,10 +8,7 @@ import { makeStyles } from '@material-ui/styles'
 import { useEffect, useState } from 'react'
 
 import { StdFee } from '@cosmjs/stargate'
-import {
-  getClient,
-  getQueryClientCosmWasm
-} from '../src/utils/utils'
+import { getClient, getQueryClientCosmWasm } from '../src/utils/utils'
 
 import { fetchCode, fetchContract } from '../src/clients/cosmwander'
 import AppNav from '../src/components/AppNav'
@@ -17,6 +16,7 @@ import { useAppContext } from '../src/context/state'
 import CodeAddressInfo from '../src/partials/CodeAddressInfo'
 import ContractExplorer from '../src/partials/ContractExplorer'
 import { ICode, IContract } from '../src/types/db-schemas'
+import config from '../config'
 
 const useStyles = makeStyles({
   root: {
@@ -36,19 +36,18 @@ function getParams () {
 const Search = props => {
   const classes = useStyles()
 
-  const [activeWindow, setActiveWindow] = useState<
-    'instantiate' | 'query' | 'execute'
-  >('instantiate')
-  
-  const {chainId, setChainId} = useAppContext()
+  const { chainId, setChainId } = useAppContext()
   const [address, setAddress] = useState('')
   const [code, setCode] = useState('')
   const [loadingMetadata, setLoadingMetadata] = useState(true)
   const [codeMetadata, setCodeMetadata] = useState<ICode>(null)
   const [contractMetadata, setContractMetadata] = useState<IContract>(null)
   const [addrInfo, setAddrInfo] = useState({ balance: [], account: {} })
+  const [activeTab, setActiveTab] = useState<'see-contract' | 'contracts'>(
+    'see-contract'
+  )
 
-  console.log([codeMetadata])
+  console.log({ codeMetadata })
 
   useEffect(() => {
     const { codeId, contractAddress } = getParams()
@@ -141,6 +140,10 @@ const Search = props => {
     }
   }
 
+  function isActive (testTab) {
+    return testTab === activeTab ? 'active' : ''
+  }
+
   const mutableProps = {
     address: address,
     setAddress: setAddress,
@@ -148,6 +151,24 @@ const Search = props => {
     setCode,
     addrInfo,
     setAddrInfo
+  }
+
+  function renderActiveTab () {
+    switch (activeTab) {
+      case 'see-contract':
+        return loadingMetadata ? (
+          <CircularProgress />
+        ) : (
+          <ContractExplorer
+            mutableProps={mutableProps}
+            codeMetadata={codeMetadata}
+          />
+        )
+      case 'contracts':
+        return <ContractDisplayer codeMetadata={codeMetadata} />
+      default:
+        return null
+    }
   }
 
   return (
@@ -164,17 +185,57 @@ const Search = props => {
           codeMetadata={codeMetadata}
         />
 
+        <div
+          style={{
+            padding: '16px 0px',
+            borderBottom: '1px solid ' + config.PALETTE.BORDER_COLOR
+          }}
+        >
+          <ButtonGroup
+            style={{
+              border: '1px solid ' + config.PALETTE.BORDER_COLOR,
+              borderRadius: 8,
+              overflow: 'hiidden',
+              marginBottom: 16
+            }}
+          >
+            <Button
+              style={{ borderRadius: '8px 0 0 8px' }}
+              onClick={() => setActiveTab('see-contract')}
+              className={'toolbar-button ' + isActive('see-contract')}
+            >
+              See Contract
+            </Button>
+            <Button
+              style={{ borderRadius: '0 8px 8px 0' }}
+              onClick={() => setActiveTab('contracts')}
+              className={'toolbar-button ' + isActive('contracts')}
+            >
+              Contracts for this code ID{' '}
+              {codeMetadata?.contracts?.length && (
+                <b
+                  style={{
+                    fontWeight: 800,
+                    background: config.PALETTE.COLOR_SECONDARY,
+                    color: '#1A191B',
+                    borderRadius: 999,
+                    fontSize: 10,
+                    padding: '0px 8px'
+                  }}
+                  className='ml'
+                >
+                  {codeMetadata?.contracts?.length}
+                </b>
+              )}
+            </Button>
+          </ButtonGroup>
+        </div>
+
         {/* {txs && <pre>
           {JSON.stringify(txs, null, 2)}
           </pre>} */}
-        {loadingMetadata ? (
-          <CircularProgress />
-        ) : (
-          <ContractExplorer
-            mutableProps={mutableProps}
-            codeMetadata={codeMetadata}
-          />
-        )}
+        {renderActiveTab()}
+
         {/* <ContractExplorer mutableProps={mutableProps} schemas={codeMetadata?.schema} /> */}
       </Container>
     </div>
