@@ -1,11 +1,12 @@
-import { Button, Grid, TextField, Typography } from '@material-ui/core'
-import { Add } from '@material-ui/icons'
+import { Button, Grid, Link, TextField, Typography } from '@material-ui/core'
+import { Add, Warning } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import Editor, { Monaco } from '@monaco-editor/react'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
 import React, { useRef, useState } from 'react'
 import config from '../../../config'
+import { useAppContext } from '../../context/state'
 // to restore when i figure out type issues (nextjs build does not ignore excluded typescript files)
 // import { osmosis } from '../../codegen'
 import { HttpJsonSchemaOrgDraft04Schema } from '../../types/HttpJsonSchemaOrgDraft04Schema'
@@ -109,6 +110,7 @@ const GenericMessage = ({
   rootSchema,
   buttonText,
   hideTitle,
+  address,
   onSubmit
 }: {
   schemaName: string
@@ -117,6 +119,7 @@ const GenericMessage = ({
   rootSchema?: HttpJsonSchemaOrgDraft04Schema
   buttonText?: string
   hideTitle?: boolean
+  address?: string
   onSubmit?: (msg: any) => Promise<{ response: any; error: string }>
 }) => {
   if (!buttonText) buttonText = 'Send Request'
@@ -131,6 +134,7 @@ const GenericMessage = ({
   })
   const [response, setResponse] = useState(null)
   const [error, setError] = useState(null)
+  const { setActiveWindow, setActiveTab } = useAppContext()
 
   const editorRef = useRef(null)
 
@@ -523,6 +527,7 @@ const GenericMessage = ({
     }
   }
 
+  console.log({ address })
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={6}>
@@ -546,12 +551,29 @@ const GenericMessage = ({
             )}
             {renderPropertyEditor(msgSchema, '', schemaName, 0)}
           </div>
-          <Button
-            onClick={sendMessage}
-            className='action-button small squircle paragraph-important'
-          >
-            {buttonText}
-          </Button>
+          {!!address || schemaName === 'InstantiateMsg' ? (
+            <Button
+              onClick={sendMessage}
+              className='action-button small squircle paragraph-important'
+            >
+              {buttonText}
+            </Button>
+          ) : (
+            <div className='horiz ml'>
+              <Warning style={{ color: 'red', height: 14, width: 14 }} />
+              <Typography
+                variant='body2'
+                className='detail-text ml'
+                style={{ color: '#FF000066' }}
+              >
+                Cannot query or execute contract if no address is selected{' '}
+                <Link href='#' onClick={() => setActiveWindow('instantiate')}>
+                  instantiate
+                </Link>{' '}
+                or <Link href='#' onClick={() => setActiveTab('contracts')}>select</Link> a contract first
+              </Typography>
+            </div>
+          )}
           {!!response && typeof document !== 'undefined' && (
             <div>
               <Typography

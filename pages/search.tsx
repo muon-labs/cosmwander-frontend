@@ -36,15 +36,17 @@ const Search = props => {
     code,
     setCode,
     address,
-    setAddress
+    setAddress,
+    activeTab,
+    setActiveTab
   } = useAppContext()
   const [loadingMetadata, setLoadingMetadata] = useState(true)
   const [codeMetadata, setCodeMetadata] = useState<ICode>(null)
   const [contractMetadata, setContractMetadata] = useState<IContract>(null)
   const [addrInfo, setAddrInfo] = useState({ balance: [], account: {} })
-  const [activeTab, setActiveTab] = useState<'see-contract' | 'contracts'>(
-    'see-contract'
-  )
+  // const [activeTab, setActiveTab] = useState<'see-contract' | 'contracts'>(
+  //   'see-contract'
+  // )
 
   console.log({ codeMetadata })
 

@@ -14,6 +14,7 @@ import GenericMessage from '../components/messages/GenericMessage'
 // import executeSchema from '../../resources/schema/execute_msg.json'
 import config from '../../config'
 import UnverifiedBox from '../components/UnverifiedBox'
+import { useAppContext } from '../context/state'
 
 const useStyles = makeStyles({
   root: {},
@@ -30,9 +31,7 @@ const ContractExplorer = ({
   const classes = useStyles()
   const { query, execute, instantiate } = codeMetadata?.schemas || {}
 
-  const [activeWindow, setActiveWindow] = useState<
-    'instantiate' | 'query' | 'execute'
-  >('instantiate')
+  const { activeWindow, setActiveWindow } = useAppContext()
 
   const queryProps = query?.oneOf || query?.anyOf
   const executeProps = execute?.oneOf || execute?.anyOf
@@ -164,6 +163,7 @@ const ContractExplorer = ({
                     (query as unknown) as HttpJsonSchemaOrgDraft04Schema
                   }
                   hideTitle={true}
+                  address={address}
                   onSubmit={queryContract}
                 />
               )}
@@ -247,6 +247,7 @@ const ContractExplorer = ({
                     (execute as unknown) as HttpJsonSchemaOrgDraft04Schema
                   }
                   hideTitle={true}
+                  address={address}
                   onSubmit={executeContract}
                 />
               )}
@@ -261,22 +262,6 @@ const ContractExplorer = ({
             >
               Execute Contract
             </Typography>
-            {!address && (
-              <div className='horiz ml'>
-                <Warning style={{ color: 'red', height: 14, width: 14 }} />
-                <Typography
-                  variant='body2'
-                  className='detail-text ml'
-                  style={{ color: '#FF000066' }}
-                >
-                  Cannot query contract if no address is selected{' '}
-                  <Link href='#' onClick={() => setActiveWindow('instantiate')}>
-                    instantiate
-                  </Link>{' '}
-                  or <Link href='#'>select</Link> a contract first
-                </Typography>
-              </div>
-            )}
             {executeChildren}
           </>
         )

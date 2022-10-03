@@ -18,7 +18,11 @@ const AppContext = createContext({
   code: '',
   setCode: defaultSetter as Dispatch<SetStateAction<string>>,
   address: '',
-  setAddress: defaultSetter as Dispatch<SetStateAction<string>>
+  setAddress: defaultSetter as Dispatch<SetStateAction<string>>,
+  activeWindow: 'instantiate',
+  setActiveWindow: defaultSetter as Dispatch<SetStateAction< 'instantiate' | 'query' | 'execute'>>,
+  activeTab: 'see-contract',
+  setActiveTab: defaultSetter as Dispatch<SetStateAction<'see-contract' | 'contracts'>>
 })
 
 const defaultChainId = 'osmo-test-4'
@@ -33,8 +37,14 @@ export function AppWrapper ({
   const [chainId, setChainId] = useState(defaultChainId)
   const [code, setCode] = useState('')
   const [address, setAddress] = useState('')
+  const [activeWindow, setActiveWindow] = useState<
+    'instantiate' | 'query' | 'execute'
+  >('instantiate')
+  const [activeTab, setActiveTab] = useState<'see-contract' | 'contracts'>(
+    'see-contract'
+  )
 
-  console.log('state', { address })
+  console.log('state', { address, code })
 
   useEffect(() => {
     // get chain Id from params
@@ -42,6 +52,10 @@ export function AppWrapper ({
     const chainIdParam = urlParams.get('chainId')
     const codeIdParam = urlParams.get('codeId')
     let contractAddressParam = urlParams.get('contractAddress')
+    const activeWindowParam = urlParams.get('activeWindow')
+    const activeTabParam = urlParams.get('activeTab')
+
+    if (!codeIdParam && !contractAddressParam) window.location.href = '/?chainId=osmo-test-4'
 
     console.log({ chainIdParam, codeIdParam, contractAddressParam })
 
@@ -57,12 +71,14 @@ export function AppWrapper ({
     if (chainIdParam) setChainId(chainIdParam as string)
     if (codeIdParam) setCode(codeIdParam as string)
     if (contractAddressParam) setAddress(contractAddressParam as string)
+    if (activeWindowParam) setActiveWindow(activeWindowParam as ('instantiate' | 'query' | 'execute'))
+    if (activeTabParam) setActiveTab(activeTabParam as ('see-contract' | 'contracts'))
   }, [])
 
   useEffect(() => {
     // update url params
     router.push(
-      `${router.pathname}?contractAddress=${address}&chainId=${chainId}&codeId=${code}`,
+      `${router.pathname}?contractAddress=${address}&chainId=${chainId}&codeId=${code}&activeWindow=${activeWindow}&activeTab=${activeTab}`,
       undefined,
       { shallow: true }
     )
@@ -74,7 +90,11 @@ export function AppWrapper ({
     code,
     setCode,
     address,
-    setAddress
+    setAddress,
+    activeWindow,
+    setActiveWindow,
+    activeTab,
+    setActiveTab
   }
 
   return (
