@@ -395,5 +395,6 @@ div>.input.dark {
 }
 
 .dropdown {
-  background: #141414;
+  background: #141414 !important;
+  color: #d2d2d2 !important
 }
