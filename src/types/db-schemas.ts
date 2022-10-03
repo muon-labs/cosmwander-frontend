@@ -16,11 +16,11 @@ export interface ICodeSchema {
 }
 
 export interface ICode {
-    code_id: number;
+    code_id: string;
     creator: string;
     checksum: string;
     contracts: string[];
-    schema?: ICodeSchema;
+    schemas?: ICodeSchema;
     repository?: string;
     verified?: boolean;
     last_verified?: Date;

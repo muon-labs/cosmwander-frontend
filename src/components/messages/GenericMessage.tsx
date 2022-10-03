@@ -159,21 +159,24 @@ const GenericMessage = ({
     if (onSubmit) {
       // get the message to submit depending on whether we have msgSchema or not
       let msgToSubmit
-      console.log ({forceManual, msgSchema, message})
       if (msgSchema && !forceManual) {
-        if (schemaName==='InstantiateMsg') {
-          msgToSubmit = message[schemaName]
+        if (schemaName === 'InstantiateMsg') {
+          
+            msgToSubmit = message[schemaName]
         } else {
           msgToSubmit = message
         }
-      }
-      else {
+      } else {
         try {
           msgToSubmit = JSON.parse(editorRef.current.getValue())
         } catch (e) {
           alert('Custom message is invalid JSON')
           return
         }
+      }
+
+      if (Object.keys(msgToSubmit).includes("InstantiateMsg")) {
+        msgToSubmit = msgToSubmit["InstantiateMsg"]
       }
 
       // submit that boi

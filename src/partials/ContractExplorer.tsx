@@ -184,7 +184,7 @@ const ContractExplorer = ({
               >
                 Query Contract
               </Typography>
-              {query.isAborted && (
+              {query?.isAborted && (
                 <div className='horiz' style={{padding: 8, marginBottom: 16, border: '1px solid #F4E53388', borderRadius: 8, backgroundColor: "#F4E53322"}}>
                   <Warning style={{ color: 'yellow', height: 14, width: 14 }} />
                   <Typography

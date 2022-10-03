@@ -3,7 +3,9 @@ import {
   ButtonGroup,
   CircularProgress,
   Container,
-  Grid
+  Grid,
+  Link,
+  Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useEffect, useState } from 'react'
@@ -68,7 +70,24 @@ const Search = props => {
       setContractMetadata(contractMeta)
       if (contractMeta?.code_id) setCode(contractMeta.code_id + '')
     }
-    // setLoadingMetadata(false)
+    setLoadingMetadata(false)
+  }
+
+  async function handleSkip () {
+    const skipMeta: ICode = {
+      code_id: code,
+      creator: '',
+      checksum: '',
+      contracts: [],
+      schemas: {
+        execute: null,
+        instantiate: null,
+        query: null
+      }
+    }
+
+    setCodeMetadata(skipMeta)
+    setLoadingMetadata(false)
   }
 
   async function getContractInfo () {
@@ -157,7 +176,33 @@ const Search = props => {
           <Grid container justifyContent={'center'} style={{ marginTop: 90 }}>
             <Grid item xs={12} md={6} lg={4}>
               <div>
-                <CircularProgress />
+                <div style={{ margin: 24, textAlign: 'center' }}>
+                  <CircularProgress
+                    style={{ color: config.PALETTE.COLOR_SECONDARY }}
+                  />
+                </div>
+                <Typography
+                  variant='h6'
+                  align='center'
+                  className='label-text paragraph-important'
+                >
+                  One second or two
+                </Typography>
+                <Typography
+                  variant='body2'
+                  align='center'
+                  className='detail-text paragraph-important'
+                >
+                  Cosmwander tries to infer schemas from contracts it hasn't
+                  seen before, so it may take a little while to load.
+                </Typography>
+                <Typography
+                  variant='body2'
+                  align='center'
+                  className='detail-text paragraph-important'
+                >
+                  <Link href='#' onClick={handleSkip}>Skip this and just send raw messages</Link>
+                </Typography>
               </div>
             </Grid>
           </Grid>
