@@ -116,7 +116,7 @@ const Hero = () => {
               variant='h5'
               className={'label-text'}
             >
-              The easiest way to explore CosmWasm smart contacts
+              The easiest way to explore CosmWasm smart contracts
             </Typography>
             <Typography
               style={{ opacity: 0.65 }}
