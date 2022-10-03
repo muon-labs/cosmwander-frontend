@@ -171,6 +171,7 @@ const Hero = () => {
               value={codeOrAddress}
               onChange={e => setCodeOrAddress(e.currentTarget.value)}
             />
+            
           </Grid>
         </Grid>
       </Container>

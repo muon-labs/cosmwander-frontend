@@ -26,7 +26,10 @@ const Verify = props => {
   const { chainId, setChainId, code, setCode } = useAppContext()
   const [loadingMetadata, setLoadingMetadata] = useState(true)
   const [codeMetadata, setCodeMetadata] = useState<ICode>(null)
-  const [githubUrl, setGithubUrl] = useState('')
+  const [repoUrl, setRepoUrl] = useState('')
+  const [repoPath, setRepoPath] = useState('')
+  const [commitHash, setCommitHash] = useState('')
+    const [loadingUpload, setLoadingUpload] = useState(false)
 
   useEffect(() => {
     // fetch code & address info
@@ -44,11 +47,17 @@ const Verify = props => {
     setLoadingMetadata(false)
   }
 
+  async function handleSubmit (e) {
+    e.preventDefault()
+    setLoadingUpload(true)
+
+  }
+
   return (
     <div className={classes.root}>
       <AppNav />
       <Container maxWidth='sm' style={{ marginTop: 120 }}>
-        <Grid container spacing={3}>
+        <Grid component={'form'} onSubmit={handleSubmit} container spacing={3}>
           <Grid item xs={12}>
             <Typography align='center' variant='h6' className='label-text'>
               Verify CosmWasm smart contract
@@ -72,23 +81,97 @@ const Verify = props => {
           </Grid>
           <Grid item xs={12}>
             <TextField
+            required
               InputProps={{
-                style: { padding: 0, color: '#222222', marginTop: 16 },
+                style: { padding: 0, color: '#222222' },
                 classes: {
                   input: 'input-huge',
                   notchedOutline: 'notched-outline-huge',
                   focused: 'input-focused',
                   root: 'input-root-huge'
                 }
-                // startAdornment: (
-                //   <Search style={{ color: '#858fa5', marginLeft: 8 }} />
-                // ),
               }}
               fullWidth
               placeholder={'Github Repository Link'}
-              value={githubUrl}
-              onChange={e => setGithubUrl(e.currentTarget.value)}
+              value={repoUrl}
+              onChange={e => setRepoUrl(e.currentTarget.value)}
             />
+            <Typography
+              variant='body2'
+              className='detail-text'
+              style={{ fontSize: 12, marginTop: 4 }}
+            >
+              e.g. https://github.com/deus-labs/cw-contracts
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+            required
+              InputProps={{
+                style: { padding: 0, color: '#222222' },
+                classes: {
+                  input: 'input-huge',
+                  notchedOutline: 'notched-outline-huge',
+                  focused: 'input-focused',
+                  root: 'input-root-huge'
+                }
+              }}
+              fullWidth
+              placeholder={'Path to smart contract'}
+              value={repoPath}
+              onChange={e => setRepoPath(e.currentTarget.value)}
+            />
+            <Typography
+              variant='body2'
+              className='detail-text'
+              style={{ fontSize: 12, marginTop: 4 }}
+            >
+              e.g. /contracts/cw20-pot
+            </Typography>
+          </Grid>
+          {/* <Grid item xs={12}>
+            <div className='horiz'
+            </ Grid> */}
+          <Grid item xs={12}>
+            <div>
+              <Grid container spacing={2}>
+                <Grid item xs={10}>
+                  <TextField
+                  required
+                    InputProps={{
+                      style: { padding: 0, color: '#222222' },
+                      classes: {
+                        input: 'input-huge',
+                        notchedOutline: 'notched-outline-huge',
+                        focused: 'input-focused',
+                        root: 'input-root-huge'
+                      }
+                    }}
+                    fullWidth
+                    placeholder={'Github Commit Hash'}
+                    value={commitHash}
+                    onChange={e => setCommitHash(e.currentTarget.value)}
+                  />
+                </Grid>
+                <Grid item xs={2} style={{ display: 'flex' }}>
+                  <Button
+                    type='submit'
+                    className='submit-button'
+                    style={{ height: '100%', display: 'flex', flex: 1 }}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+
+            <Typography
+              variant='body2'
+              className='detail-text'
+              style={{ fontSize: 12, marginTop: 4 }}
+            >
+              e.g. 66c540d4a9055cbfa4654a830a5a59b0b7e6eb19
+            </Typography>
           </Grid>
         </Grid>
       </Container>

@@ -95,6 +95,17 @@ button {
   opacity: 50%;
 }
 
+button.submit-button {
+  background: #691DA4;
+  color: #D2D2D2;
+  font-family: Inter;
+  font-weight: 300;
+  border: 1px solid #9341D4;
+  border-radius: 8px;
+  text-decoration: none;
+  text-transform: none;
+}
+
 button.action-button {
   background-color: #0089FF;
   color: var(--alt-bg-color);
