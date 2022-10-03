@@ -1,8 +1,5 @@
 import { ICode, IContract } from '../types/db-schemas'
 
-import querySchema from '../../resources/schema/query_msg.json'
-import executeSchema from '../../resources/schema/execute_msg.json'
-import instantiateSchema from '../../resources/schema/instantiate_msg.json'
 import axios from 'axios'
 
 console.log('RUNNING PROCESS IN ' + process.env.NODE_ENV + ' MODE')
