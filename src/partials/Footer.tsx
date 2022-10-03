@@ -3,14 +3,14 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="p-4 bg-white shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-[#151416]">
-      <span className="text-sm text-secondary sm:text-center dark:text-gray-400">
+    <footer className="p-4 shadow md:flex md:items-center md:justify-between md:p-6 bg-[#151416]">
+      <span className="text-sm text-secondary sm:text-center">
       <img src='/muon_logo.png' />
       </span>
-      <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
+      <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-400sm:mt-0">
         <li>
           <a href="#" className="mr-4 hover:underline md:mr-6 ">
-            How nouns works
+            How cosmwander works
           </a>
         </li>
         <li>
