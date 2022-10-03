@@ -592,6 +592,7 @@ const GenericMessage = ({
               ) : React.isValidElement(response) ? (
                 { response }
               ) : (
+                //  @ts-ignore
                 <DynamicReactJson
                   enableClipboard={true}
                   style={{ background: 'transparent' }}
@@ -621,6 +622,8 @@ const GenericMessage = ({
             >
               Raw Message Preview:
             </Typography>
+            {/* 
+            // @ts-ignore */}
             <DynamicReactJson
               style={{ background: 'transparent' }}
               src={message[schemaName]}

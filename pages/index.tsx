@@ -31,6 +31,8 @@ function Home () {
       </main>
 
       {/*  Site footer */}
+      {/* 
+      // @ts-ignore */}
       <Footer />
     </div>
   )
