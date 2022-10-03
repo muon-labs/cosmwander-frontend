@@ -179,20 +179,25 @@ const ContractExplorer = ({
               >
                 Query Contract
               </Typography>
-              <div className='horiz ml'>
-                <Warning style={{ color: 'red', height: 14, width: 14 }} />
-                <Typography
-                  variant='body2'
-                  className='detail-text ml'
-                  style={{ color: '#FF000066' }}
-                >
-                  Cannot query contract if no address is selected{' '}
-                  <Link href='#' onClick={() => setActiveWindow('instantiate')}>
-                    instantiate
-                  </Link>{' '}
-                  or <Link href='#'>select</Link> a contract first
-                </Typography>
-              </div>
+              {!address && (
+                <div className='horiz ml'>
+                  <Warning style={{ color: 'red', height: 14, width: 14 }} />
+                  <Typography
+                    variant='body2'
+                    className='detail-text ml'
+                    style={{ color: '#FF000066' }}
+                  >
+                    Cannot query contract if no address is selected{' '}
+                    <Link
+                      href='#'
+                      onClick={() => setActiveWindow('instantiate')}
+                    >
+                      instantiate
+                    </Link>{' '}
+                    or <Link href='#'>select</Link> a contract first
+                  </Typography>
+                </div>
+              )}
             </div>
             {queryChildren}
           </>
@@ -256,6 +261,22 @@ const ContractExplorer = ({
             >
               Execute Contract
             </Typography>
+            {!address && (
+              <div className='horiz ml'>
+                <Warning style={{ color: 'red', height: 14, width: 14 }} />
+                <Typography
+                  variant='body2'
+                  className='detail-text ml'
+                  style={{ color: '#FF000066' }}
+                >
+                  Cannot query contract if no address is selected{' '}
+                  <Link href='#' onClick={() => setActiveWindow('instantiate')}>
+                    instantiate
+                  </Link>{' '}
+                  or <Link href='#'>select</Link> a contract first
+                </Typography>
+              </div>
+            )}
             {executeChildren}
           </>
         )
