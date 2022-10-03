@@ -65,6 +65,7 @@ const Search = props => {
     if (address) {
       const contractMeta = await fetchContract(chainId, address)
       setContractMetadata(contractMeta)
+      if (contractMeta?.code_id) setCode(contractMeta.code_id + '')
     }
     setLoadingMetadata(false)
   }

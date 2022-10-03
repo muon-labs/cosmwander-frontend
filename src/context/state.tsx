@@ -75,7 +75,6 @@ export function AppWrapper ({
       contractAddressParam = null
     }
 
-
     if (chainIdParam) setChainId(chainIdParam as string)
     if (codeIdParam) setCode(codeIdParam as string)
     if (contractAddressParam) setAddress(contractAddressParam as string)

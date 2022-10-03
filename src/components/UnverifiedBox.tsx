@@ -34,7 +34,7 @@ const UnverifiedBox = ({ codeMetadata }: { codeMetadata: ICode }) => {
           Code Hash:
         </Typography>
         <CodeBlock
-          text={codeMetadata?.checksum}
+          text={codeMetadata?.checksum || ''}
           language='markdown'
           showLineNumbers={false}
           wrapLines

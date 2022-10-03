@@ -134,6 +134,7 @@ const GenericMessage = ({
   })
   const [response, setResponse] = useState(null)
   const [error, setError] = useState(null)
+  const [forceManual, setForceManual] = useState(false)
   const { setActiveWindow, setActiveTab } = useAppContext()
 
   const editorRef = useRef(null)
@@ -158,7 +159,14 @@ const GenericMessage = ({
     if (onSubmit) {
       // get the message to submit depending on whether we have msgSchema or not
       let msgToSubmit
-      if (msgSchema) msgToSubmit = message[schemaName]
+      console.log ({forceManual, msgSchema, message})
+      if (msgSchema && !forceManual) {
+        if (schemaName==='InstantiateMsg') {
+          msgToSubmit = message[schemaName]
+        } else {
+          msgToSubmit = message
+        }
+      }
       else {
         try {
           msgToSubmit = JSON.parse(editorRef.current.getValue())
@@ -274,7 +282,7 @@ const GenericMessage = ({
                 border: '1px solid ' + config.PALETTE.BORDER_COLOR,
                 borderRadius: 6,
                 padding: 8,
-                marginTop:8
+                marginTop: 8
               }
             : isPrimitive
             ? {}
@@ -283,7 +291,7 @@ const GenericMessage = ({
                 borderRadius: 6,
                 padding: 8,
                 border: '1px solid ' + config.PALETTE.BORDER_COLOR,
-                marginTop:8
+                marginTop: 8
               }
         }
       >
@@ -474,12 +482,12 @@ const GenericMessage = ({
     // )
 
     // if definition is null it means we don't have even have a partial schema for this, just render freefoorm
-    if (!definition) {
+    if (!definition || forceManual) {
       return (
         <Editor
           height='100px'
           defaultLanguage='json'
-          defaultValue='{}'
+          defaultValue={propKey ? `{\n\t"${propKey}" : {}\n}` : '{}'}
           onMount={handleEditorDidMount}
         />
       )
@@ -562,12 +570,28 @@ const GenericMessage = ({
             {renderPropertyEditor(msgSchema, '', schemaName, 0)}
           </div>
           {!!address || schemaName === 'InstantiateMsg' ? (
-            <Button
-              onClick={sendMessage}
-              className='submit-button small squircle paragraph-important'
-            >
-              {buttonText}
-            </Button>
+            <div className='horiz paragraph-important '>
+              <Button
+                onClick={sendMessage}
+                className='submit-button small squircle mr'
+              >
+                {buttonText}
+              </Button>
+              {!!msgSchema && (
+                <Typography variant='body2' className='detail-text'>
+                  {' '}
+                  <Link
+                    style={{ color: config.PALETTE.COLOR_SECONDARY }}
+                    href={'#'}
+                    onClick={() => setForceManual(!forceManual)}
+                  >
+                    {forceManual
+                      ? 'Switch to guided schema'
+                      : 'Switch to manual editor'}
+                  </Link>
+                </Typography>
+              )}
+            </div>
           ) : (
             <div className='horiz ml'>
               <Warning style={{ color: 'red', height: 14, width: 14 }} />
@@ -620,7 +644,7 @@ const GenericMessage = ({
             </div>
           )}
           {error && (
-            <Typography variant='body1' className='error-text'>
+            <Typography variant='body2' className='error-text'>
               {error}
             </Typography>
           )}
