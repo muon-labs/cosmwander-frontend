@@ -12,7 +12,6 @@ const DEFAULT_SIDEBAR_WIDTH = 400
 
 const useStyles = makeStyles(theme => ({
   root: {
-    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'

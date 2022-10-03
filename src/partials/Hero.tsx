@@ -3,6 +3,7 @@ import {
 } from '@material-ui/core'
 import { Search } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import config from '../../config'
 import Nav from '../components/Nav'
@@ -10,7 +11,6 @@ import { useAppContext } from '../context/state'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -80,15 +80,16 @@ const Hero = () => {
   const classes = useStyles()
 
   const { chainId } = useAppContext()
+  const { push: goToPage } = useRouter();
   const [codeOrAddress, setCodeOrAddress] = useState('')
 
   function handleSearch (e) {
     e.preventDefault()
 
-    if (codeOrAddress.startsWith('osmo')) {
-      window.location.href = `/search?chainId=${chainId}&contractAddress=${codeOrAddress}`
+    if (codeOrAddress.length > 10) {
+      goToPage(`/search?chainId=${chainId}&contractAddress=${codeOrAddress}`)
     } else {
-      window.location.href = `/search?chainId=${chainId}&codeId=${codeOrAddress}`
+      goToPage(`/search?chainId=${chainId}&codeId=${codeOrAddress}`)
     }
   }
 

@@ -1,11 +1,9 @@
-import React, { Component, MouseEventHandler, useState } from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
-import { AppBar, Button, Grid, Toolbar, Typography } from '@material-ui/core'
-import axios from 'axios'
-import Image from 'next/image'
-import config from '../../config'
+import { AppBar, Grid, Toolbar } from '@material-ui/core'
 import { useAppContext } from '../context/state'
 import ChainSelector from './ChainSelector'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles({
   root: {},
@@ -19,11 +17,9 @@ const useStyles = makeStyles({
   }
 })
 
-let gradient2 = null
-
 const Nav = props => {
   const classes = useStyles()
-
+  const { push: goToPage } = useRouter();
   const { chainId, setChainId } = useAppContext()
   const [hovering, setHovering] = useState(false)
 
@@ -56,9 +52,7 @@ const Nav = props => {
                   cursor: 'pointer',
                   marginLeft: 24,
                 }}
-                onClick={() => {
-                  window.location.href = '/'
-                }}
+                onClick={() => goToPage("/")}
               >
                 <img src='/logo_cosmwander.svg' style={{height:32}}/>
               </div>
