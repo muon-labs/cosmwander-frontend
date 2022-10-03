@@ -31,7 +31,7 @@ const ContractExplorer = ({
   const classes = useStyles()
   const { query, execute, instantiate } = codeMetadata?.schemas || {}
 
-  const { activeWindow, setActiveWindow } = useAppContext()
+  const { activeWindow, setActiveWindow, chainId } = useAppContext()
 
   const queryProps = query?.oneOf || query?.anyOf
   const executeProps = execute?.oneOf || execute?.anyOf
@@ -44,10 +44,10 @@ const ContractExplorer = ({
   )
 
   async function queryContract (
-    queryMsg: any
+    queryMsg: Record<string, unknown>
   ): Promise<{ response: string; error: string }> {
     try {
-      const client = await getQueryClientCosmWasm('osmo-test-4')
+      const client = await getQueryClientCosmWasm(chainId)
       console.log({ queryMsg })
       const result = await client.queryContractSmart(address, queryMsg)
       console.log(result)
@@ -65,27 +65,17 @@ const ContractExplorer = ({
   }
 
   async function executeContract (
-    execMsg: any
+    execMsg: Record<string, unknown>
   ): Promise<{ response: string; error: string }> {
     try {
-      const fee: StdFee = {
-        amount: [
-          {
-            denom: 'uosmo',
-            amount: '0'
-          }
-        ],
-        gas: '200000' // TODO URGENT: figure out gas on different chains and set accordingly
-      }
-
-      const [client, accounts] = await getClient('osmo-test-4')
+      const [client, accounts] = await getClient(chainId)
 
       console.log({ execMsg })
       const result = await client.execute(
         accounts[0]?.address,
         address,
         execMsg,
-        fee,
+        'auto',
         'CosmWander execute'
       )
 
