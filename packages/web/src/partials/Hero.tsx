@@ -93,12 +93,6 @@ const Hero = () => {
   const { chainId } = useAppContext()
   const [codeOrAddress, setCodeOrAddress] = useState('')
 
-  function handleLogin (e: MouseEvent<any, any>) {
-    e.preventDefault()
-    window.location.href =
-      'https://us-central1-wapfp-25052.cloudfunctions.net/app/auth/twitter'
-  }
-
   function handleSearch (e) {
     e.preventDefault()
 
@@ -111,7 +105,7 @@ const Hero = () => {
 
   return (
     <div className={classes.root}>
-      <Nav signin twitterLoginHandler={handleLogin} />
+      <Nav />
       <Container maxWidth='sm' className={classes.content}>
         <Grid container spacing={3} alignItems='center'>
           <Grid
@@ -146,16 +140,13 @@ const Hero = () => {
             <TextField
               autoFocus
               InputProps={{
-                style: { padding: 0, color: '#222222', marginTop: 16 ,},
+                style: { padding: 0, color: '#222222', marginTop: 16 },
                 classes: {
                   input: 'input-huge',
                   notchedOutline: 'notched-outline-huge',
                   focused: 'input-focused',
                   root: 'input-root-huge'
                 },
-                // startAdornment: (
-                //   <Search style={{ color: '#858fa5', marginLeft: 8 }} />
-                // ),
                 endAdornment: (
                   <Button
                     type='submit'
@@ -171,7 +162,7 @@ const Hero = () => {
                       borderRadius: 4
                     }}
                   >
-                    <Search style={{ color: '#8E8E8E'}} />
+                    <Search style={{ color: '#8E8E8E' }} />
                   </Button>
                 )
               }}

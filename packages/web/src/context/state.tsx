@@ -13,7 +13,9 @@ function defaultSetChainId () {}
 
 const AppContext = createContext({
   chainId: 'osmo-test-4',
-  setChainId: defaultSetChainId as Dispatch<SetStateAction<string>>
+  setChainId: defaultSetChainId as Dispatch<SetStateAction<string>>,
+  code: '',
+  setCode: defaultSetChainId as Dispatch<SetStateAction<string>>
 })
 
 const defaultChainId = 'osmo-test-4'
@@ -41,7 +43,6 @@ export function AppWrapper ({
 
   useEffect(() => {
     // update url params
-    console.log(router.query)
     router.push(
       `${router.pathname}?chainId=${chainId}&codeId=${code}`,
       undefined,
@@ -51,7 +52,9 @@ export function AppWrapper ({
 
   let sharedState = {
     chainId,
-    setChainId
+    setChainId,
+    code,
+    setCode
   }
 
   return (

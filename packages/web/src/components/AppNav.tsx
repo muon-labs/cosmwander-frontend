@@ -22,13 +22,7 @@ const useStyles = makeStyles({
 
 let gradient2 = null
 
-const AppNav = ({
-  signin,
-  twitterLoginHandler
-}: {
-  signin?: boolean
-  twitterLoginHandler?: MouseEventHandler<HTMLButtonElement>
-}) => {
+const AppNav = (props) => {
   const classes = useStyles()
 
   const { chainId, setChainId } = useAppContext()

@@ -17,6 +17,7 @@ import CodeAddressInfo from '../src/partials/CodeAddressInfo'
 import ContractExplorer from '../src/partials/ContractExplorer'
 import { ICode, IContract } from '../src/types/db-schemas'
 import config from '../config'
+import ContractsDisplay from '../src/components/ContractsDisplay'
 
 const useStyles = makeStyles({
   root: {
@@ -165,7 +166,7 @@ const Search = props => {
           />
         )
       case 'contracts':
-        return <ContractDisplayer codeMetadata={codeMetadata} />
+        return <ContractsDisplay codeMetadata={codeMetadata} />
       default:
         return null
     }

@@ -22,13 +22,7 @@ const useStyles = makeStyles({
 
 let gradient2 = null
 
-const Nav = ({
-  signin,
-  twitterLoginHandler
-}: {
-  signin?: boolean
-  twitterLoginHandler?: MouseEventHandler<HTMLButtonElement>
-}) => {
+const Nav = (props) => {
   const classes = useStyles()
 
   const { chainId, setChainId } = useAppContext()
@@ -58,9 +52,11 @@ const Nav = ({
               }}
             >
               {/* {hovering ? ( */}
-              <div onClick={() => {
-                (window.location.href = '/')
-              }}>
+              <div
+                onClick={() => {
+                  window.location.href = '/'
+                }}
+              >
                 <canvas
                   id='gradient-canvas-2'
                   // style={{'--gradient-color-1':'#ef008f','--gradient-color-2':'#6ec3f4', '--gradient-color-3':'#7038ff','--gradient-color-4':'#e2e2e2'}}
@@ -91,7 +87,7 @@ const Nav = ({
                   marginLeft: 'auto'
                 }}
               >
-                <ChainSelector chainId={chainId} setChainId={setChainId}/>
+                <ChainSelector chainId={chainId} setChainId={setChainId} />
               </div>
             </Grid>
           </Grid>
