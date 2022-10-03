@@ -342,7 +342,11 @@ div>.input {
   opacity: 0.85;
   border-radius: 6px;
   padding: 4px 8px;
-  color: #FFF !important;
+  color: #d2d2d2 !important;
+}
+
+div>.input.smaller {
+  font-size: 12px;
 }
 
 .input-root-huge {
@@ -351,7 +355,7 @@ div>.input {
 
 div>.input-huge {
   font-family: 'Inter', Arial, Helvetica, sans-serif;
-  
+
   font-size: 16px;
   opacity: 0.85;
   border-radius: 8px;
@@ -396,5 +400,6 @@ div>.input.dark {
 
 .dropdown {
   background: #141414 !important;
-  color: #d2d2d2 !important
+  color: #d2d2d2 !important;
+  width: 250px;
 }

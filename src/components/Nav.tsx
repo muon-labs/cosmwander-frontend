@@ -53,13 +53,14 @@ const Nav = props => {
               {/* {hovering ? ( */}
               <div
                 style={{
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  marginLeft: 24,
                 }}
                 onClick={() => {
                   window.location.href = '/'
                 }}
               >
-                <img src='/logo_cosmwander.svg' />
+                <img src='/logo_cosmwander.svg' style={{height:32}}/>
               </div>
 
               <div

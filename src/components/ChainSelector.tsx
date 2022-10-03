@@ -68,7 +68,7 @@ const ChainSelector = ({
               type: 'search',
               style: { padding: 0, height:40, color: '#222222', backgroundColor: "#1A191B" },
               classes: {
-                input: 'input',
+                input: 'input smaller',
                 notchedOutline: 'notched-outline',
                 focused: 'input-focused'
               }
