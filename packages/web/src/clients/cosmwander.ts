@@ -5,7 +5,10 @@ import executeSchema from '../../resources/schema/execute_msg.json'
 import instantiateSchema from '../../resources/schema/instantiate_msg.json'
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3001'
+console.log('RUNNING PROCESS IN ' + process.env.NODE_ENV + ' MODE')
+
+const BASE_URL = process.env.NODE_ENV ==='test' ? 'http://localhost:3001' : 'https://api.cosmwander.xyz'
+
 const CODE_METADATA_ENDPOINT = (chainId: string, codeId: string) =>
   `${BASE_URL}/api/code/${chainId}/${codeId}/metadata`
 const CODE_SCHEMA_ENDPOINT = (chainId: string, codeId: string) =>
@@ -13,6 +16,9 @@ const CODE_SCHEMA_ENDPOINT = (chainId: string, codeId: string) =>
 // /api/contract/osmo-test-4/osmo1nkanykc4506zynh379gm3w7zqg305x23je6halr25ydtlspv8uzsg82unl/schema
 const CONTRACT_SCHEMA_ENDPOINT = (chainId: string, contractAddress: string) =>
   `${BASE_URL}/api/contract/${chainId}/${contractAddress}/schema`
+
+const CODE_UPLOAD_ENDPOINT = (chainId: string, codeId: string) =>
+  `${BASE_URL}/api/code/${chainId}/${codeId}/schema`
 
 async function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -36,7 +42,7 @@ export async function fetchCode (
   const codeSchemaResponse = await axios.get(
     CODE_SCHEMA_ENDPOINT(chainId, codeId)
   )
-  console.log({codeSchemaResponse})
+  console.log({ codeSchemaResponse })
   return { ...codeResponse.data, schemas: codeSchemaResponse.data }
   // let code: ICode = {
   //   code_id: 100,
@@ -99,4 +105,20 @@ export async function fetchContract (
   //   }
   // }
   // return contract
+}
+
+export async function uploadCode (
+  chainId: string,
+  codeId: string,
+  githubRef: { repoUrl: string; commitHash: string; repoPath: string }
+) {
+  if (!chainId || !codeId || !githubRef) {
+    throw new Error('Missing chainId, codeId or githubRef')
+  }
+  const url = CODE_UPLOAD_ENDPOINT(chainId, codeId)
+  const body = {
+    githubRef
+  }
+  const response = await axios.post(url, body)
+  return response.data
 }

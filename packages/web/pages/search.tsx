@@ -37,9 +37,7 @@ function getParams () {
 const Search = props => {
   const classes = useStyles()
 
-  const { chainId, setChainId } = useAppContext()
-  const [address, setAddress] = useState('')
-  const [code, setCode] = useState('')
+  const { chainId, setChainId, code, setCode, address, setAddress } = useAppContext()
   const [loadingMetadata, setLoadingMetadata] = useState(true)
   const [codeMetadata, setCodeMetadata] = useState<ICode>(null)
   const [contractMetadata, setContractMetadata] = useState<IContract>(null)

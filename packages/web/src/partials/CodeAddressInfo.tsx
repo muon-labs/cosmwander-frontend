@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   addrInfoContainer: {
     overflow: 'hidden',
     // border: '1px solid #394456;',
-    padding: '16px 0px',
+    padding: '16px 0px'
   }
 })
 
@@ -43,6 +43,7 @@ const CodeAddressInfo = ({
   async function getAddrInfo (address: string) {
     setLoading(true)
     const client = await getQueryClientStargate('osmo-test-4')
+    console.log({address})
     const balance = (await client.getAllBalances(address)) as Coin[]
     const account = await client.getAccount(address)
 

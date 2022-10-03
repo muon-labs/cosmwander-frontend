@@ -11,7 +11,7 @@ import axios from 'axios'
 import Nav from '../src/components/Nav'
 import AppNav from '../src/components/AppNav'
 import { useAppContext } from '../src/context/state'
-import { fetchCode } from '../src/clients/cosmwander'
+import { fetchCode, uploadCode } from '../src/clients/cosmwander'
 import { ICode } from '../src/types/db-schemas'
 import { Search } from '@material-ui/icons'
 import config from '../config'
@@ -50,7 +50,13 @@ const Verify = props => {
   async function handleSubmit (e) {
     e.preventDefault()
     setLoadingUpload(true)
-
+    const uploadResponse = await uploadCode(chainId, code, {
+        repoUrl,
+        repoPath,
+        commitHash
+    })
+    setLoadingUpload(false)
+    console.log({ uploadResponse })
   }
 
   return (

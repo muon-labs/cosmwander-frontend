@@ -35,7 +35,7 @@ const ContractExplorer = ({
   >('instantiate')
 
   const queryProps = query?.oneOf || query?.anyOf
-        const executeProps = execute?.oneOf || execute?.anyOf
+  const executeProps = execute?.oneOf || execute?.anyOf
 
   const [queryExpanded, setQueryExpanded] = useState(
     new Array(queryProps?.length || 0).fill(false)
@@ -122,7 +122,6 @@ const ContractExplorer = ({
 
         console.log({ querySchema: query })
 
-        
         for (
           let propertyIdx = 0;
           propertyIdx < queryProps?.length;
@@ -132,9 +131,8 @@ const ContractExplorer = ({
 
           const name = property.required[0]
           queryChildren.push(
-            <div className={classes.tableRow}>
+            <div>
               <div
-                className={classes.messageToolbar}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
                   setQueryExpanded(
@@ -174,19 +172,27 @@ const ContractExplorer = ({
         }
         return (
           <>
-          <div className='horiz'>
-            <Typography
-              variant='body1'
-              className='label-text paragraph-important'
-            >
-              Query Contract
-            </Typography>
-            <div className='horiz ml'>
-              <Warning style={{color: 'red', height: 14, width:14}} />
-              <Typography variant='body2' className='detail-text ml' style={{color: '#FF000066'}}>
-                Cannot query contract if no address is selected <Link href='#' onClick={() => setActiveWindow('instantiate')}>instantiate</Link> or <Link href='#'>select</Link> a contract first
+            <div className='horiz'>
+              <Typography
+                variant='body1'
+                className='label-text paragraph-important'
+              >
+                Query Contract
               </Typography>
-            </div>
+              <div className='horiz ml'>
+                <Warning style={{ color: 'red', height: 14, width: 14 }} />
+                <Typography
+                  variant='body2'
+                  className='detail-text ml'
+                  style={{ color: '#FF000066' }}
+                >
+                  Cannot query contract if no address is selected{' '}
+                  <Link href='#' onClick={() => setActiveWindow('instantiate')}>
+                    instantiate
+                  </Link>{' '}
+                  or <Link href='#'>select</Link> a contract first
+                </Typography>
+              </div>
             </div>
             {queryChildren}
           </>
@@ -194,8 +200,6 @@ const ContractExplorer = ({
       case 'execute':
         // woah, scary variable name, bro
         const executeChildren = []
-
-        
 
         for (
           let propertyIdx = 0;
@@ -205,9 +209,8 @@ const ContractExplorer = ({
           const property = executeProps[propertyIdx]
           const name = property.required[0]
           executeChildren.push(
-            <div className={classes.tableRow}>
+            <div>
               <div
-                className={classes.messageToolbar}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
                   setExecuteExpanded(

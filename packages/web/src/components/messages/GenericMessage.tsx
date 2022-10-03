@@ -1,27 +1,18 @@
 import {
-  Button,
-  CircularProgress,
-  Grid,
+  Button, Grid,
   TextField,
   Typography
 } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
-import axios, { AxiosResponse } from 'axios'
+import Editor, { Monaco } from '@monaco-editor/react'
+import axios from 'axios'
 import dynamic from 'next/dynamic'
-import React, { useEffect, useRef } from 'react'
-import { useState } from 'react'
+import React, { useRef, useState } from 'react'
+import config from '../../../config'
+import { osmosis } from '../../codegen'
 import { HttpJsonSchemaOrgDraft04Schema } from '../../types/HttpJsonSchemaOrgDraft04Schema'
 import swag from './tmpswagger.json'
-import { osmosis } from '../../codegen'
-import { createProtobufRpcClient, QueryClient } from '@cosmjs/stargate'
-import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
-import {
-  QueryPoolsRequest,
-  QueryPoolsResponse
-} from '../../codegen/osmosis/gamm/v1beta1/query'
-import Editor, { Monaco } from '@monaco-editor/react'
-import config from '../../../config'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
 
@@ -245,53 +236,54 @@ const GenericMessage = ({
         setResponse(result.response)
       }
     } else {
-      try {
-        if (!schemaPath) {
-          alert("No schema path found for selected query. Can't send request.")
-          return
-        }
-        const module = getModuleFromPath(schemaPath)
+      // WARNING DO NOT DELETE
+      // try {
+      //   if (!schemaPath) {
+      //     alert("No schema path found for selected query. Can't send request.")
+      //     return
+      //   }
+      //   const module = getModuleFromPath(schemaPath)
 
-        // const chain =
+      //   // const chain =
 
-        const queryClient = new osmosis.gamm.v1beta1.LCDQueryClient({
-          restEndpoint: REST_ENDPOINT
-        })
+      //   const queryClient = new osmosis.gamm.v1beta1.LCDQueryClient({
+      //     restEndpoint: REST_ENDPOINT
+      //   })
 
-        const poolparams = await queryClient.pool({ poolId: 1 })
-        console.log({ poolparams })
-        const tfqclient = new osmosis.tokenfactory.v1beta1.LCDQueryClient({
-          restEndpoint: REST_ENDPOINT
-        })
-        const token = await tfqclient.params({
-          denom:
-            'ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2'
-        })
-        console.log({ token })
-        // const tmClient = await Tendermint34Client.connect(RPC_ENDPOINT)
-        // const client = new QueryClient(tmClient)
-        // const rpc = createProtobufRpcClient(client)
-        // const request: QueryPoolsRequest = {
-        //   pagination: undefined
-        // }
-        // const data = QueryPoolsRequest.encode(request).finish()
-        // const responseData = await rpc.request(
-        //   'osmosis.gamm.v1beta1.Query',
-        //   'Pools',
-        //   data
-        // )
-        // const response = QueryPoolsResponse.decode(responseData)
-        // console.log({ response })
-        setResponse(res)
-      } catch (e) {
-        setError(
-          e.response
-            ? e.response.data?.message
-              ? e.response.data.message
-              : JSON.stringify(e.response.data, null, 2)
-            : e.message
-        )
-      }
+      //   const poolparams = await queryClient.pool({ poolId: 1 })
+      //   console.log({ poolparams })
+      //   const tfqclient = new osmosis.tokenfactory.v1beta1.LCDQueryClient({
+      //     restEndpoint: REST_ENDPOINT
+      //   })
+      //   const token = await tfqclient.params({
+      //     denom:
+      //       'ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2'
+      //   })
+      //   console.log({ token })
+      //   // const tmClient = await Tendermint34Client.connect(RPC_ENDPOINT)
+      //   // const client = new QueryClient(tmClient)
+      //   // const rpc = createProtobufRpcClient(client)
+      //   // const request: QueryPoolsRequest = {
+      //   //   pagination: undefined
+      //   // }
+      //   // const data = QueryPoolsRequest.encode(request).finish()
+      //   // const responseData = await rpc.request(
+      //   //   'osmosis.gamm.v1beta1.Query',
+      //   //   'Pools',
+      //   //   data
+      //   // )
+      //   // const response = QueryPoolsResponse.decode(responseData)
+      //   // console.log({ response })
+      //   setResponse(res)
+      // } catch (e) {
+      //   setError(
+      //     e.response
+      //       ? e.response.data?.message
+      //         ? e.response.data.message
+      //         : JSON.stringify(e.response.data, null, 2)
+      //       : e.message
+      //   )
+      // }
     }
   }
 
@@ -573,7 +565,7 @@ const GenericMessage = ({
   let type = definition.type
   if (Array.isArray(definition.type)) {
     const nonNullType = definition.type.filter(t => t !== 'null')
-    if (nonNullType.length === 1) {
+    if (nonNullType.length ===  1) {
       type = nonNullType[0]
     }
   }

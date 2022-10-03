@@ -16,7 +16,15 @@ const useStyles = makeStyles({
 
 const supportedChainIds = ['osmo-test-4', 'osmosis-1', 'uni-5', 'juno-1']
 
-const ChainSelector = ({ chainId, setChainId, onSelectRedirectToHome }) => {
+const ChainSelector = ({
+  chainId,
+  setChainId,
+  onSelectRedirectToHome
+}: {
+  chainId: string
+  setChainId: (chainId: string) => void
+  onSelectRedirectToHome?: boolean
+}) => {
   const classes = useStyles()
 
   function handleChainIdChange (e, v) {
