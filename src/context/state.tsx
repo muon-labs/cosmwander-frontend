@@ -86,11 +86,11 @@ export function AppWrapper ({
 
   useEffect(() => {
     // update url params
-    router.push(
-      `${router.pathname}?contractAddress=${address}&chainId=${chainId}&codeId=${code}&activeWindow=${activeWindow}&activeTab=${activeTab}`,
-      undefined,
-      { shallow: true }
-    )
+    // router.push(
+    //   `${router.pathname}?contractAddress=${address}&chainId=${chainId}&codeId=${code}&activeWindow=${activeWindow}&activeTab=${activeTab}`,
+    //   undefined,
+    //   { shallow: true }
+    // )
   }, [chainId, code, address, activeWindow, activeTab])
 
   let sharedState = {
