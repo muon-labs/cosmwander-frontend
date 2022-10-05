@@ -31,6 +31,7 @@ const AppNav = props => {
       setAddress(codeOrAddress)
       setCode('')
     } else {
+      setAddress('')
       setCode(codeOrAddress)
     }
   }

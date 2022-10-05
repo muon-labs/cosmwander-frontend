@@ -6,6 +6,7 @@ import { HttpJsonSchemaOrgDraft04Schema } from '../types/HttpJsonSchemaOrgDraft0
 import GenericMessage from '../components/messages/GenericMessage'
 import { getClient, getQueryClientStargate } from '../utils/utils'
 import { StdFee } from '@cosmjs/stargate'
+import config from '../../config'
 
 const useStyles = makeStyles({
   root: {}
@@ -60,12 +61,12 @@ const ContractInitInterface = ({
         fee
       )
       console.log({ tx })
-      setContractAddress(tx.contractAddress)
+      // setContractAddress(tx.contractAddress)
       setNote(
         <Typography variant='body2' className='detail-text'>
           <a
             style={{
-              color: '#0089FF',
+              color: config.PALETTE.COLOR_SECONDARY,
               textDecoration: 'underline',
               cursor: 'pointer'
             }}

@@ -164,6 +164,9 @@ const GenericMessage = ({
           msgToSubmit = message[schemaName]
         } else {
           msgToSubmit = message
+          if (Object.keys(msgToSubmit).includes(schemaName)) {
+            msgToSubmit = msgToSubmit[schemaName]
+          }
         }
       } else {
         try {
@@ -625,7 +628,7 @@ const GenericMessage = ({
               {typeof response === 'string' ? (
                 <Typography
                   variant='body2'
-                  className='detail-text paragraph-important'
+                  className='label-text paragraph-important'
                 >
                   {response}
                 </Typography>
