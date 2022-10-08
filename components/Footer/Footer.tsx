@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="min-h-[6.5rem] bg-cw-grey-900 flex items-center justify-center">
+    <footer className="min-h-[4.68rem] bg-cw-grey-900 flex items-center justify-center p-4">
       <div className="flex items-center justify-between max-w-[1425px] w-full">
         <img src="/images/muon.svg" alt="Muon Logo" />
         <ul className="flex flex-wrap items-center text-cw-grey-400 gap-4">
