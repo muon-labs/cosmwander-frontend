@@ -1,0 +1,26 @@
+import Image from "next/image";
+import React from "react";
+
+const Footer: React.FC = () => {
+  return (
+    <footer className="min-h-[6.5rem] bg-cw-grey-900 flex items-center justify-center">
+      <div className="flex items-center justify-between max-w-[1425px] w-full">
+        <img src="/images/muon.svg" alt="Muon Logo" />
+        <ul className="flex flex-wrap items-center text-cw-grey-400 gap-4">
+          <li>
+            <a href="#" className="hover:underline md:mr-6">
+              Telegram
+            </a>
+          </li>
+          <li>
+            <a href="#" className="hover:underline md:mr-6">
+              Twitter
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
