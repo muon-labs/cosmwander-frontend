@@ -21,7 +21,10 @@ module.exports = {
         "cw-grey-600": "#8E8E8E",
         "cw-grey-100": "#D2D2D2",
       },
+      fontFamily: {
+        inter: "Inter",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };
