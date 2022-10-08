@@ -42,7 +42,7 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
         <motion.div
           variants={itemVariants}
           className={clsx(
-            `py-2 px-4 w-full whitespace-nowrap bg-transparent
+            `p-2 w-full whitespace-nowrap bg-transparent
              hover:cursor-pointer ${el.disabled ? "text-gray-500" : ""}`,
             el.style
           )}
@@ -59,17 +59,28 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
 
   return (
     <motion.div
-      className="relative"
+      className="relative w-full"
       ref={dropdownRef}
       animate={open ? "open" : "closed"}
     >
       <motion.button
-        className={clsx(`bg-transparent w-[calc(100%-72px)] rounded-lg
+        className={clsx(`bg-transparent w-[calc(100%-72px)] rounded-[4px]
            hover:bg-white/5 flex items-center justify-between gap-2 p-2
-           transition duration-150 ease-in-out`)}
+           transition duration-150 ease-in-out h-[62px]`)}
         onClick={() => setOpen(!open)}
       >
         {children}
+        <motion.div
+          className={clsx(
+            "flex items-center transition duration-150 ease-in-out",
+            open ? "absolute right-[80px] top-0 bottom-0 m-[auto] z-[51]" : ""
+          )}
+        >
+          <ArrowIcon
+            color={clsx(open ? "fill-white" : "fill-cw-grey-600")}
+            className={clsx("hover:fill-cw-white ")}
+          />
+        </motion.div>
       </motion.button>
       <motion.ul
         initial={false}
@@ -94,28 +105,13 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
           },
         }}
         className={clsx(
-          `absolute left-0 top-0 w-[calc(100%-72px)] bg-cw-grey-950 z-50 float text-left rounded-lg
+          `absolute left-0 top-0 w-[calc(100%-72px)] bg-cw-grey-950 z-50 float text-left rounded-[8px]
           m-0 bg-clip-padding border border-cw-grey-700`,
           !open && "hidden"
         )}
       >
         {OptionsItems}
       </motion.ul>
-      <motion.div
-        variants={{
-          open: { rotate: 180 },
-          closed: { rotate: 0 },
-        }}
-        transition={{ duration: 0.1 }}
-        className={clsx(
-          "absolute right-[87px] top-0 bottom-0 m-[auto] flex items-center transition duration-150 ease-in-out"
-        )}
-      >
-        <ArrowIcon
-          color={clsx(open ? "fill-white" : "fill-cw-grey-600")}
-          className={clsx("hover:fill-cw-white ")}
-        />
-      </motion.div>
     </motion.div>
   );
 };
