@@ -20,6 +20,7 @@ module.exports = {
         "cw-grey-500":"#505050",
         "cw-grey-400": "#737373",
         "cw-grey-600": "#8E8E8E",
+        "cw-grey-200":"#C5C5C5",
         "cw-grey-100": "#D2D2D2",
         'chain-osmosis-800':'#A242C3',
         'chain-osmosis-600':'#C651EE',
@@ -33,6 +34,9 @@ module.exports = {
         'chain-stargaze-600':'#CFF3B4',
         'chain-stargaze-400':'#46C7C9',
         'chain-stargaze-200':'#F6F4A2',
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
       fontFamily: {
         inter: "Inter",
