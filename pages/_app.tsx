@@ -1,10 +1,16 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import Layout from "../components/Layout";
-import "@fontsource/inter";
+import { LayoutSearch } from "../components/Layout";
 import ClientProvider from "../providers/ClientProvider";
+import "../styles/globals.css";
+import "@fontsource/inter";
 
-function MyApp({ Component, pageProps }: AppProps) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const Layout = Component.Layout || LayoutSearch;
+
   return (
     <ClientProvider>
       <Layout>
