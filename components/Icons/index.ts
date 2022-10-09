@@ -1,3 +1,9 @@
 export { default as SearchIcon } from "./SearchIcon";
-export { default as ArrowIcon } from "./ArrowIcon";
+export { default as ArrowDown } from "./ArrowDown";
+export { default as ArrowLeft } from "./ArrowLeft";
+export { default as ArrowRight } from "./ArrowRight";
+export { default as DobleArrowRight } from "./DobleArrowRight";
+export { default as DobleArrowLeft } from "./DobleArrowLeft";
 export { default as ComswanderLogo } from "./ComswanderLogo";
+export { default as GitHubIcon } from "./GitHubIcon";
+export { default as VerifiedIcon } from "./VerifiedIcon";
