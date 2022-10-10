@@ -20,9 +20,6 @@ const Home: NextPageWithLayout = () => {
           <SearchInput
             placeholder="Enter interchain smart contract address or code id"
             scale="lg"
-            onclick={() => {
-              console.log("search!");
-            }}
           />
         </div>
         <div className="py-6 grid grid-cols-1 lg:grid-cols-2 gap-9 w-full border-t border-cw-grey-700">
