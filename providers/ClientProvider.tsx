@@ -4,6 +4,7 @@ import React, {
   useContext,
   useCallback,
   PropsWithChildren,
+  useEffect,
 } from "react";
 import { Chain } from "../interfaces/chains";
 
@@ -14,15 +15,30 @@ interface IClientContext {
 
 const ClientContext = createContext<IClientContext | null>(null);
 
+const defaultState = {
+  chain: Chain.Osmosis
+}
+
 const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [chain, setchain] = useState<Chain>(Chain.Osmosis);
+  const [state, setState] = useState<{ chain: Chain }>(defaultState);
 
   const changeChain = useCallback((chain: Chain) => {
-    setchain(chain);
-  }, []);
+    setState({ ...state, chain});
+  }, [state.chain]);
+
+  useEffect(() => {
+    const clientConfig = localStorage.getItem('config');
+    if (!clientConfig) return;
+    setState({...JSON.parse(clientConfig) });
+  }, [])
+
+  useEffect(() => {
+    if (Object.is(state, defaultState)) return;
+    localStorage.setItem('config', JSON.stringify(state));
+  }, [state])
 
   return (
-    <ClientContext.Provider value={{ chain, changeChain }}>
+    <ClientContext.Provider value={{ ...state, changeChain }}>
       {children}
     </ClientContext.Provider>
   );
