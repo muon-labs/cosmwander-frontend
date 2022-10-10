@@ -14,12 +14,12 @@ body {
   overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: theme("colors.cw-grey-100");
-    background: theme("colors.cw-grey-850");
-  }
+
+html {
+  color-scheme: dark;
 }
+body {
+  color: theme("colors.cw-grey-100");
+  background: theme("colors.cw-grey-850");
+}
+
