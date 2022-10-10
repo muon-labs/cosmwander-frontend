@@ -2,7 +2,12 @@ import React from "react";
 import ContractCard from "../ContractCard";
 import Pagination from "../Pagination ";
 
-const Contracts: React.FC = () => {
+interface Props {
+  contracts: string[];
+}
+
+const Contracts: React.FC<Props> = ({ contracts }) => {
+
   return (
     <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-9">
       <ContractCard className="col-span-1" />

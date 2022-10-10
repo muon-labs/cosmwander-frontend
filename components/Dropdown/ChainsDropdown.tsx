@@ -55,6 +55,7 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({ options, c
           scale === "lg" && "h-[62px] w-[calc(100%-72px)]",
           scale === "md" && "h-[48px] w-[calc(100%-50px)]"
         )}
+        type="button"
         onClick={() => setOpen(!open)}
       >
         {children}

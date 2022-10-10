@@ -3,7 +3,11 @@ import { GroupButtons } from "../Buttons";
 import TabsContainer from "../TabsContainer";
 import Instantiate from "./Instantiate";
 
-const SeeContract: React.FC = () => {
+interface Props {
+  codeId: string;
+}
+
+const SeeContract: React.FC<Props> = ({ codeId }) => {
   const [contractTab, setContractTab] = useState<string>("instantiate");
   const contractTabGroup = [
     {
@@ -27,7 +31,7 @@ const SeeContract: React.FC = () => {
       <TabsContainer
         selectedTab={contractTab}
         options={[
-          { key: "instantiate", container: <Instantiate /> },
+          { key: "instantiate", container: <Instantiate codeId={codeId}/> },
           { key: "query", container: <p>Query</p> },
           { key: "execute", container: <p>Execute</p> },
         ]}
