@@ -4,6 +4,9 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    { pattern: /(bg|text|border|shadow|fill|from)-chain-(juno|osmosis|stargaze)-(200|400|600|800)/ },
+  ],
   theme: {
     extend: {
       colors: {
@@ -40,7 +43,7 @@ module.exports = {
       },
       fontFamily: {
         inter: "Inter",
-      },
+      }
     },
   },
   plugins: [require("@tailwindcss/typography")],
