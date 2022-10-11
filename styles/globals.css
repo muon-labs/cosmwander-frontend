@@ -23,3 +23,33 @@ body {
   background: theme("colors.cw-grey-850");
 }
 
+.react-json-view {
+  background: theme("colors.cw-grey-900") !important;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.react-json-view .object-key {
+  color:theme("colors.cw-grey-100");
+}
+
+.react-json-view .icon-container {
+  border: solid theme("colors.cw-grey-100") 1px;
+  margin: 0 5px;
+  border-radius: 4px;
+
+}
+
+.react-json-view .icon-container svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.react-json-view .icon-container svg path {
+  fill: theme("colors.cw-purple-450") !important;
+}
+
+.react-json-view .data-type-label, .react-json-view
+.string-value {
+  color:theme("colors.cw-purple-450") !important;
+}
