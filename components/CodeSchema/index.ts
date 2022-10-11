@@ -1,1 +1,1 @@
-export { default } from "./SeeContract";
+export { default } from "./CodeSchema";
