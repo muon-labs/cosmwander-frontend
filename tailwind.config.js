@@ -14,6 +14,7 @@ module.exports = {
         "cw-purple-400": "#AF66E8",
         "cw-purple-500": "#9341D4",
         "cw-purple-600": "#691DA4",
+        "cw-purple-450":"#B65BFF",
         "cw-light-red": "#E18780 ",
         "cw-grey-950": "#141414",
         "cw-grey-900": "#151416",
