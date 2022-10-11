@@ -1,7 +1,18 @@
+import dynamic from "next/dynamic";
 import React from "react";
 
-const Execute: React.FC = () => {
-  return <></>;
+const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
+
+interface Props {
+  json: any;
+}
+
+const Execute: React.FC<Props> = ({ json }) => {
+  return (
+    <div>
+      <ReactJson src={json} indentWidth={2} theme="ashes" />
+    </div>
+  );
 };
 
 export default Execute;
