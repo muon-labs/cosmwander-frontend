@@ -77,7 +77,7 @@ const Contract: React.FC = () => {
                       </div>
                     </>
                   )}
-                  <CodeSchema codeId={String(contractDetails?.code_id)} />
+                  <CodeSchema codeId={contractDetails?.code_id} />
                 </>
               ),
             },

@@ -27,10 +27,12 @@ const buildTabs = (contractNumber?: number) => {
       key: "contracts",
     },
   ];
-}
+};
 
 const CodeView: NextPage = () => {
-  const { query: { id: codeId } } = useRouter();
+  const {
+    query: { id: codeId },
+  } = useRouter();
   const { chain } = useClient();
 
   const [codeDetails, setCodeDetails] = useState<ICodeDetails | null>(null);
@@ -62,11 +64,11 @@ const CodeView: NextPage = () => {
           options={[
             {
               key: "see-contract",
-              container: <CodeSchema codeId={codeId as string}/>,
+              container: <CodeSchema codeId={codeId as string} />,
             },
             {
               key: "contracts",
-              container: <Contracts contracts={codeDetails?.contracts || []}/>,
+              container: <Contracts contracts={codeDetails?.contracts || []} />,
             },
           ]}
         />
