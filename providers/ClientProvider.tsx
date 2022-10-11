@@ -16,7 +16,7 @@ interface IClientContext {
 const ClientContext = createContext<IClientContext | null>(null);
 
 const defaultState = {
-  chain: Chain.Osmosis
+  chain: Chain.Juno
 }
 
 const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
