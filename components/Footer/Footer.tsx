@@ -8,12 +8,12 @@ const Footer: React.FC = () => {
         <img src="/images/muon.svg" alt="Muon Logo" />
         <ul className="flex flex-wrap items-center text-cw-grey-400 gap-4">
           <li>
-            <a href="#" className="hover:underline md:mr-6">
+            <a href="https://t.me/cosmwander" target="_blank" rel="noreferrer" className="hover:underline md:mr-6">
               Telegram
             </a>
           </li>
           <li>
-            <a href="#" className="hover:underline md:mr-6">
+            <a href="https://twitter.com/cosmwander" target="_blank" rel="noreferrer" className="hover:underline md:mr-6">
               Twitter
             </a>
           </li>
