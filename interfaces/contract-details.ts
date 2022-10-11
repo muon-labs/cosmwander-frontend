@@ -1,5 +1,5 @@
 export interface ContractDetails {
-  code_id: number;
+  code_id: string;
   chain_id: string;
   tx_hash: string;
   init_msg: Record<string, unknown>;
