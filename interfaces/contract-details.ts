@@ -1,6 +1,7 @@
 export interface ContractDetails {
   code_id: number;
   chain_id: string;
+  tx_hash: string;
   init_msg: Record<string, unknown>;
   creator: string;
   label: string;

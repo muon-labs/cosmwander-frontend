@@ -32,7 +32,7 @@ const ContractDetails: React.FC<Props> = ({ details }) => {
         <p className="text-cw-grey-400">Tx Hash</p>
       </div>
       <div className="col-span-3">
-        <p className="text-cw-purple-400">-</p>
+        <p className="text-cw-purple-400">{details?.tx_hash}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Admin</p>
