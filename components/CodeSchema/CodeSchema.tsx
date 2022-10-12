@@ -41,7 +41,7 @@ const CodeSchema: React.FC<Props> = ({ codeId }) => {
   useAsync(async () => {
     if (codeId) {
       const { full_schema, partial_schema } = await getCodeSchema(chain, codeId);
-      const existFullSchema = Object.keys(full_schema).length;
+      const existFullSchema = full_schema && Object.keys(full_schema).length;
       const schema = existFullSchema ? full_schema : partial_schema;
       setCodeSquema(schema);
     }
