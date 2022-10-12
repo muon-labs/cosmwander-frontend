@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
+import { useClient } from "../../providers/ClientProvider";
+import { Chain } from "../../interfaces/chains";
 
 interface Props {
   handlerTab: (key: string) => void;
@@ -9,16 +11,21 @@ interface Props {
     content: React.ReactElement | string;
     key: string;
   }[];
+  color?: Chain;
 }
 
-const GroupButtons: React.FC<Props> = ({ tabs, selectedTab, handlerTab }) => {
+const GroupButtons: React.FC<Props> = ({ tabs, selectedTab, handlerTab, color }) => {
+  const { chain } = useClient();
+  const colorChain = color ? color : chain;
   const Tabs = tabs.map(({ content, key }) => {
     return (
       <motion.button
         key={key}
         className={clsx(
           "flex-1 p-4 flex justify-center items-center w-full relative transition border duration-150 ease-in-out rounded-[8px]",
-          key === selectedTab ? "bg-cw-purple-600 border-cw-purple-500" : "bg-transparent border-transparent"
+          key === selectedTab
+            ? `bg-chain-${colorChain}-800 border-chain-${colorChain}-400 hover:bg-chain-${colorChain}-400 hover:border-chain-${colorChain}-200`
+            : "bg-transparent border-transparent"
         )}
         onClick={() => handlerTab(key)}
       >

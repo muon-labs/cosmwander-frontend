@@ -1,44 +1,73 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useCallback,
-  PropsWithChildren,
-  useEffect,
-} from "react";
+import React, { createContext, useState, useContext, useCallback, PropsWithChildren, useEffect } from "react";
 import { Chain } from "../interfaces/chains";
+import { Chain as ChainType } from "../utils/chains";
+import { CHAINS } from "../utils/constants";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../tailwind.config.js";
+import { chains } from "../utils/chains";
+
+const fullConfig = resolveConfig(tailwindConfig);
 
 interface IClientContext {
   chain: Chain;
+  searchedChain?: Chain;
   changeChain: (chain: Chain) => void;
+  changeChainByPrefix: (addr: string) => void;
+  getChainByChainId: (chainId: string) => ChainType;
+  changeSearchedChain: (searchedChain: Chain) => void;
 }
 
 const ClientContext = createContext<IClientContext | null>(null);
 
 const defaultState = {
-  chain: Chain.Juno
-}
+  chain: Chain.Juno,
+};
 
 const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [state, setState] = useState<{ chain: Chain }>(defaultState);
+  const [state, setState] = useState<{ chain: Chain; searchedChain?: Chain }>(defaultState);
 
-  const changeChain = useCallback((chain: Chain) => {
-    setState({ ...state, chain});
-  }, [state.chain]);
+  const changeChain = useCallback(
+    (chain: Chain) => {
+      setState({ ...state, chain });
+    },
+    [state]
+  );
+
+  const changeSearchedChain = useCallback(
+    (searchedChain: Chain) => {
+      setState({ ...state, searchedChain });
+      const color = (fullConfig.theme?.colors as Record<string, string>)[`chain-${searchedChain}-400`];
+      document.documentElement.style.setProperty("--chain-color", color);
+    },
+    [state]
+  );
+
+  const changeChainByPrefix = (addr: string) => {
+    const matchedPrefix = addr.match(/^(osmo|juno|stars)/g);
+    if (matchedPrefix) {
+      const [prefix] = matchedPrefix as Array<keyof typeof CHAINS>;
+      changeChain(CHAINS[prefix]);
+    }
+  };
+
+  const getChainByChainId = (chainId: string): ChainType => {
+    const chain = chains.find((chain) => chain.chain_id === chainId) as ChainType;
+    return chain;
+  };
 
   useEffect(() => {
-    const clientConfig = localStorage.getItem('config');
+    const clientConfig = localStorage.getItem("config");
     if (!clientConfig) return;
-    setState({...JSON.parse(clientConfig) });
-  }, [])
+    setState({ ...JSON.parse(clientConfig) });
+  }, []);
 
   useEffect(() => {
     if (Object.is(state, defaultState)) return;
-    localStorage.setItem('config', JSON.stringify(state));
-  }, [state])
+    localStorage.setItem("config", JSON.stringify(state));
+  }, [state]);
 
   return (
-    <ClientContext.Provider value={{ ...state, changeChain }}>
+    <ClientContext.Provider value={{ ...state, changeChain, changeChainByPrefix, getChainByChainId, changeSearchedChain }}>
       {children}
     </ClientContext.Provider>
   );

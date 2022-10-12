@@ -1,10 +1,12 @@
-import React, { HTMLAttributes, ReactHTMLElement } from "react";
+import React, { HTMLAttributes } from "react";
 import clsx from "clsx";
 import { IntlAddress } from "../../utils/intl";
 import { VerifiedIcon } from "../Icons";
 import Tag from "../Tag";
+import { useClient } from "../../providers/ClientProvider";
 
 const ContractCard: React.FC<HTMLAttributes<HTMLElement>> = ({ className = "" }) => {
+  const { chain } = useClient();
   return (
     <div
       className={clsx(
@@ -17,7 +19,7 @@ const ContractCard: React.FC<HTMLAttributes<HTMLElement>> = ({ className = "" })
         <Tag bg="bg-cw-grey-600">CW20</Tag>
         <div className="flex items-center gap-2">
           <VerifiedIcon />
-          <p className="text-cw-purple-300">Verified</p>
+          <p className={`text-chain-${chain}-300`}>Verified</p>
         </div>
       </div>
       <div className="flex items-center justify-between">
@@ -33,7 +35,7 @@ const ContractCard: React.FC<HTMLAttributes<HTMLElement>> = ({ className = "" })
       </div>
       <div className="col-span-2 flex justify-between items-center">
         <p className="text-cw-grey-400">Contract Address</p>
-        <p className="text-cw-purple-400">{IntlAddress("juno1qsrercqegvs4ye0yqgprqwd6jcdcuj0us66deup")}</p>
+        <p className={`text-chain-${chain}-400`}>{IntlAddress("juno1qsrercqegvs4ye0yqgprqwd6jcdcuj0us66deup")}</p>
       </div>
     </div>
   );

@@ -12,20 +12,15 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: string;
 }
 
-const CHAINS = {
-  osmo: Chain.Osmosis,
-  juno: Chain.Juno,
-  stars: Chain.Stargaze,
-};
-
 const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scale = "md", icon = "search", ...props }, ref) => {
   const { push: goToPage } = useRouter();
-  const { chain, changeChain } = useClient();
+  const { chain, changeChain, changeSearchedChain, changeChainByPrefix } = useClient();
   const [searchValue, setSearchValue] = useState("");
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      changeSearchedChain(chain);
       const isContract = BECH32_REGEX.test(searchValue);
       goToPage(`/${isContract ? "contract" : "code"}/${searchValue}`);
     },
@@ -48,11 +43,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scal
   );
 
   const onChangeSearchValue = (value: string) => {
-    const matchedPrefix = value.match(/^(osmo|juno|stars)/g);
-    if (matchedPrefix) {
-      const [prefix] = matchedPrefix as Array<keyof typeof CHAINS>;
-      changeChain(CHAINS[prefix]);
-    }
+    changeChainByPrefix(value);
     setSearchValue(value);
   };
 

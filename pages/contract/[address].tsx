@@ -11,10 +11,11 @@ import Transactions from "../../components/Transactions";
 import { ContractDetails as IContractDetails } from "../../interfaces/contract-details";
 import { useClient } from "../../providers/ClientProvider";
 import { getContractDetails } from "../../services/cosmwander";
+import { Chain } from "../../interfaces/chains";
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
-const createTabs = (txs: number) => {
+const createTabs = (txs: number, chain?: Chain) => {
   return [
     {
       content: "See contract",
@@ -23,7 +24,7 @@ const createTabs = (txs: number) => {
     {
       content: (
         <p className="flex items-center justify-center gap-4">
-          Transactions<span className="bg-cw-purple-400 text-cw-grey-850 px-2  rounded-[40px]">{txs}</span>
+          Transactions<span className={`bg-chain-${chain}-400 text-cw-grey-850 px-2  rounded-[40px]`}>{txs}</span>
         </p>
       ),
       key: "transactions",
@@ -35,13 +36,15 @@ const Contract: React.FC = () => {
   const {
     query: { address: contractAddr },
   } = useRouter();
-  const { chain } = useClient();
+  const { chain, changeChainByPrefix, changeSearchedChain, searchedChain } = useClient();
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
   const [contractDetails, setContractDetails] = useState<IContractDetails | null>(null);
 
   useAsync(async () => {
     if (contractAddr) {
+      changeChainByPrefix(contractAddr as string);
+      changeSearchedChain(chain);
       const contractDetails = await getContractDetails(chain, contractAddr as string);
       setContractDetails(contractDetails);
     }
@@ -56,7 +59,7 @@ const Contract: React.FC = () => {
       <div className="border-t border-cw-grey-700 w-full py-9">
         <ContractDetails details={contractDetails} />
         <div className="mt-[7.75rem] mb-3">
-          <GroupButtons selectedTab={activeCodeTab} handlerTab={setActiveCodeTab} tabs={createTabs(0)} />
+          <GroupButtons selectedTab={activeCodeTab} handlerTab={setActiveCodeTab} color={searchedChain} tabs={createTabs(0, searchedChain)} />
         </div>
       </div>
       <div className="border-t border-cw-grey-700 w-full py-9 min-h-[54rem]">
