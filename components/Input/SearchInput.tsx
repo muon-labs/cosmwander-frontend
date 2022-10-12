@@ -77,7 +77,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scal
         <div
           className={`p-[10px] h-[calc(100%-4px)] absolute right-0 top-0 bottom-0 my-[auto] min-w-[40%] border-l
         border-cw-grey-700 bg-gradient-to-r from-chain-${chain}-600/10 flex items-center justify-start
-        via-transparent to-transparent`}
+        via-transparent to-transparent z-10`}
         >
           <ChainsDropdown options={options} scale={scale}>
             <p className="flex items-center gap-2">
@@ -90,12 +90,12 @@ const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scal
             </p>
           </ChainsDropdown>
         </div>
+        <div className={`safe-div p-[10px] h-[calc(100%-4px)] absolute right-2 top-0 bottom-0 my-[auto] min-w-[39%] z-0 bg-cw-grey-950`} />
         <button
           disabled={!searchValue}
           className={clsx(
-            `absolute top-0 bottom-0 my-[auto] rounded-[4px] flex items-center justify-center
-          transition duration-150 ease-in-out
-          disabled:bg-cw-grey-800 bg-chain-${chain}-800 border-chain-${chain}-400 hover:bg-chain-${chain}-400 hover:border-chain-${chain}-200 border disabled:border-cw-grey-500 `,
+            `absolute top-0 bottom-0 my-[auto] rounded-[4px] flex items-center justify-center pointer z-30
+          transition duration-150 ease-in-out disabled:bg-cw-grey-800 bg-chain-${chain}-800 border-chain-${chain}-400 hover:bg-chain-${chain}-400 hover:border-chain-${chain}-200 border disabled:border-cw-grey-500 `,
             scale === "lg" && "h-[62px] w-[62px] right-[10px]",
             scale === "md" && "h-[48px] w-[48px] right-[6px]"
           )}
