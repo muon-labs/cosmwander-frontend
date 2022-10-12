@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --chain-color: theme("colors.cw-purple-450") ;
+}
+
 html,
 body {
   padding: 0;
@@ -37,7 +41,7 @@ body {
   border: solid theme("colors.cw-grey-100") 1px;
   margin: 0 5px;
   border-radius: 4px;
-
+  margin-bottom: -5px;
 }
 
 .react-json-view .icon-container svg {
@@ -45,11 +49,15 @@ body {
   height: 16px !important;
 }
 
+.react-json-view .icon-container .collapsed-icon svg {
+  width: 24px !important;
+}
+
 .react-json-view .icon-container svg path {
-  fill: theme("colors.cw-purple-450") !important;
+  fill: var(--chain-color) !important;
 }
 
 .react-json-view .data-type-label, .react-json-view
-.string-value {
-  color:theme("colors.cw-purple-450") !important;
+.string-value, .react-json-view .variable-value > *, .react-json-view .node-ellipsis {
+  color:var(--chain-color) !important;
 }
