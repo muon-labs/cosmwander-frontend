@@ -51,7 +51,7 @@ const Contract: React.FC = () => {
       const contractDetails = await getContractDetails(queryChain as Chain, contractAddr as string);
       setContractDetails(contractDetails);
     }
-  }, [contractAddr]);
+  }, [contractAddr, queryChain]);
 
   return (
     <div className="w-full">

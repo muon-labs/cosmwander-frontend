@@ -47,11 +47,7 @@ const CodeView: NextPage = () => {
       const codeDetails = await getCodeDetails(queryChain as Chain, codeId as string);
       setCodeDetails(codeDetails);
     }
-  }, [codeId]);
-
-  useEffect(() => {
-    setCodeDetails(null);
-  }, [chain]);
+  }, [codeId, queryChain]);
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
 
