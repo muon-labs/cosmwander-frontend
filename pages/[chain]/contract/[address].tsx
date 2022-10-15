@@ -8,6 +8,7 @@ import CodeSchema from "../../../components/CodeSchema";
 import ContractDetails from "../../../components/ContractDetails";
 import TabsContainer from "../../../components/TabsContainer";
 import Transactions from "../../../components/Transactions";
+import SkeletonCodeOrContract from "../../../components/Skeletons";
 import { ContractDetails as IContractDetails } from "../../../interfaces/contract-details";
 import { useClient } from "../../../providers/ClientProvider";
 import { getContractDetails } from "../../../services/cosmwander";
@@ -42,6 +43,10 @@ const Contract: React.FC = () => {
   const [contractDetails, setContractDetails] = useState<IContractDetails | null>(null);
 
   useEffect(() => {
+    setContractDetails(null);
+  }, []);
+
+  useEffect(() => {
     changeJsonViewerColor(queryChain as Chain);
   }, [changeJsonViewerColor]);
 
@@ -59,46 +64,52 @@ const Contract: React.FC = () => {
         <title>Cosmwander - Contract View Details</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <div className="border-t border-cw-grey-700 w-full py-9">
-        <ContractDetails details={contractDetails} color={queryChain as Chain} />
-        <div className="mt-[7.75rem] mb-3">
-          <GroupButtons
-            selectedTab={activeCodeTab}
-            handlerTab={setActiveCodeTab}
-            tabs={createTabs(0, queryChain as Chain)}
-            color={queryChain as Chain}
-          />
-        </div>
-      </div>
-      <div className="border-t border-cw-grey-700 w-full py-9 min-h-[54rem]">
-        <TabsContainer
-          selectedTab={activeCodeTab}
-          options={[
-            {
-              key: "see-contract",
-              container: (
-                <>
-                  {contractDetails?.init_msg && (
+      {contractDetails ? (
+        <>
+          <div className="border-t border-cw-grey-700 w-full py-9">
+            <ContractDetails details={contractDetails} color={queryChain as Chain} />
+            <div className="mt-[7.75rem] mb-3">
+              <GroupButtons
+                selectedTab={activeCodeTab}
+                handlerTab={setActiveCodeTab}
+                tabs={createTabs(0, queryChain as Chain)}
+                color={queryChain as Chain}
+              />
+            </div>
+          </div>
+          <div className="border-t border-cw-grey-700 w-full py-9 min-h-[54rem]">
+            <TabsContainer
+              selectedTab={activeCodeTab}
+              options={[
+                {
+                  key: "see-contract",
+                  container: (
                     <>
-                      <div>
-                        <p className="text-gray-400">Instantiate Message</p>
-                      </div>
-                      <div className="w-full min-h-[400px]">
-                        <ReactJson src={contractDetails.init_msg} theme="ashes" />
-                      </div>
+                      {contractDetails?.init_msg && (
+                        <>
+                          <div>
+                            <p className="text-gray-400">Instantiate Message</p>
+                          </div>
+                          <div className="w-full min-h-[400px]">
+                            <ReactJson src={contractDetails.init_msg} theme="ashes" />
+                          </div>
+                        </>
+                      )}
+                      <CodeSchema codeId={contractDetails?.code_id} color={queryChain as Chain} />
                     </>
-                  )}
-                  <CodeSchema codeId={contractDetails?.code_id} color={queryChain as Chain} />
-                </>
-              ),
-            },
-            {
-              key: "transactions ",
-              container: <Transactions />,
-            },
-          ]}
-        />
-      </div>
+                  ),
+                },
+                {
+                  key: "transactions ",
+                  container: <Transactions />,
+                },
+              ]}
+            />
+          </div>
+        </>
+      ) : (
+        <SkeletonCodeOrContract />
+      )}
     </div>
   );
 };

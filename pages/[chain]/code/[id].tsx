@@ -6,6 +6,7 @@ import Contracts from "../../../components/Contracts";
 import TabsContainer from "../../../components/TabsContainer";
 import CodeDetails from "../../../components/CodeDetails";
 import CodeSchema from "../../../components/CodeSchema";
+import SkeletonCodeOrContract from "../../../components/Skeletons";
 import { useRouter } from "next/router";
 import { useAsync } from "react-use";
 import { getCodeDetails } from "../../../services/cosmwander";
@@ -34,9 +35,13 @@ const CodeView: NextPage = () => {
   const {
     query: { chain: queryChain, id: codeId },
   } = useRouter();
-  const { chain, changeJsonViewerColor } = useClient();
+  const { changeJsonViewerColor } = useClient();
 
   const [codeDetails, setCodeDetails] = useState<ICodeDetails | null>(null);
+
+  useEffect(() => {
+    setCodeDetails(null);
+  }, []);
 
   useEffect(() => {
     changeJsonViewerColor(queryChain as Chain);
@@ -50,39 +55,44 @@ const CodeView: NextPage = () => {
   }, [codeId, queryChain]);
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
-
   return (
     <div className="w-full">
       <Head>
         <title>Cosmwander - Code View Details</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <div className="border-t border-cw-grey-700 w-full py-9">
-        <CodeDetails codeDetails={codeDetails} color={queryChain as Chain} />
-        <div className="mt-[7.75rem] mb-3">
-          <GroupButtons
-            selectedTab={activeCodeTab}
-            color={queryChain as Chain}
-            handlerTab={setActiveCodeTab}
-            tabs={buildTabs(codeDetails?.contracts.length, queryChain as Chain)}
-          />
-        </div>
-      </div>
-      <div className="border-t border-cw-grey-700 w-full py-9 min-h-[54rem]">
-        <TabsContainer
-          selectedTab={activeCodeTab}
-          options={[
-            {
-              key: "see-contract",
-              container: <CodeSchema codeId={codeId as string} color={queryChain as Chain} />,
-            },
-            {
-              key: "contracts",
-              container: <Contracts contracts={codeDetails?.contracts || []} />,
-            },
-          ]}
-        />
-      </div>
+      {codeDetails ? (
+        <>
+          <div className="border-t border-cw-grey-700 w-full py-9">
+            <CodeDetails codeDetails={codeDetails} color={queryChain as Chain} />
+            <div className="mt-[7.75rem] mb-3">
+              <GroupButtons
+                selectedTab={activeCodeTab}
+                color={queryChain as Chain}
+                handlerTab={setActiveCodeTab}
+                tabs={buildTabs(codeDetails?.contracts.length, queryChain as Chain)}
+              />
+            </div>
+          </div>
+          <div className="border-t border-cw-grey-700 w-full py-9 min-h-[54rem]">
+            <TabsContainer
+              selectedTab={activeCodeTab}
+              options={[
+                {
+                  key: "see-contract",
+                  container: <CodeSchema codeId={codeId as string} color={queryChain as Chain} />,
+                },
+                {
+                  key: "contracts",
+                  container: <Contracts contracts={codeDetails?.contracts || []} />,
+                },
+              ]}
+            />
+          </div>
+        </>
+      ) : (
+        <SkeletonCodeOrContract />
+      )}
     </div>
   );
 };
