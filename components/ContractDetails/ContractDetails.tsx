@@ -9,7 +9,6 @@ interface Props {
 
 const ContractDetails: React.FC<Props> = ({ details }) => {
   const { searchedChain } = useClient();
-  console.log(searchedChain);
 
   return (
     <div className="py-6 grid grid-cols-1 lg:grid-cols-4 gap-8 w-full relative">

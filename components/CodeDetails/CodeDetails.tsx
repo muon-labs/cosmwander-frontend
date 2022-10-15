@@ -14,8 +14,6 @@ const CodeDetails: React.FC<Props> = ({ codeDetails }) => {
 
   if (!codeDetails) return null;
 
-  console.log(searchedChain);
-
   return (
     <div className="py-6 grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">
       <div className="col-span-4 flex justify-between items-center">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { GroupButtons } from "../../components/Buttons";
@@ -45,6 +45,10 @@ const CodeView: NextPage = () => {
       setCodeDetails(codeDetails);
     }
   }, [codeId]);
+
+  useEffect(() => {
+    setCodeDetails(null);
+  }, [chain]);
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
 

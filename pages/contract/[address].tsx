@@ -1,7 +1,7 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAsync } from "react-use";
 import { GroupButtons } from "../../components/Buttons";
 import CodeSchema from "../../components/CodeSchema";
@@ -36,7 +36,7 @@ const Contract: React.FC = () => {
   const {
     query: { address: contractAddr },
   } = useRouter();
-  const { chain, changeChainByPrefix, changeSearchedChain, searchedChain } = useClient();
+  const { chain, changeChainByPrefix, changeSearchedChain, getChainByChainId } = useClient();
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
   const [contractDetails, setContractDetails] = useState<IContractDetails | null>(null);
@@ -44,9 +44,10 @@ const Contract: React.FC = () => {
   useAsync(async () => {
     if (contractAddr) {
       changeChainByPrefix(contractAddr as string);
-      changeSearchedChain(chain);
       const contractDetails = await getContractDetails(chain, contractAddr as string);
       setContractDetails(contractDetails);
+      const chainById = getChainByChainId(contractDetails.chain_id);
+      changeSearchedChain(chainById.chain_name as Chain);
     }
   }, [contractAddr]);
 
@@ -59,7 +60,7 @@ const Contract: React.FC = () => {
       <div className="border-t border-cw-grey-700 w-full py-9">
         <ContractDetails details={contractDetails} />
         <div className="mt-[7.75rem] mb-3">
-          <GroupButtons selectedTab={activeCodeTab} handlerTab={setActiveCodeTab} color={searchedChain} tabs={createTabs(0, searchedChain)} />
+          <GroupButtons selectedTab={activeCodeTab} handlerTab={setActiveCodeTab} tabs={createTabs(0, chain)} />
         </div>
       </div>
       <div className="border-t border-cw-grey-700 w-full py-9 min-h-[54rem]">

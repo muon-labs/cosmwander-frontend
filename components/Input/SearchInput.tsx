@@ -24,7 +24,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scal
       const isContract = BECH32_REGEX.test(searchValue);
       goToPage(`/${isContract ? "contract" : "code"}/${searchValue}`);
     },
-    [searchValue, goToPage]
+    [searchValue, goToPage, chain]
   );
 
   const options = useMemo(

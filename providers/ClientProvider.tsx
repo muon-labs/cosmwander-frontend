@@ -5,6 +5,7 @@ import { CHAINS } from "../utils/constants";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../tailwind.config.js";
 import { chains } from "../utils/chains";
+import { match } from "assert";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -26,21 +27,15 @@ const defaultState = {
 const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [state, setState] = useState<{ chain: Chain; searchedChain?: Chain }>(defaultState);
 
-  const changeChain = useCallback(
-    (chain: Chain) => {
-      setState({ ...state, chain });
-    },
-    [state]
-  );
+  const changeChain = (chain: Chain) => {
+    setState({ ...state, chain });
+  };
 
-  const changeSearchedChain = useCallback(
-    (searchedChain: Chain) => {
-      setState({ ...state, searchedChain });
-      const color = (fullConfig.theme?.colors as Record<string, string>)[`chain-${searchedChain}-400`];
-      document.documentElement.style.setProperty("--chain-color", color);
-    },
-    [state]
-  );
+  const changeSearchedChain = (searchedChain: Chain) => {
+    setState({ ...state, searchedChain });
+    const color = (fullConfig.theme?.colors as Record<string, string>)[`chain-${searchedChain}-400`];
+    document.documentElement.style.setProperty("--chain-color", color);
+  };
 
   const changeChainByPrefix = (addr: string) => {
     const matchedPrefix = addr.match(/^(osmo|juno|stars)/g);
