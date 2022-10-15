@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAsync } from "react-use";
+import { Chain } from "../../interfaces/chains";
 import { useClient } from "../../providers/ClientProvider";
 import { getCodeSchema } from "../../services/cosmwander";
 import { GroupButtons } from "../Buttons";
@@ -10,11 +11,12 @@ import Query from "./Query";
 
 interface Props {
   codeId?: string;
+  color?: Chain;
 }
 
-const CodeSchema: React.FC<Props> = ({ codeId }) => {
+const CodeSchema: React.FC<Props> = ({ codeId, color }) => {
   const [contractTab, setContractTab] = useState<string>("instantiate");
-  const { chain, searchedChain } = useClient();
+  const { chain } = useClient();
 
   const contractTabGroup = [
     {
@@ -49,7 +51,7 @@ const CodeSchema: React.FC<Props> = ({ codeId }) => {
   return (
     <>
       <div className="mt-3 mb-[4rem]">
-        <GroupButtons selectedTab={contractTab} color={searchedChain} handlerTab={setContractTab} tabs={contractTabGroup} />
+        <GroupButtons selectedTab={contractTab} color={color ? color : chain} handlerTab={setContractTab} tabs={contractTabGroup} />
       </div>
       <TabsContainer
         selectedTab={contractTab}

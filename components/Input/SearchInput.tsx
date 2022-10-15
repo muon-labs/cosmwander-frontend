@@ -14,15 +14,14 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scale = "md", icon = "search", ...props }, ref) => {
   const { push: goToPage } = useRouter();
-  const { chain, changeChain, changeSearchedChain, changeChainByPrefix } = useClient();
+  const { chain, changeChain, changeChainByPrefix } = useClient();
   const [searchValue, setSearchValue] = useState("");
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      changeSearchedChain(chain);
       const isContract = BECH32_REGEX.test(searchValue);
-      goToPage(`/${isContract ? "contract" : "code"}/${searchValue}`);
+      goToPage(`/${chain}/${isContract ? "contract" : "code"}/${searchValue}`);
     },
     [searchValue, goToPage, chain]
   );

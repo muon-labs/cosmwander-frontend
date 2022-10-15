@@ -1,14 +1,16 @@
 import React from "react";
+import { Chain } from "../../interfaces/chains";
 import { ContractDetails as IContractDetails } from "../../interfaces/contract-details";
 import { useClient } from "../../providers/ClientProvider";
 import SimpleButton from "../Buttons/SimpleButton";
 
 interface Props {
   details: IContractDetails | null;
+  color: Chain;
 }
 
-const ContractDetails: React.FC<Props> = ({ details }) => {
-  const { searchedChain } = useClient();
+const ContractDetails: React.FC<Props> = ({ details, color }) => {
+  const { chain } = useClient();
 
   return (
     <div className="py-6 grid grid-cols-1 lg:grid-cols-4 gap-8 w-full relative">
@@ -22,26 +24,26 @@ const ContractDetails: React.FC<Props> = ({ details }) => {
         <p className="text-cw-grey-400">Code ID</p>
       </div>
       <div className="col-span-3 flex items-center gap-2">
-        <p className={`text-chain-${searchedChain}-400`}>{details?.code_id}</p>
-        <SimpleButton color={searchedChain}>Reinstantiate</SimpleButton>
+        <p className={`text-chain-${color ? color : chain}-400`}>{details?.code_id}</p>
+        <SimpleButton color={color ? color : chain}>Reinstantiate</SimpleButton>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Creator</p>
       </div>
       <div className="col-span-3">
-        <p className={`text-chain-${searchedChain}-400`}>{details?.creator}</p>
+        <p className={`text-chain-${color ? color : chain}-400`}>{details?.creator}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Tx Hash</p>
       </div>
       <div className="col-span-3">
-        <p className={`text-chain-${searchedChain}-400`}>{details?.tx_hash}</p>
+        <p className={`text-chain-${color ? color : chain}-400`}>{details?.tx_hash}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Admin</p>
       </div>
       <div className="col-span-3">
-        <p className={`text-chain-${searchedChain}-400`}>-</p>
+        <p className={`text-chain-${color ? color : chain}-400`}>-</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Funds</p>

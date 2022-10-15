@@ -5,17 +5,15 @@ import { CHAINS } from "../utils/constants";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../tailwind.config.js";
 import { chains } from "../utils/chains";
-import { match } from "assert";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
 interface IClientContext {
   chain: Chain;
-  searchedChain?: Chain;
   changeChain: (chain: Chain) => void;
   changeChainByPrefix: (addr: string) => void;
   getChainByChainId: (chainId: string) => ChainType;
-  changeSearchedChain: (searchedChain: Chain) => void;
+  changeJsonViewerColor: (chain: Chain) => void;
 }
 
 const ClientContext = createContext<IClientContext | null>(null);
@@ -25,15 +23,14 @@ const defaultState = {
 };
 
 const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [state, setState] = useState<{ chain: Chain; searchedChain?: Chain }>(defaultState);
+  const [state, setState] = useState<{ chain: Chain }>(defaultState);
 
   const changeChain = (chain: Chain) => {
     setState({ ...state, chain });
   };
 
-  const changeSearchedChain = (searchedChain: Chain) => {
-    setState({ ...state, searchedChain });
-    const color = (fullConfig.theme?.colors as Record<string, string>)[`chain-${searchedChain}-400`];
+  const changeJsonViewerColor = (chain: Chain) => {
+    const color = (fullConfig.theme?.colors as Record<string, string>)[`chain-${chain}-400`];
     document.documentElement.style.setProperty("--chain-color", color);
   };
 
@@ -62,7 +59,7 @@ const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, [state]);
 
   return (
-    <ClientContext.Provider value={{ ...state, changeChain, changeChainByPrefix, getChainByChainId, changeSearchedChain }}>
+    <ClientContext.Provider value={{ ...state, changeChain, changeChainByPrefix, getChainByChainId, changeJsonViewerColor }}>
       {children}
     </ClientContext.Provider>
   );

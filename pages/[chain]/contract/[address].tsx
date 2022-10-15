@@ -3,15 +3,15 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAsync } from "react-use";
-import { GroupButtons } from "../../components/Buttons";
-import CodeSchema from "../../components/CodeSchema";
-import ContractDetails from "../../components/ContractDetails";
-import TabsContainer from "../../components/TabsContainer";
-import Transactions from "../../components/Transactions";
-import { ContractDetails as IContractDetails } from "../../interfaces/contract-details";
-import { useClient } from "../../providers/ClientProvider";
-import { getContractDetails } from "../../services/cosmwander";
-import { Chain } from "../../interfaces/chains";
+import { GroupButtons } from "../../../components/Buttons";
+import CodeSchema from "../../../components/CodeSchema";
+import ContractDetails from "../../../components/ContractDetails";
+import TabsContainer from "../../../components/TabsContainer";
+import Transactions from "../../../components/Transactions";
+import { ContractDetails as IContractDetails } from "../../../interfaces/contract-details";
+import { useClient } from "../../../providers/ClientProvider";
+import { getContractDetails } from "../../../services/cosmwander";
+import { Chain } from "../../../interfaces/chains";
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
@@ -34,20 +34,22 @@ const createTabs = (txs: number, chain?: Chain) => {
 
 const Contract: React.FC = () => {
   const {
-    query: { address: contractAddr },
+    query: { chain: queryChain, address: contractAddr },
   } = useRouter();
-  const { chain, changeChainByPrefix, changeSearchedChain, getChainByChainId } = useClient();
+  const { changeChainByPrefix, changeJsonViewerColor, getChainByChainId } = useClient();
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
   const [contractDetails, setContractDetails] = useState<IContractDetails | null>(null);
 
+  useEffect(() => {
+    changeJsonViewerColor(queryChain as Chain);
+  }, [changeJsonViewerColor]);
+
   useAsync(async () => {
     if (contractAddr) {
       changeChainByPrefix(contractAddr as string);
-      const contractDetails = await getContractDetails(chain, contractAddr as string);
+      const contractDetails = await getContractDetails(queryChain as Chain, contractAddr as string);
       setContractDetails(contractDetails);
-      const chainById = getChainByChainId(contractDetails.chain_id);
-      changeSearchedChain(chainById.chain_name as Chain);
     }
   }, [contractAddr]);
 
@@ -58,9 +60,14 @@ const Contract: React.FC = () => {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <div className="border-t border-cw-grey-700 w-full py-9">
-        <ContractDetails details={contractDetails} />
+        <ContractDetails details={contractDetails} color={queryChain as Chain} />
         <div className="mt-[7.75rem] mb-3">
-          <GroupButtons selectedTab={activeCodeTab} handlerTab={setActiveCodeTab} tabs={createTabs(0, chain)} />
+          <GroupButtons
+            selectedTab={activeCodeTab}
+            handlerTab={setActiveCodeTab}
+            tabs={createTabs(0, queryChain as Chain)}
+            color={queryChain as Chain}
+          />
         </div>
       </div>
       <div className="border-t border-cw-grey-700 w-full py-9 min-h-[54rem]">
@@ -81,7 +88,7 @@ const Contract: React.FC = () => {
                       </div>
                     </>
                   )}
-                  <CodeSchema codeId={contractDetails?.code_id} />
+                  <CodeSchema codeId={contractDetails?.code_id} color={queryChain as Chain} />
                 </>
               ),
             },
