@@ -19,8 +19,8 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
   if (skeleton) return <CodeDetailsSkeletons />;
 
   return (
-    <div className="py-6 grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">
-      <div className="col-span-4 flex justify-between items-center">
+    <div className="py-6 grid grid-cols-1 lg:grid-cols-5 gap-5 w-full">
+      <div className="col-span-5 flex justify-between items-center">
         <div className="flex items-center justify-center gap-2">
           <Tag bg={`bg-chain-${color ? color : chain}-600 capitalize`}>{color ? color : chain}</Tag>
           {codeDetails.type && <Tag bg="bg-cw-grey-600">{codeDetails.type}</Tag>}
@@ -35,35 +35,37 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Code ID</p>
       </div>
-      <div className="col-span-3">
+      <div className="col-span-4">
         <p className={`text-chain-${color ? color : chain}-400`}>{codeDetails.code_id}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Creator</p>
       </div>
-      <div className="col-span-3">
+      <div className="col-span-4">
         <p className={`text-chain-${color ? color : chain}-400`}>{codeDetails.creator}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Tx Hash</p>
       </div>
-      <div className="col-span-3">
+      <div className="col-span-4">
         <p className={`text-chain-${color ? color : chain}-400`}>{codeDetails.tx_hash ? codeDetails.tx_hash : "-"}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Checksum</p>
       </div>
-      <div className="col-span-3">
+      <div className="col-span-4">
         <p className="text-white ">{codeDetails.checksum}</p>
       </div>
-      <div className="col-span-1" />
-      <div className="col-span-3">
+      <div className="col-span-1">
+        <p className="text-cw-grey-400">Created at</p>
+      </div>
+      <div className="col-span-4">
         <p className="text-white ">{codeDetails.created_at ? codeDetails.created_at : "-"}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Contract type</p>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-2">
         <p className="text-white ">{codeDetails.type ? codeDetails.type : "-"}</p>
       </div>
       <div className="col-span-1">
@@ -75,7 +77,7 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Version</p>
       </div>
-      <div className="col-span-1">
+      <div className="col-span-2">
         <p className="text-white ">{codeDetails.version ? codeDetails.version : "-"}</p>
       </div>
       <div className="col-span-1">
@@ -90,7 +92,7 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
         <GitHubIcon />
         <p className="text-cw-grey-400 ">GitHub</p>
       </div>
-      <div className="col-span-3">
+      <div className="col-span-4">
         <p className={`text-chain-${color ? color : chain}-400`}>{codeDetails.code_ref?.repo_url ? codeDetails.code_ref.repo_url : "-"}</p>
       </div>
     </div>
