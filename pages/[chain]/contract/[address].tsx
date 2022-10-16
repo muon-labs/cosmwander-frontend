@@ -24,7 +24,7 @@ const createTabs = (txs: number, chain?: Chain) => {
     {
       content: (
         <p className="flex items-center justify-center gap-4">
-          Transactions<span className={`bg-chain-${chain}-400 text-cw-grey-850 px-2  rounded-[40px]`}>{txs}</span>
+          Transactions<span className={`bg-chain-${chain}-400 text-cw-grey-850 px-2 rounded-[40px] text-xs font-bold`}>{txs}</span>
         </p>
       ),
       key: "transactions",

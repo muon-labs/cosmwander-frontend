@@ -22,7 +22,8 @@ const buildTabs = (contractNumber?: number, chain?: Chain) => {
     {
       content: (
         <p className="flex items-center justify-center gap-4">
-          Contracts<span className={`bg-chain-${chain}-400 text-cw-grey-850 px-2  rounded-[40px]`}>{contractNumber ?? 0}</span>
+          Contracts
+          <span className={`bg-chain-${chain}-400 text-cw-grey-850 px-2 rounded-[40px] text-xs font-bold`}>{contractNumber ?? 0}</span>
         </p>
       ),
       key: "contracts",
