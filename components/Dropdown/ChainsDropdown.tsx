@@ -51,7 +51,7 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({ options, c
         className={clsx(
           `bg-transparent rounded-[4px]
            hover:bg-white/5 flex items-center justify-between gap-2 p-2
-           transition duration-150 ease-in-out`,
+           transition duration-75 ease-in-out`,
           scale === "lg" && "h-[62px] w-[calc(100%-72px)]",
           scale === "md" && "h-[48px] w-[calc(100%-50px)]"
         )}
@@ -61,7 +61,7 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({ options, c
         {children}
         <motion.div
           className={clsx(
-            "flex items-center transition duration-150 ease-in-out",
+            "flex items-center transition duration-75 ease-in-out",
             open ? "absolute top-0 bottom-0 m-[auto] z-[51]" : "",
             scale === "lg" && open && "right-[80px]",
             scale === "md" && open && "right-[58px]"
@@ -78,7 +78,7 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({ options, c
             transition: {
               type: "spring",
               bounce: 0,
-              duration: 0.4,
+              duration: 0.2,
             },
           },
           closed: {
@@ -86,7 +86,7 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({ options, c
             transition: {
               type: "spring",
               bounce: 0,
-              duration: 0.5,
+              duration: 0.3,
             },
           },
         }}
