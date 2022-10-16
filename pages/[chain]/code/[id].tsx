@@ -57,9 +57,10 @@ const CodeView: NextPage = () => {
         <title>Cosmwander - Code View Details</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <div className="border-t border-cw-grey-700 w-full py-9">
+      <div className="flex flex-col gap-11 mb-16">
+        <div className="border-t border-cw-grey-700 w-full" />
         <CodeDetails skeleton={activeSkeleton} codeDetails={codeDetails as ICodeDetails} color={queryChain as Chain} />
-        <div className="mt-[7.75rem] mb-3">
+        <div className="mt-11">
           <GroupButtons
             skeleton={activeSkeleton}
             selectedTab={activeCodeTab}
@@ -68,21 +69,22 @@ const CodeView: NextPage = () => {
             tabs={buildTabs(codeDetails?.contracts.length, queryChain as Chain)}
           />
         </div>
-      </div>
-      <div className="border-t border-cw-grey-700 w-full py-9 min-h-[30rem]">
-        <TabsContainer
-          selectedTab={activeCodeTab}
-          options={[
-            {
-              key: "see-contract",
-              container: <CodeSchema codeId={codeId as string} color={queryChain as Chain} skeleton={activeSkeleton} />,
-            },
-            {
-              key: "contracts",
-              container: <Contracts contracts={codeDetails?.contracts || []} />,
-            },
-          ]}
-        />
+        <div className="border-t border-cw-grey-700 w-full" />
+        <div className="min-h-[30rem]">
+          <TabsContainer
+            selectedTab={activeCodeTab}
+            options={[
+              {
+                key: "see-contract",
+                container: <CodeSchema codeId={codeId as string} color={queryChain as Chain} skeleton={activeSkeleton} />,
+              },
+              {
+                key: "contracts",
+                container: <Contracts contracts={codeDetails?.contracts || []} />,
+              },
+            ]}
+          />
+        </div>
       </div>
     </div>
   );

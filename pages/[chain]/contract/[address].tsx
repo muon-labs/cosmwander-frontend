@@ -58,9 +58,10 @@ const Contract: React.FC = () => {
         <title>Cosmwander - Contract View Details</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <div className="border-t border-cw-grey-700 w-full py-9">
+      <div className="flex flex-col gap-11 mb-16">
+        <div className="border-t border-cw-grey-700 w-full" />
         <ContractDetails skeleton={activeSkeleton} details={contractDetails} color={queryChain as Chain} />
-        <div className="mt-[7.75rem] mb-3">
+        <div className="mt-11">
           <GroupButtons
             skeleton={activeSkeleton}
             selectedTab={activeCodeTab}
@@ -69,35 +70,36 @@ const Contract: React.FC = () => {
             color={queryChain as Chain}
           />
         </div>
-      </div>
-      <div className="border-t border-cw-grey-700 w-full py-9 min-h-[30rem]">
-        <TabsContainer
-          selectedTab={activeCodeTab}
-          options={[
-            {
-              key: "see-contract",
-              container: (
-                <>
-                  {contractDetails?.init_msg && (
-                    <>
-                      <div>
-                        <p className="text-gray-400">Instantiate Message</p>
-                      </div>
-                      <div className="w-full min-h-[400px]">
-                        <ReactJson src={contractDetails.init_msg} theme="ashes" />
-                      </div>
-                    </>
-                  )}
-                  <CodeSchema codeId={contractDetails?.code_id} color={queryChain as Chain} skeleton={activeSkeleton} />
-                </>
-              ),
-            },
-            {
-              key: "transactions ",
-              container: <Transactions />,
-            },
-          ]}
-        />
+        <div className="border-t border-cw-grey-700 w-full" />
+        <div className="min-h-[27rem]">
+          <TabsContainer
+            selectedTab={activeCodeTab}
+            options={[
+              {
+                key: "see-contract",
+                container: (
+                  <>
+                    {contractDetails?.init_msg && (
+                      <>
+                        <div>
+                          <p className="text-gray-400">Instantiate Message</p>
+                        </div>
+                        <div className="w-full min-h-[400px]">
+                          <ReactJson src={contractDetails.init_msg} theme="ashes" />
+                        </div>
+                      </>
+                    )}
+                    <CodeSchema codeId={contractDetails?.code_id} color={queryChain as Chain} skeleton={activeSkeleton} />
+                  </>
+                ),
+              },
+              {
+                key: "transactions ",
+                container: <Transactions />,
+              },
+            ]}
+          />
+        </div>
       </div>
     </div>
   );

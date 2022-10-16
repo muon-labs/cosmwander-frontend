@@ -3,7 +3,7 @@ import DefaultSkeleton from "./DefaultSkeleton";
 
 const CodeDetailsSkeletons: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 w-full animate-pulse">
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 w-full animate-pulse">
       <div className="col-span-5 flex justify-between items-center">
         <div className="flex items-center justify-center gap-2">
           <DefaultSkeleton className="h-[22px] w-[47px] rounded-[3px]" />
