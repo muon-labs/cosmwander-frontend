@@ -5,7 +5,7 @@ import Tag from "../../Tag";
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
 interface Props {
-  json: any;
+  json?: Record<string, unknown>;
 }
 
 const Instantiate: React.FC<Props> = ({ json }) => {
@@ -23,7 +23,7 @@ const Instantiate: React.FC<Props> = ({ json }) => {
         </div>
       </div> */}
       <div>
-        <ReactJson src={json} indentWidth={2} theme="ashes" />
+        <ReactJson src={json || {}} indentWidth={2} theme="ashes" />
       </div>
     </div>
   );

@@ -3,14 +3,18 @@ import { Chain } from "../../interfaces/chains";
 import { ContractDetails as IContractDetails } from "../../interfaces/contract-details";
 import { useClient } from "../../providers/ClientProvider";
 import SimpleButton from "../Buttons/SimpleButton";
+import CodeDetailsSkeletons from "../Skeletons/CodeDetailsSkeleton";
 
 interface Props {
   details: IContractDetails | null;
   color: Chain;
+  skeleton?: boolean;
 }
 
-const ContractDetails: React.FC<Props> = ({ details, color }) => {
+const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
   const { chain } = useClient();
+
+  if (skeleton) return <CodeDetailsSkeletons />;
 
   return (
     <div className="py-6 grid grid-cols-1 lg:grid-cols-4 gap-8 w-full relative">

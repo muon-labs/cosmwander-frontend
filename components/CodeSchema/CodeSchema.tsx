@@ -12,9 +12,10 @@ import Query from "./Query";
 interface Props {
   codeId?: string;
   color?: Chain;
+  skeleton?: boolean;
 }
 
-const CodeSchema: React.FC<Props> = ({ codeId, color }) => {
+const CodeSchema: React.FC<Props> = ({ codeId, color, skeleton }) => {
   const [contractTab, setContractTab] = useState<string>("instantiate");
   const { chain } = useClient();
 
@@ -51,9 +52,16 @@ const CodeSchema: React.FC<Props> = ({ codeId, color }) => {
   return (
     <>
       <div className="mt-3 mb-[4rem]">
-        <GroupButtons selectedTab={contractTab} color={color ? color : chain} handlerTab={setContractTab} tabs={contractTabGroup} />
+        <GroupButtons
+          selectedTab={contractTab}
+          color={color ? color : chain}
+          handlerTab={setContractTab}
+          tabs={contractTabGroup}
+          skeleton={skeleton}
+        />
       </div>
       <TabsContainer
+        skeleton={skeleton}
         selectedTab={contractTab}
         options={[
           { key: "instantiate", container: <Instantiate json={codeSquema?.instantiate} /> },

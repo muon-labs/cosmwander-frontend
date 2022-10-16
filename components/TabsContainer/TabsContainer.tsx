@@ -1,17 +1,21 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import clsx from "clsx";
+import DefaultSkeleton from "../Skeletons/DefaultSkeleton";
 
 interface Props {
   className?: string;
   selectedTab: string;
   options: { key: string; container: React.ReactElement }[];
+  skeleton?: boolean;
 }
 
-const TabsContainer: React.FC<Props> = ({ selectedTab, options, className = "" }) => {
+const TabsContainer: React.FC<Props> = ({ selectedTab, options, className = "", skeleton }) => {
   const ContainerTab = options.map(({ key, container }) => {
     return <div key={key}>{selectedTab === key && container}</div>;
   });
+
+  if (skeleton) return <DefaultSkeleton className="h-[354px] bg-cw-grey-800" />;
+
   return (
     <AnimatePresence exitBeforeEnter>
       <motion.div

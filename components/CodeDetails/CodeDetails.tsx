@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import { GitHubIcon, VerifiedIcon } from "../Icons";
 import { IntlAddress } from "../../utils/intl";
 import { useClient } from "../../providers/ClientProvider";
 import { CodeDetails } from "../../interfaces/code-details";
 import Tag from "../Tag";
 import { Chain } from "../../interfaces/chains";
+import CodeDetailsSkeletons from "../Skeletons/CodeDetailsSkeleton";
 
 interface Props {
-  codeDetails: CodeDetails | null;
+  codeDetails: CodeDetails;
   color?: Chain;
+  skeleton?: boolean;
 }
 
-const CodeDetails: React.FC<Props> = ({ codeDetails, color }) => {
+const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
   const { chain } = useClient();
 
-  if (!codeDetails) return null;
+  if (skeleton) return <CodeDetailsSkeletons />;
 
   return (
     <div className="py-6 grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">

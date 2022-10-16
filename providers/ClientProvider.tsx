@@ -5,6 +5,7 @@ import { CHAINS } from "../utils/constants";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../tailwind.config.js";
 import { chains } from "../utils/chains";
+import { useRouter } from "next/router";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -24,6 +25,9 @@ const defaultState = {
 
 const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [state, setState] = useState<{ chain: Chain }>(defaultState);
+  const {
+    query: { chain: queryChain },
+  } = useRouter();
 
   const changeChain = (chain: Chain) => {
     setState({ ...state, chain });
@@ -52,6 +56,11 @@ const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
     if (!clientConfig) return;
     setState({ ...JSON.parse(clientConfig) });
   }, []);
+
+  useEffect(() => {
+    if (!queryChain) return;
+    changeJsonViewerColor(queryChain as Chain);
+  }, [queryChain]);
 
   useEffect(() => {
     if (Object.is(state, defaultState)) return;

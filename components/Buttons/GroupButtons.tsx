@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import clsx from "clsx";
 import { useClient } from "../../providers/ClientProvider";
 import { Chain } from "../../interfaces/chains";
+import GroupButtonsSkeleton from "../Skeletons/GroupButtonsSkeleton";
 
 interface Props {
   handlerTab: (key: string) => void;
@@ -12,11 +13,15 @@ interface Props {
     key: string;
   }[];
   color?: Chain;
+  skeleton?: boolean;
 }
 
-const GroupButtons: React.FC<Props> = ({ tabs, selectedTab, handlerTab, color }) => {
+const GroupButtons: React.FC<Props> = ({ tabs, selectedTab, handlerTab, color, skeleton }) => {
   const { chain } = useClient();
   const colorChain = color ? color : chain;
+
+  if (skeleton) return <GroupButtonsSkeleton tabs={tabs} />;
+
   const Tabs = tabs.map(({ content, key }) => {
     return (
       <motion.button

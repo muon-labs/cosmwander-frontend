@@ -4,13 +4,13 @@ import React from "react";
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
 interface Props {
-  json: any;
+  json?: Record<string, unknown>;
 }
 
 const Execute: React.FC<Props> = ({ json }) => {
   return (
     <div>
-      <ReactJson src={json} indentWidth={2} theme="ashes" />
+      <ReactJson src={json || {}} indentWidth={2} theme="ashes" />
     </div>
   );
 };
