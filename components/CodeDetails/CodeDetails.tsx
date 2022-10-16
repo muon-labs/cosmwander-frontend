@@ -27,8 +27,8 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
         </div>
         {codeDetails.verified && (
           <div className="flex items-center gap-2">
-            <VerifiedIcon />
-            <p className={`text-chain-${color ? color : chain}-300`}>Verified</p>
+            <VerifiedIcon color={`fill-chain-${chain}-600`} />
+            <p className={`text-chain-${chain}-200 text-md font-semibold`}>Verified</p>
           </div>
         )}
       </div>

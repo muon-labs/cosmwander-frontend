@@ -18,8 +18,8 @@ const ContractCard: React.FC<HTMLAttributes<HTMLElement>> = ({ className = "" })
         <Tag bg="bg-cw-light-red">Juno</Tag>
         <Tag bg="bg-cw-grey-600">CW20</Tag>
         <div className="flex items-center gap-2">
-          <VerifiedIcon />
-          <p className={`text-chain-${chain}-300`}>Verified</p>
+          <VerifiedIcon color={`fill-chain-${chain}-600`} />
+          <p className={`text-chain-${chain}-200 text-md font-semibold`}>Verified</p>
         </div>
       </div>
       <div className="flex items-center justify-between">
