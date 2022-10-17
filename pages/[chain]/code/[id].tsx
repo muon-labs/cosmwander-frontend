@@ -12,6 +12,7 @@ import { getCodeDetails } from "../../../services/cosmwander";
 import { CodeDetails as ICodeDetails } from "../../../interfaces/code-details";
 import { Chain } from "../../../interfaces/chains";
 import { useClient } from "../../../providers/ClientProvider";
+import NotExist from "../../../components/NotExist";
 
 const buildTabs = (contractNumber?: number, chain?: Chain) => {
   return [
@@ -38,6 +39,7 @@ const CodeView: NextPage = () => {
   const { changeChain } = useClient();
 
   const [codeDetails, setCodeDetails] = useState<ICodeDetails | null>(null);
+  const [searched, setSearched] = useState<boolean>(false);
 
   const activeSkeleton = useMemo(() => !codeDetails, [codeDetails]);
 
@@ -45,12 +47,21 @@ const CodeView: NextPage = () => {
     setCodeDetails(null);
     if (codeId) {
       changeChain(queryChain as Chain);
-      const codeDetails = await getCodeDetails(queryChain as Chain, codeId as string);
-      setCodeDetails(codeDetails);
+      try {
+        const codeDetails = await getCodeDetails(queryChain as Chain, codeId as string);
+        setCodeDetails(codeDetails);
+      } catch (e) {
+        setSearched(true);
+      }
     }
   }, [codeId, queryChain]);
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
+
+  if (searched && !codeDetails) {
+    return <NotExist searchValue={codeId as string} />;
+  }
+
   return (
     <div className="w-full">
       <Head>

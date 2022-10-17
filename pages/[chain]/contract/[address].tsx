@@ -12,6 +12,7 @@ import { ContractDetails as IContractDetails } from "../../../interfaces/contrac
 import { useClient } from "../../../providers/ClientProvider";
 import { getContractDetails } from "../../../services/cosmwander";
 import { Chain } from "../../../interfaces/chains";
+import NotExist from "../../../components/NotExist";
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
@@ -40,6 +41,7 @@ const Contract: React.FC = () => {
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
   const [contractDetails, setContractDetails] = useState<IContractDetails | null>(null);
+  const [searched, setSearched] = useState<boolean>(false);
 
   const activeSkeleton = useMemo(() => !contractDetails, [contractDetails]);
 
@@ -47,10 +49,18 @@ const Contract: React.FC = () => {
     setContractDetails(null);
     if (contractAddr) {
       changeChain(queryChain as Chain);
-      const contractDetails = await getContractDetails(queryChain as Chain, contractAddr as string);
-      setContractDetails(contractDetails);
+      try {
+        const contractDetails = await getContractDetails(queryChain as Chain, contractAddr as string);
+        setContractDetails(contractDetails);
+      } catch (e) {
+        setSearched(true);
+      }
     }
   }, [contractAddr, queryChain]);
+
+  if (searched && !contractDetails) {
+    return <NotExist searchValue={contractAddr as string} />;
+  }
 
   return (
     <div className="w-full">
