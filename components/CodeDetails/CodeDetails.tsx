@@ -23,7 +23,7 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
       <div className="col-span-5 flex justify-between items-center">
         <div className="flex items-center justify-center gap-2">
           <Tag bg={`bg-chain-${color ? color : chain}-600 capitalize`}>{color ? color : chain}</Tag>
-          {codeDetails.type && <Tag bg="bg-cw-grey-600">{codeDetails.type}</Tag>}
+          {codeDetails.type && <Tag bg="bg-cw-grey-300">{codeDetails.type}</Tag>}
         </div>
         {codeDetails.verified && (
           <div className="flex items-center gap-2">

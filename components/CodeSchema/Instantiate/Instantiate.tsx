@@ -12,13 +12,13 @@ const Instantiate: React.FC<Props> = ({ json }) => {
   return (
     <div className="mt-2 grid grid-cols-1 gap-8 ">
       {/* <div className="flex gap-8">
-        <div className="flex items-center gap-4  text-cw-grey-600">
+        <div className="flex items-center gap-4  text-cw-grey-300">
           <p>Code ID</p>
-          <Tag border="border boder-cw-grey-400" bg="bg-cw-grey-950" text="text-cw-grey-600">
+          <Tag border="border boder-cw-grey-400" bg="bg-cw-grey-950" text="text-cw-grey-300">
             {codeId}
           </Tag>
         </div>
-        <div className="text-cw-grey-600">
+        <div className="text-cw-grey-300">
           <p>Raw message preview</p>
         </div>
       </div> */}

@@ -65,7 +65,7 @@ const CodeSchema: React.FC<Props> = ({ codeId, color, skeleton }) => {
         selectedTab={contractTab}
         options={[
           { key: "instantiate", container: <Instantiate json={codeSquema?.instantiate} /> },
-          { key: "query", container: <Query json={codeSquema?.query} /> },
+          { key: "query", container: <Query color={color ? color : chain} json={codeSquema?.query} /> },
           { key: "execute", container: <Execute json={codeSquema?.execute} /> },
         ]}
       />
