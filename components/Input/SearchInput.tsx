@@ -56,8 +56,8 @@ const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scal
           ref={ref}
           autoComplete="off"
           className={clsx(
-            `rounded-[10px] border border-cw-grey-700 bg-cw-grey-950 text-cw-grey-600 bg-transparent w-full outline-none focus:border-chain-${chain}-600 focus:shadow-chain-${chain}-600/30
-          focus:shadow-[0_0_10px_4px] placeholder:text-cw-grey-600 text-cw-grey-200`,
+            `rounded-[10px] border border-cw-grey-700 bg-cw-grey-950 text-cw-grey-300 bg-transparent w-full outline-none focus:border-chain-${chain}-600 focus:shadow-chain-${chain}-600/30
+          focus:shadow-[0_0_10px_4px] placeholder:text-cw-grey-300 text-cw-grey-200`,
             scale === "lg" && "h-[80px] py-4 px-6 text-md",
             scale === "md" && "h-[60px] py-2 px-3 text-sm",
             className
