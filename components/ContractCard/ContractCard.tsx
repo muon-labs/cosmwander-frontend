@@ -3,10 +3,10 @@ import clsx from "clsx";
 import { IntlAddress } from "../../utils/intl";
 import { VerifiedIcon } from "../Icons";
 import Tag from "../Tag";
-import { useClient } from "../../providers/ClientProvider";
+import { useClient } from "../../providers/ThemeProvider";
 
 const ContractCard: React.FC<HTMLAttributes<HTMLElement>> = ({ className = "" }) => {
-  const { chain } = useClient();
+  const { chainColor } = useClient();
   return (
     <div
       className={clsx(
@@ -18,8 +18,8 @@ const ContractCard: React.FC<HTMLAttributes<HTMLElement>> = ({ className = "" })
         <Tag bg="bg-cw-light-red">Juno</Tag>
         <Tag bg="bg-cw-grey-300">CW20</Tag>
         <div className="flex items-center gap-2">
-          <VerifiedIcon color={`fill-chain-${chain}-600`} />
-          <p className={`text-chain-${chain}-200 text-md font-semibold`}>Verified</p>
+          <VerifiedIcon color={`fill-chain-${chainColor}-600`} />
+          <p className={`text-chain-${chainColor}-200 text-md font-semibold`}>Verified</p>
         </div>
       </div>
       <div className="flex items-center justify-between">
@@ -35,7 +35,7 @@ const ContractCard: React.FC<HTMLAttributes<HTMLElement>> = ({ className = "" })
       </div>
       <div className="col-span-2 flex justify-between items-center">
         <p className="text-cw-grey-400">Contract Address</p>
-        <p className={`text-chain-${chain}-400`}>{IntlAddress("juno1qsrercqegvs4ye0yqgprqwd6jcdcuj0us66deup")}</p>
+        <p className={`text-chain-${chainColor}-400`}>{IntlAddress("juno1qsrercqegvs4ye0yqgprqwd6jcdcuj0us66deup")}</p>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import { useAsync } from "react-use";
 import { getCodeDetails } from "../../../services/cosmwander";
 import { CodeDetails as ICodeDetails } from "../../../interfaces/code-details";
 import { Chain } from "../../../interfaces/chains";
-import { useClient } from "../../../providers/ClientProvider";
+import { useClient } from "../../../providers/ThemeProvider";
 import NotExist from "../../../components/NotExist";
 
 const buildTabs = (contractNumber?: number, chain?: Chain) => {
@@ -36,7 +36,7 @@ const CodeView: NextPage = () => {
   const {
     query: { chain: queryChain, id: codeId },
   } = useRouter();
-  const { changeChain } = useClient();
+  const { changechainColor } = useClient();
 
   const [codeDetails, setCodeDetails] = useState<ICodeDetails | null>(null);
   const [searched, setSearched] = useState<boolean>(false);
@@ -46,7 +46,7 @@ const CodeView: NextPage = () => {
   useAsync(async () => {
     setCodeDetails(null);
     if (codeId) {
-      changeChain(queryChain as Chain);
+      changechainColor(queryChain as Chain);
       try {
         const codeDetails = await getCodeDetails(queryChain as Chain, codeId as string);
         setCodeDetails(codeDetails);

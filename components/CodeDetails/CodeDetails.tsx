@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { GitHubIcon, VerifiedIcon } from "../Icons";
 import { IntlAddress } from "../../utils/intl";
-import { useClient } from "../../providers/ClientProvider";
+import { useClient } from "../../providers/ThemeProvider";
 import { CodeDetails } from "../../interfaces/code-details";
 import Tag from "../Tag";
 import { Chain } from "../../interfaces/chains";
@@ -14,7 +14,8 @@ interface Props {
 }
 
 const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
-  const { chain } = useClient();
+  const { chainColor } = useClient();
+  const pageColor = color ? color : chainColor;
 
   if (skeleton) return <CodeDetailsSkeletons />;
 
@@ -22,13 +23,13 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
     <div className="py-6 grid grid-cols-1 lg:grid-cols-5 gap-5 w-full">
       <div className="col-span-5 flex justify-between items-center">
         <div className="flex items-center justify-center gap-2">
-          <Tag bg={`bg-chain-${color ? color : chain}-600 capitalize`}>{color ? color : chain}</Tag>
+          <Tag bg={`bg-chain-${pageColor}-600 capitalize`}>{pageColor}</Tag>
           {codeDetails.type && <Tag bg="bg-cw-grey-300">{codeDetails.type}</Tag>}
         </div>
         {codeDetails.verified && (
           <div className="flex items-center gap-2">
-            <VerifiedIcon color={`fill-chain-${chain}-600`} />
-            <p className={`text-chain-${chain}-200 text-md font-semibold`}>Verified</p>
+            <VerifiedIcon color={`fill-chain-${chainColor}-600`} />
+            <p className={`text-chain-${chainColor}-200 text-md font-semibold`}>Verified</p>
           </div>
         )}
       </div>
@@ -36,19 +37,19 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
         <p className="text-cw-grey-400 ">Code ID</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${color ? color : chain}-400`}>{codeDetails.code_id}</p>
+        <p className={`text-chain-${pageColor}-400`}>{codeDetails.code_id}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Creator</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${color ? color : chain}-400`}>{codeDetails.creator}</p>
+        <p className={`text-chain-${pageColor}-400`}>{codeDetails.creator}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Tx Hash</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${color ? color : chain}-400`}>{codeDetails.tx_hash ? codeDetails.tx_hash : "-"}</p>
+        <p className={`text-chain-${pageColor}-400`}>{codeDetails.tx_hash ? codeDetails.tx_hash : "-"}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Checksum</p>
@@ -84,7 +85,7 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
         <p className="text-cw-grey-400 ">Permission address</p>
       </div>
       <div className="col-span-1">
-        <p className={`text-chain-${color ? color : chain}-400`}>
+        <p className={`text-chain-${pageColor}-400`}>
           {codeDetails.permission_address ? IntlAddress(codeDetails.permission_address) : "-"}
         </p>
       </div>
@@ -93,7 +94,7 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
         <p className="text-cw-grey-400 ">GitHub</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${color ? color : chain}-400`}>{codeDetails.code_ref?.repo_url ? codeDetails.code_ref.repo_url : "-"}</p>
+        <p className={`text-chain-${pageColor}-400`}>{codeDetails.code_ref?.repo_url ? codeDetails.code_ref.repo_url : "-"}</p>
       </div>
     </div>
   );

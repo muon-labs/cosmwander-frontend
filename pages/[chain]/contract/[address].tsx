@@ -9,7 +9,7 @@ import ContractDetails from "../../../components/ContractDetails";
 import TabsContainer from "../../../components/TabsContainer";
 import Transactions from "../../../components/Transactions";
 import { ContractDetails as IContractDetails } from "../../../interfaces/contract-details";
-import { useClient } from "../../../providers/ClientProvider";
+import { useClient } from "../../../providers/ThemeProvider";
 import { getContractDetails } from "../../../services/cosmwander";
 import { Chain } from "../../../interfaces/chains";
 import NotExist from "../../../components/NotExist";
@@ -37,7 +37,7 @@ const Contract: React.FC = () => {
   const {
     query: { chain: queryChain, address: contractAddr },
   } = useRouter();
-  const { changeChain } = useClient();
+  const { changechainColor } = useClient();
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
   const [contractDetails, setContractDetails] = useState<IContractDetails | null>(null);
@@ -48,7 +48,7 @@ const Contract: React.FC = () => {
   useAsync(async () => {
     setContractDetails(null);
     if (contractAddr) {
-      changeChain(queryChain as Chain);
+      changechainColor(queryChain as Chain);
       try {
         const contractDetails = await getContractDetails(queryChain as Chain, contractAddr as string);
         setContractDetails(contractDetails);

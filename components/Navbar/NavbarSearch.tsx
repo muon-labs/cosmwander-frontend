@@ -1,12 +1,12 @@
 import React from "react";
-import { useClient } from "../../providers/ClientProvider";
+import { useClient } from "../../providers/ThemeProvider";
 import { motion } from "framer-motion";
 import CosmwanderLogo from "../Icons/ComswanderLogo";
 import { SearchInput } from "../Input";
 import { useRouter } from "next/router";
 
 const NavbarSearch: React.FC = () => {
-  const { chain } = useClient();
+  const { chainColor } = useClient();
   const { push: goToPage } = useRouter();
 
   return (
@@ -14,7 +14,7 @@ const NavbarSearch: React.FC = () => {
       <motion.div className="max-w-[1425px] w-full mx-[auto] my-0 flex items-center justify-between py-4">
         <motion.div
           onClick={() => goToPage("/")}
-          key={chain}
+          key={chainColor}
           className="cursor-pointer"
           initial={{ opacity: 0 }}
           animate={{
@@ -27,7 +27,7 @@ const NavbarSearch: React.FC = () => {
             },
           }}
         >
-          <CosmwanderLogo iconFill={`fill-chain-${chain}-400`} textFill={`fill-chain-${chain}-600`} />
+          <CosmwanderLogo iconFill={`fill-chain-${chainColor}-400`} textFill={`fill-chain-${chainColor}-600`} />
         </motion.div>
         <div>
           <SearchInput placeholder="Enter interchain smart contract address or code id" scale="md" />

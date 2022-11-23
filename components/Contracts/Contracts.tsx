@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useClient } from "../../providers/ClientProvider";
+import { useClient } from "../../providers/ThemeProvider";
 import ContractCard from "../ContractCard";
 import Pagination from "../Pagination ";
 
@@ -9,8 +9,8 @@ interface Props {
 }
 
 const Contracts: React.FC<Props> = ({ contracts, color }) => {
-  const { chain } = useClient();
-  const pageColor = color ? color : chain;
+  const { chainColor } = useClient();
+  const pageColor = color ? color : chainColor;
   return (
     <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-9">
       {/* <ContractCard className="col-span-1" color={color}/>

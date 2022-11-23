@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useClient } from "../../providers/ClientProvider";
+import { useClient } from "../../providers/ThemeProvider";
 import { DobleArrowRight, DobleArrowLeft, ArrowLeft, ArrowRight } from "../Icons";
 interface Props {
   maxNumber: number;
@@ -8,7 +8,7 @@ interface Props {
 
 const Pagination: React.FC<Props> = ({ maxNumber, onChange }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { chain } = useClient();
+  const { chainColor } = useClient();
 
   const handlerChange = (number: number): void => {
     setCurrentPage(number);
@@ -20,7 +20,7 @@ const Pagination: React.FC<Props> = ({ maxNumber, onChange }) => {
 
     return (
       <button
-        className={`text-chain-${chain}-400 disabled:text-cw-grey-400 p-2 pointer w-[30px] h-[30px] flex items-center justify-center transition duration-150 ease-in-out`}
+        className={`text-chain-${chainColor}-400 disabled:text-cw-grey-400 p-2 pointer w-[30px] h-[30px] flex items-center justify-center transition duration-150 ease-in-out`}
         key={`pagination-${pageNumber}`}
         disabled={pageNumber === currentPage}
         onClick={() => handlerChange(pageNumber)}
@@ -37,14 +37,14 @@ const Pagination: React.FC<Props> = ({ maxNumber, onChange }) => {
         onClick={() => handlerChange(1)}
         disabled={currentPage === 1}
       >
-        <DobleArrowLeft color={currentPage === 1 ? "fill-cw-grey-400" : `fill-chain-${chain}-400`} />
+        <DobleArrowLeft color={currentPage === 1 ? "fill-cw-grey-400" : `fill-chain-${chainColor}-400`} />
       </button>
       <button
         className="bg-cw-grey-850 border border-cw-grey-400 rounded-[6px] w-[30px] h-[30px]  flex items-center justify-center transition duration-150 ease-in-out"
         onClick={() => handlerChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        <ArrowLeft color={currentPage === 1 ? "fill-cw-grey-400" : `fill-chain-${chain}-400`} />
+        <ArrowLeft color={currentPage === 1 ? "fill-cw-grey-400" : `fill-chain-${chainColor}-400`} />
       </button>
       {Buttons}
       <button
@@ -52,14 +52,14 @@ const Pagination: React.FC<Props> = ({ maxNumber, onChange }) => {
         onClick={() => handlerChange(currentPage + 1)}
         disabled={currentPage === maxNumber}
       >
-        <ArrowRight color={currentPage === maxNumber ? "fill-cw-grey-400" : `fill-chain-${chain}-400`} />
+        <ArrowRight color={currentPage === maxNumber ? "fill-cw-grey-400" : `fill-chain-${chainColor}-400`} />
       </button>
       <button
         className="bg-cw-grey-850 border border-cw-grey-400 rounded-[6px]  w-[30px] h-[30px] flex items-center justify-center transition duration-150 ease-in-out"
         onClick={() => handlerChange(maxNumber)}
         disabled={currentPage === maxNumber}
       >
-        <DobleArrowRight color={currentPage === maxNumber ? "fill-cw-grey-400" : `fill-chain-${chain}-400`} />
+        <DobleArrowRight color={currentPage === maxNumber ? "fill-cw-grey-400" : `fill-chain-${chainColor}-400`} />
       </button>
     </div>
   );
