@@ -106,7 +106,6 @@ const Query: React.FC<Props> = ({ json, color }) => {
                 color={color}
                 bgColor="transparent"
               />
-              <SimpleButton className="w-fit self-end py-4 px-9">Query</SimpleButton>
             </div>
           );
         })}

@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React, { ReactNode } from "react";
 import { Chain } from "../../interfaces/chains";
 import { JSONSchema } from "../../interfaces/json-schema";
+import { SimpleButton } from "../Buttons";
 import { ArrowRight, MinusIcon, PlusIcon } from "../Icons";
 import { BasicInput } from "../Input";
 import SimpleInput from "../Input/SImpleInput";
@@ -14,18 +15,19 @@ interface Props {
   bgColor?: string;
   index?: number;
   expanded?: boolean;
+  button?: ReactNode;
 }
 
-const JsonInteraction: React.FC<Props> = ({ name, properties, definitions, color, index, expanded, bgColor }) => {
+const JsonInteraction: React.FC<Props> = ({ name, properties, definitions, color, index, expanded, bgColor, button }) => {
   const propertiesArray = Object.entries(properties) as unknown as [string, JSONSchema][];
 
   return (
     <div
       className={clsx(
-        "rounded-[6px] flex flex-col gap-2 mt-[20px]",
+        "rounded-[6px] flex flex-col gap-2 ",
         bgColor === "transparent" && "bg-transparent",
-        bgColor === "light" && "bg-cw-grey-800 border border-cw-grey-700 p-6",
-        bgColor === "dark" && "bg-cw-grey-850 border border-cw-grey-700 p-6"
+        bgColor === "light" && "bg-cw-grey-800 border border-cw-grey-700 p-6 mt-[20px]",
+        bgColor === "dark" && "bg-cw-grey-850 border border-cw-grey-700 p-6 mt-[20px]"
       )}
     >
       <div className="flex justify-between">
@@ -47,7 +49,7 @@ const JsonInteraction: React.FC<Props> = ({ name, properties, definitions, color
             />
           </button>
         ) : (
-          ""
+          button && <SimpleButton className="w-fit self-end py-4 px-9">Query</SimpleButton>
         )}
       </div>
 
@@ -75,6 +77,7 @@ const JsonInteraction: React.FC<Props> = ({ name, properties, definitions, color
         if (details.type === "boolean") return <></>;
         return <p key={name}>no-type</p>;
       })}
+      {propertiesArray.length && bgColor === "transparent" ? <SimpleButton className="w-fit self-end py-4 px-9 mt-4">Query</SimpleButton> : ""}
     </div>
   );
 };
