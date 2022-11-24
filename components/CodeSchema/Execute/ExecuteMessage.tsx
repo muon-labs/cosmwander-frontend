@@ -25,6 +25,7 @@ const ExecuteMessage: React.FC<any> = ({ message, definitions, expandedAll, colo
         index={index + 1}
         register={register}
         name={name}
+        buttonMessage="Execute"
         isContract={isContract}
         properties={(details.properties as Record<string, JSONSchema>) || {}}
         definitions={definitions as Record<string, JSONSchema>}

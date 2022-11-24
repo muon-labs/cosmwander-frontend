@@ -23,6 +23,7 @@ const QueryMessage: React.FC<any> = ({ message, definitions, expandedAll, color,
     >
       <JsonInteraction
         index={index + 1}
+        buttonMessage="Query"
         register={register}
         name={name}
         isContract={isContract}

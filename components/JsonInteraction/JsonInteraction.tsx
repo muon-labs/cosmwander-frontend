@@ -15,12 +15,24 @@ interface Props {
   definitions: Record<string, JSONSchema>;
   color?: Chain;
   isContract: boolean;
+  buttonMessage: string;
   bgColor?: string;
   index?: number;
   expandedAll: boolean;
 }
 
-const JsonInteraction: React.FC<Props> = ({ name, isContract, properties, definitions, color, index, expandedAll, bgColor, register }) => {
+const JsonInteraction: React.FC<Props> = ({
+  name,
+  buttonMessage,
+  isContract,
+  properties,
+  definitions,
+  color,
+  index,
+  expandedAll,
+  bgColor,
+  register,
+}) => {
   const propertiesArray = Object.entries(properties) as unknown as [string, JSONSchema][];
   const [expanded, setExpanded] = useState(false);
 
@@ -28,7 +40,7 @@ const JsonInteraction: React.FC<Props> = ({ name, isContract, properties, defini
     setExpanded(expandedAll);
   }, [expandedAll]);
 
-  const queryButton = isContract ? <SimpleButton className="w-fit self-end py-2 px-9">Query</SimpleButton> : null;
+  const queryButton = isContract ? <SimpleButton className="w-fit self-end py-2 px-9">{buttonMessage}</SimpleButton> : null;
 
   return (
     <div
@@ -72,6 +84,7 @@ const JsonInteraction: React.FC<Props> = ({ name, isContract, properties, defini
             return (
               <JsonInteraction
                 key={param_name}
+                buttonMessage={buttonMessage}
                 name={param_name}
                 register={register}
                 properties={details.properties as Record<string, JSONSchema>}
@@ -88,14 +101,14 @@ const JsonInteraction: React.FC<Props> = ({ name, isContract, properties, defini
                 <div>
                   {param_name} ({details.type})
                 </div>
-                <SimpleInput {...register(`${name}.${param_name}`)} placeholder={`${param_name}`} />
+                <SimpleInput disabled={!isContract} {...register(`${name}.${param_name}`)} placeholder={`${param_name}`} />
               </div>
             );
           if (details.type === "boolean") return <></>;
           return <p key={param_name}>no-type</p>;
         })}
       {propertiesArray.length && bgColor === "transparent" && expanded && isContract ? (
-        <SimpleButton className="w-fit self-end py-2 px-9 mt-4">Query</SimpleButton>
+        <SimpleButton className="w-fit self-end py-2 px-9 mt-4">{buttonMessage}</SimpleButton>
       ) : (
         ""
       )}
