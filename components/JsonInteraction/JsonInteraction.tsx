@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 import { Chain } from "../../interfaces/chains";
 import { JSONSchema } from "../../interfaces/json-schema";
 import { SimpleButton } from "../Buttons";
@@ -10,16 +11,24 @@ import SimpleInput from "../Input/SImpleInput";
 interface Props {
   properties: Record<string, JSONSchema>;
   name: string;
+  register: UseFormRegister<FieldValues>;
   definitions: Record<string, JSONSchema>;
   color?: Chain;
+  isContract: boolean;
   bgColor?: string;
   index?: number;
-  expanded?: boolean;
-  button?: ReactNode;
+  expandedAll: boolean;
 }
 
-const JsonInteraction: React.FC<Props> = ({ name, properties, definitions, color, index, expanded, bgColor, button }) => {
+const JsonInteraction: React.FC<Props> = ({ name, isContract, properties, definitions, color, index, expandedAll, bgColor, register }) => {
   const propertiesArray = Object.entries(properties) as unknown as [string, JSONSchema][];
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    setExpanded(expandedAll);
+  }, [expandedAll]);
+
+  const queryButton = isContract ? <SimpleButton className="w-fit self-end py-2 px-9">Query</SimpleButton> : null;
 
   return (
     <div
@@ -42,42 +51,54 @@ const JsonInteraction: React.FC<Props> = ({ name, properties, definitions, color
           {name}
         </div>
         {propertiesArray.length ? (
-          <button className="min-w-[40px] min-h-[40px] flex items-center justify-center border border-cw-grey-600 rounded-[6px] bg-cw-grey-950">
+          <button
+            type="button"
+            onClick={() => setExpanded(!expanded)}
+            className="min-w-[40px] min-h-[40px] flex items-center justify-center border border-cw-grey-600 rounded-[6px] bg-cw-grey-950"
+          >
             <ArrowRight
               color={`fill-chain-${color}-600`}
               className={clsx("transition duration-75 ease-in-out", expanded ? "rotate-[90deg]" : "")}
             />
           </button>
         ) : (
-          button && <SimpleButton className="w-fit self-end py-4 px-9">Query</SimpleButton>
+          queryButton
         )}
       </div>
 
-      {propertiesArray.map(([name, details], i) => {
-        if (details.type === "object" && details.properties)
-          return (
-            <JsonInteraction
-              name={name}
-              properties={details.properties as Record<string, JSONSchema>}
-              definitions={definitions}
-              color={color}
-              bgColor={bgColor === "dark" ? "light" : "dark"}
-              expanded={expanded}
-            />
-          );
-        if (["string", "number", "integer", "array"].includes(details.type as string))
-          return (
-            <div className="flex justify-between">
-              <div>
-                {name}({details.type})
+      {expanded &&
+        propertiesArray.map(([param_name, details], i) => {
+          if (details.type === "object" && details.properties)
+            return (
+              <JsonInteraction
+                key={param_name}
+                name={param_name}
+                register={register}
+                properties={details.properties as Record<string, JSONSchema>}
+                definitions={definitions}
+                isContract={isContract}
+                color={color}
+                bgColor={bgColor === "dark" ? "light" : "dark"}
+                expandedAll={expandedAll}
+              />
+            );
+          if (["string", "number", "integer", "array"].includes(details.type as string))
+            return (
+              <div className="flex justify-between" key={param_name}>
+                <div>
+                  {param_name} ({details.type})
+                </div>
+                <SimpleInput {...register(`${name}.${param_name}`)} placeholder={`${param_name}`} />
               </div>
-              <SimpleInput placeholder={`${name}`} />
-            </div>
-          );
-        if (details.type === "boolean") return <></>;
-        return <p key={name}>no-type</p>;
-      })}
-      {propertiesArray.length && bgColor === "transparent" ? <SimpleButton className="w-fit self-end py-4 px-9 mt-4">Query</SimpleButton> : ""}
+            );
+          if (details.type === "boolean") return <></>;
+          return <p key={param_name}>no-type</p>;
+        })}
+      {propertiesArray.length && bgColor === "transparent" && expanded && isContract ? (
+        <SimpleButton className="w-fit self-end py-2 px-9 mt-4">Query</SimpleButton>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

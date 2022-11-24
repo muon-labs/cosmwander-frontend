@@ -1,11 +1,13 @@
-import dynamic from "next/dynamic";
 import React from "react";
-import Tag from "../../Tag";
+import dynamic from "next/dynamic";
+import { JSONSchema } from "../../../interfaces/json-schema";
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
 interface Props {
-  json?: Record<string, unknown>;
+  json: JSONSchema;
+  color: string;
+  isContract: boolean;
 }
 
 const Instantiate: React.FC<Props> = ({ json }) => {

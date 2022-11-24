@@ -87,7 +87,7 @@ const CodeView: NextPage = () => {
             options={[
               {
                 key: "see-contract",
-                container: <CodeSchema codeId={codeId as string} color={queryChain as Chain} skeleton={activeSkeleton} />,
+                container: <CodeSchema isContract={false} codeId={codeId as string} color={queryChain as Chain} skeleton={activeSkeleton} />,
               },
               {
                 key: "contracts",

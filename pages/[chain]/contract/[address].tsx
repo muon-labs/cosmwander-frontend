@@ -99,7 +99,7 @@ const Contract: React.FC = () => {
                         </div>
                       </>
                     )}
-                    <CodeSchema codeId={contractDetails?.code_id} color={queryChain as Chain} skeleton={activeSkeleton} />
+                    <CodeSchema isContract={true} codeId={contractDetails?.code_id} color={queryChain as Chain} skeleton={activeSkeleton} />
                   </>
                 ),
               },

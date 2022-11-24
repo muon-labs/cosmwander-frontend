@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAsync } from "react-use";
 import { Chain } from "../../interfaces/chains";
+import { JSONSchema } from "../../interfaces/json-schema";
 import { useClient } from "../../providers/ThemeProvider";
 import { getCodeSchema } from "../../services/cosmwander";
 import { GroupButtons } from "../Buttons";
@@ -12,10 +13,11 @@ import Query from "./Query";
 interface Props {
   codeId?: string;
   color?: Chain;
+  isContract: boolean;
   skeleton?: boolean;
 }
 
-const CodeSchema: React.FC<Props> = ({ codeId, color, skeleton }) => {
+const CodeSchema: React.FC<Props> = ({ isContract, codeId, color, skeleton }) => {
   const [contractTab, setContractTab] = useState<string>("instantiate");
   const { chainColor } = useClient();
   const pageColor = color ? color : chainColor;
@@ -36,10 +38,10 @@ const CodeSchema: React.FC<Props> = ({ codeId, color, skeleton }) => {
   ];
 
   const [codeSquema, setCodeSquema] = useState<{
-    instantiate: Record<string, string>;
-    execute: Record<string, string>;
-    query: Record<string, string>;
-  }>();
+    instantiate: JSONSchema;
+    execute: JSONSchema;
+    query: JSONSchema;
+  }>({ instantiate: {}, execute: {}, query: {} });
 
   useAsync(async () => {
     if (codeId) {
@@ -59,9 +61,9 @@ const CodeSchema: React.FC<Props> = ({ codeId, color, skeleton }) => {
         skeleton={skeleton}
         selectedTab={contractTab}
         options={[
-          { key: "instantiate", container: <Instantiate json={codeSquema?.instantiate} /> },
-          { key: "query", container: <Query color={pageColor} json={codeSquema?.query} /> },
-          { key: "execute", container: <Execute json={codeSquema?.execute} /> },
+          { key: "instantiate", container: <Instantiate isContract={isContract} color={pageColor} json={codeSquema.instantiate} /> },
+          { key: "query", container: <Query isContract={isContract} color={pageColor} json={codeSquema.query} /> },
+          { key: "execute", container: <Execute isContract={isContract} color={pageColor} json={codeSquema.execute} /> },
         ]}
       />
     </>
