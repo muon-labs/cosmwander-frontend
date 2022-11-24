@@ -2,9 +2,9 @@ import { OfflineSigner } from "@cosmjs/proto-signing";
 import { useRouter } from "next/router";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
-import { getSigner, loadKeplr } from "../services/keplr";
-import { chains } from "chain-registry";
-import { Chain } from "@chain-registry/types";
+import { chainToKeplr, getSigner, loadKeplr } from "../services/keplr";
+import { assets, chains } from "chain-registry";
+import { AssetList, Chain } from "@chain-registry/types";
 import { ChainInfo } from "@keplr-wallet/types";
 import { chainRegistryChainToKeplr } from "@chain-registry/keplr";
 
@@ -26,6 +26,7 @@ const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const [allowPermission, setAllowPermission] = useLocalStorage<boolean>("allowPermission");
 
   const connectWallet = async () => {
+    if (!query.chain) return;
     const chain = chains.find(({ chain_name }) => chain_name === query.chain) as Chain;
     await loadKeplr(chain.chain_id);
     const signer = await getSigner(chain.chain_id);
@@ -34,7 +35,7 @@ const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
 
     setAddress(address);
     setSigner(signer);
-    setChain(chainRegistryChainToKeplr(chain, []));
+    setChain(chainToKeplr(chain));
     setAllowPermission(true);
   };
 
@@ -47,7 +48,7 @@ const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   useEffect(() => {
     if (!allowPermission) return;
     connectWallet();
-  }, []);
+  }, [query.chain]);
 
   return (
     <WalletContext.Provider

@@ -30,7 +30,9 @@ const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
       </div>
       <div className="col-span-4 flex items-center gap-2">
         <p className={`text-chain-${pageColor}-400`}>{details?.code_id}</p>
-        <SimpleButton color={pageColor}>Reinstantiate</SimpleButton>
+        <SimpleButton color={pageColor} scale="md">
+          Reinstantiate
+        </SimpleButton>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Creator</p>

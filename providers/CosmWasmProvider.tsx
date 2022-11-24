@@ -14,11 +14,12 @@ const CosmWasmProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const [client, setClient] = useState<SigningCosmWasmClient>();
 
   useEffect(() => {
-    if (!signer || !address) return;
+    if (!signer || !address || !chain) return;
     const loadClient = async () => {
+      const [feeCurrency] = chain.feeCurrencies;
       const client = await SigningCosmWasmClient.connectWithSigner(chain.rpc, signer, {
         prefix: chain?.bech32Config.bech32PrefixAccAddr,
-        gasPrice: GasPrice.fromString(chain?.feeCurrencies[0].coinDenom),
+        gasPrice: GasPrice.fromString((feeCurrency.gasPriceStep?.average || "0.025") + feeCurrency.coinMinimalDenom),
       });
       setClient(client);
     };

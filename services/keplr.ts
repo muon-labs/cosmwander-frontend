@@ -1,7 +1,7 @@
 import { OfflineSigner } from "@cosmjs/proto-signing";
 import { chainRegistryChainToKeplr } from "@chain-registry/keplr";
 import { chains, assets } from "chain-registry";
-import { Chain } from "@chain-registry/types";
+import { AssetList, Chain } from "@chain-registry/types";
 
 export const loadKeplr = async (chainIds: string | string[]) => {
   if (!window || !window.keplr) return;
@@ -23,3 +23,16 @@ const addChain = async (chainIds: string | string[]) => {
     await window?.keplr?.experimentalSuggestChain(chainRegistryChainToKeplr(config, assetList ? [assetList] : []));
   }
 };
+
+export const chainToKeplr = (chain: Chain) => {
+  const assetList = assets.find(({ chain_name }) => chain_name === chain.chain_name);
+  return chainRegistryChainToKeplr(chain, [assetList as AssetList], { getRpcEndpoint, getExplorer, getRestEndpoint });
+};
+
+const getRpcEndpoint = (chain: Chain) => {
+  if (!chain.apis?.rpc) return "";
+  return chain.apis?.rpc[3].address;
+};
+
+const getExplorer = (chain: Chain) => "";
+const getRestEndpoint = (chain: Chain) => "";

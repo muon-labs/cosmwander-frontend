@@ -13,7 +13,7 @@ interface Props {
   name: string;
   register: UseFormRegister<FieldValues>;
   definitions: Record<string, JSONSchema>;
-  color?: Chain;
+  color?: string;
   isContract: boolean;
   buttonMessage: string;
   bgColor?: string;
