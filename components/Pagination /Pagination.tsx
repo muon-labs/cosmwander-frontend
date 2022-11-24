@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { DobleArrowRight, DobleArrowLeft, ArrowLeft, ArrowRight } from "../Icons";
 interface Props {
   maxNumber: number;
@@ -8,7 +8,7 @@ interface Props {
 
 const Pagination: React.FC<Props> = ({ maxNumber, onChange }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
 
   const handlerChange = (number: number): void => {
     setCurrentPage(number);

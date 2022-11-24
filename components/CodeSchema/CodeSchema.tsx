@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAsync } from "react-use";
 import { Chain } from "../../interfaces/chains";
 import { JSONSchema } from "../../interfaces/json-schema";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { useWallet } from "../../providers/WalletProvider";
 import { getCodeSchema } from "../../services/cosmwander";
 import { IntlAddress } from "../../utils/intl";
@@ -17,11 +17,12 @@ interface Props {
   color?: Chain;
   isContract: boolean;
   skeleton?: boolean;
+  init_msg?: JSONSchema;
 }
 
-const CodeSchema: React.FC<Props> = ({ isContract, codeId, color, skeleton }) => {
+const CodeSchema: React.FC<Props> = ({ isContract, init_msg, codeId, color, skeleton }) => {
   const [contractTab, setContractTab] = useState<string>("instantiate");
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
   const { connectWallet, address, disconnectWallet } = useWallet();
   const pageColor = color ? color : chainColor;
 
@@ -76,7 +77,10 @@ const CodeSchema: React.FC<Props> = ({ isContract, codeId, color, skeleton }) =>
         skeleton={skeleton}
         selectedTab={contractTab}
         options={[
-          { key: "instantiate", container: <Instantiate isContract={isContract} color={pageColor} json={codeSquema.instantiate} /> },
+          {
+            key: "instantiate",
+            container: <Instantiate isContract={isContract} color={pageColor} json={init_msg || codeSquema.instantiate} />,
+          },
           { key: "query", container: <Query isContract={isContract} color={pageColor} json={codeSquema.query} /> },
           { key: "execute", container: <Execute isContract={isContract} color={pageColor} json={codeSquema.execute} /> },
         ]}

@@ -12,13 +12,13 @@ interface Props {
 
 const Execute: React.FC<Props> = ({ json, color, isContract }) => {
   const { oneOf, anyOf, definitions } = json as any;
-  const [expanded, setExpanded] = React.useState(false);
+  const [expandedAll, setExpandedAll] = React.useState<boolean | null>(false);
 
   const messages = oneOf?.length ? oneOf : anyOf || [];
 
   return (
     <>
-      <Expand color={color} setExpanded={setExpanded} />
+      <Expand color={color} expanded={expandedAll} setExpanded={setExpandedAll} />
       <div className="w-full flex flex-col gap-[20px]">
         {messages.map((message: { properties: Record<string, JSONSchema> }, i: number) => {
           return (
@@ -29,7 +29,7 @@ const Execute: React.FC<Props> = ({ json, color, isContract }) => {
               message={message}
               definitions={definitions}
               color={color}
-              expandedAll={expanded}
+              expandedAll={expandedAll}
             />
           );
         })}

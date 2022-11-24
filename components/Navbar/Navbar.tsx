@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import React from "react";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { motion } from "framer-motion";
 import CosmwanderLogo from "../Icons/ComswanderLogo";
 import { useRouter } from "next/router";
 
 const Navbar: React.FC = () => {
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
   const { push: goToPage } = useRouter();
 
   return (

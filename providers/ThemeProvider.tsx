@@ -64,7 +64,7 @@ const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export const useClient = () => {
+export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("error client context");

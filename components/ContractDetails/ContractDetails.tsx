@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { Chain } from "../../interfaces/chains";
 import { ContractDetails as IContractDetails } from "../../interfaces/contract-details";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
+import { useWallet } from "../../providers/WalletProvider";
 import SimpleButton from "../Buttons/SimpleButton";
 import CodeDetailsSkeletons from "../Skeletons/CodeDetailsSkeleton";
 
@@ -12,7 +14,9 @@ interface Props {
 }
 
 const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
+  const { push: goToPage } = useRouter();
+  const { chain } = useWallet();
   const pageColor = color ? color : chainColor;
 
   if (skeleton) return <CodeDetailsSkeletons />;
@@ -30,7 +34,7 @@ const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
       </div>
       <div className="col-span-4 flex items-center gap-2">
         <p className={`text-chain-${pageColor}-400`}>{details?.code_id}</p>
-        <SimpleButton color={pageColor} scale="md">
+        <SimpleButton color={pageColor} scale="md" onClick={() => goToPage(`/${chain.chainName.toLowerCase()}/code/${details?.code_id}`)}>
           Reinstantiate
         </SimpleButton>
       </div>

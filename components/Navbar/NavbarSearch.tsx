@@ -1,12 +1,12 @@
 import React from "react";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { motion } from "framer-motion";
 import CosmwanderLogo from "../Icons/ComswanderLogo";
 import { SearchInput } from "../Input";
 import { useRouter } from "next/router";
 
 const NavbarSearch: React.FC = () => {
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
   const { push: goToPage } = useRouter();
 
   return (

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React, { PropsWithChildren } from "react";
 import { HTMLMotionProps, motion } from "framer-motion";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { Chain } from "../../interfaces/chains";
 
 type ButtonAttributes = React.ButtonHTMLAttributes<HTMLButtonElement> & HTMLMotionProps<"button">;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const OutlineButton: React.FC<PropsWithChildren<ButtonAttributes> & Props> = ({ children, className, scale, color, ...props }) => {
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
   const pageColor = color ? color : chainColor;
   return (
     <motion.button

@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { GitHubIcon, VerifiedIcon } from "../Icons";
 import { IntlAddress } from "../../utils/intl";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { CodeDetails } from "../../interfaces/code-details";
 import Tag from "../Tag";
 import { Chain } from "../../interfaces/chains";
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
   const pageColor = color ? color : chainColor;
 
   if (skeleton) return <CodeDetailsSkeletons />;
@@ -85,9 +85,7 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
         <p className="text-cw-grey-400 ">Permission address</p>
       </div>
       <div className="col-span-1">
-        <p className={`text-chain-${pageColor}-400`}>
-          {codeDetails.permission_address ? IntlAddress(codeDetails.permission_address) : "-"}
-        </p>
+        <p className={`text-chain-${pageColor}-400`}>{codeDetails.permission_address ? IntlAddress(codeDetails.permission_address) : "-"}</p>
       </div>
       <div className="col-span-1 flex items-center justify-start gap-2">
         <GitHubIcon />

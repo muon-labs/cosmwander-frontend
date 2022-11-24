@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { Chain } from "../../interfaces/chains";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { IntlAddress } from "../../utils/intl";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const NotExist: React.FC<Props> = ({ color, searchValue }) => {
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
   const value = searchValue.length >= 20 ? IntlAddress(searchValue) : searchValue;
   const {
     query: { chain: queryChain },

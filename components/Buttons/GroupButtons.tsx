@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { Chain } from "../../interfaces/chains";
 import GroupButtonsSkeleton from "../Skeletons/GroupButtonsSkeleton";
 
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const GroupButtons: React.FC<Props> = ({ tabs, selectedTab, handlerTab, color, skeleton }) => {
-  const { chainColor } = useClient();
+  const { chainColor } = useTheme();
   const pageColor = color ? color : chainColor;
 
   if (skeleton) return <GroupButtonsSkeleton tabs={tabs} />;

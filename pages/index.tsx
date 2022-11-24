@@ -1,6 +1,10 @@
 import Head from "next/head";
+import Image from "next/image";
 import { SearchInput } from "../components/Input";
 import { Layout } from "../components/Layout";
+import FlameIcon from "../public/icons/flame.svg";
+import ClockIcon from "../public/icons/clock.svg";
+import ContractCard from "../components/ContractCard";
 
 const Home: NextPageWithLayout = () => {
   return (
@@ -16,7 +20,7 @@ const Home: NextPageWithLayout = () => {
           <SearchInput placeholder="Enter interchain smart contract address or code id" scale="lg" />
         </div>
         <div className="py-6 grid grid-cols-1 lg:grid-cols-2 gap-9 w-full border-t border-cw-grey-700">
-          {/* <div className="grid grid-cols-1 gap-9 col-span-1">
+          <div className="grid grid-cols-1 gap-9 col-span-1">
             <h2 className="flex items-center gap-3 justify-start text-lg">
               <Image src={FlameIcon} alt="Flame icon" className="h-[25px]" />
               Popular smart contracts
@@ -33,7 +37,7 @@ const Home: NextPageWithLayout = () => {
             <ContractCard />
             <ContractCard />
             <ContractCard />
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

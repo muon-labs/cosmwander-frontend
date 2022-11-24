@@ -1,19 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { JSONSchema } from "../../../interfaces/json-schema";
+import { useCosmWasm } from "../../../providers/CosmWasmProvider";
 import JsonInteraction from "../../JsonInteraction";
 
 const QueryMessage: React.FC<any> = ({ message, definitions, expandedAll, color, index, isContract }) => {
   const [[name, details]] = Object.entries(message.properties as Record<string, JSONSchema>);
   const { register, handleSubmit, setValue } = useForm();
+  const { client } = useCosmWasm();
+  const { query } = useRouter();
+  const [response, setResponse] = useState<Record<string, string>>();
 
-  const onSubmit = (data: Record<string, unknown>) => {
-    console.log(data);
+  const onSubmit = (msg: Record<string, unknown>) => {
+    if (!client) return;
+    console.log(msg);
+    client.queryContractSmart(query.address as string, msg).then(setResponse);
   };
 
   useEffect(() => {
     setValue(name, {});
   }, []);
+
+  useEffect(() => {
+    if (!expandedAll) setResponse(undefined);
+  }, [expandedAll]);
 
   return (
     <form
@@ -31,6 +42,7 @@ const QueryMessage: React.FC<any> = ({ message, definitions, expandedAll, color,
         definitions={definitions as Record<string, JSONSchema>}
         expandedAll={expandedAll}
         color={color}
+        response={response}
         bgColor="transparent"
       />
     </form>

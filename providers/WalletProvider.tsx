@@ -26,16 +26,14 @@ const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const [allowPermission, setAllowPermission] = useLocalStorage<boolean>("allowPermission");
 
   const connectWallet = async () => {
-    if (!query.chain) return;
-    const chain = chains.find(({ chain_name }) => chain_name === query.chain) as Chain;
-    await loadKeplr(chain.chain_id);
-    const signer = await getSigner(chain.chain_id);
+    if (!chain) return;
+    await loadKeplr(chain.chainId);
+    const signer = await getSigner(chain.chainId);
     if (!signer) return;
     const [{ address }] = await signer.getAccounts();
 
     setAddress(address);
     setSigner(signer);
-    setChain(chainToKeplr(chain));
     setAllowPermission(true);
   };
 
@@ -48,7 +46,13 @@ const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   useEffect(() => {
     if (!allowPermission) return;
     connectWallet();
-  }, [query.chain]);
+  }, []);
+
+  useEffect(() => {
+    if (!query.chain) return;
+    const chain = chains.find(({ chain_name }) => chain_name === query.chain) as Chain;
+    setChain(chainToKeplr(chain));
+  }, [query]);
 
   return (
     <WalletContext.Provider

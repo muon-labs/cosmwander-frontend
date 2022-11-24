@@ -2,7 +2,7 @@ import React, { FormEvent, useCallback, useMemo, useState } from "react";
 import clsx from "clsx";
 import { SearchIcon } from "../Icons";
 import { ChainsDropdown } from "../Dropdown";
-import { useClient } from "../../providers/ThemeProvider";
+import { useTheme } from "../../providers/ThemeProvider";
 import { Chain } from "../../interfaces/chains";
 import { useRouter } from "next/router";
 import { BECH32_REGEX } from "../../utils/constants";
@@ -14,7 +14,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scale = "md", icon = "search", ...props }, ref) => {
   const { push: goToPage } = useRouter();
-  const { chainColor, changechainColor, changechainColorByPrefix } = useClient();
+  const { chainColor, changechainColor, changechainColorByPrefix } = useTheme();
   const [searchValue, setSearchValue] = useState("");
 
   const onSubmit = useCallback(

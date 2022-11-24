@@ -61,8 +61,7 @@ const InstantiateJson = {
 };
 
 const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
-  const { definitions } = InstantiateJson as any;
-
+  const { definitions } = json as any;
   const [expanded, setExpanded] = React.useState(true);
   const { register, handleSubmit } = useForm();
 
@@ -85,7 +84,7 @@ const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
                 name="Instantiate"
                 buttonMessage="Instantiate"
                 isContract={true}
-                properties={(InstantiateJson.properties as Record<string, JSONSchema>) || {}}
+                properties={(json.properties as Record<string, JSONSchema>) || {}}
                 definitions={definitions as Record<string, JSONSchema>}
                 expandedAll={expanded}
                 color={color}
