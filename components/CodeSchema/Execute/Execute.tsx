@@ -1,17 +1,40 @@
-import dynamic from "next/dynamic";
 import React from "react";
-
-const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
+import { Chain } from "../../../interfaces/chains";
+import { JSONSchema } from "../../../interfaces/json-schema";
+import Expand from "../Expand/Expand";
+import ExecuteMessage from "./ExecuteMessage";
 
 interface Props {
-  json?: Record<string, unknown>;
+  json: JSONSchema;
+  color: Chain;
+  isContract: boolean;
 }
 
-const Execute: React.FC<Props> = ({ json }) => {
+const Execute: React.FC<Props> = ({ json, color, isContract }) => {
+  const { oneOf, anyOf, definitions } = json as any;
+  const [expandedAll, setExpandedAll] = React.useState<boolean | null>(false);
+
+  const messages = oneOf?.length ? oneOf : anyOf || [];
+
   return (
-    <div>
-      <ReactJson src={json || {}} indentWidth={2} theme="ashes" />
-    </div>
+    <>
+      <Expand color={color} expanded={expandedAll} setExpanded={setExpandedAll} />
+      <div className="w-full flex flex-col gap-[20px]">
+        {messages.map((message: { properties: Record<string, JSONSchema> }, i: number) => {
+          return (
+            <ExecuteMessage
+              key={i}
+              index={i}
+              isContract={isContract}
+              message={message}
+              definitions={definitions}
+              color={color}
+              expandedAll={expandedAll}
+            />
+          );
+        })}
+      </div>
+    </>
   );
 };
 

@@ -9,6 +9,11 @@ export const getContractDetails = async (chainId: string, contractAddress: strin
   return data;
 };
 
+export const getContractsDetails = async (chainName: string, contractAddresses: string[]) => {
+  const { data } = await http.post(`/contract/${chainName}`, { contracts: contractAddresses });
+  return data;
+};
+
 export const getContractSchema = async (chainId: string, contractAddress: string) => {
   const { data } = await http.get(`/contract/${chainId}/${contractAddress}/schema`);
   return data;

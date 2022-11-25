@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { Chain } from "../../interfaces/chains";
 import { ContractDetails as IContractDetails } from "../../interfaces/contract-details";
-import { useClient } from "../../providers/ClientProvider";
+import { useTheme } from "../../providers/ThemeProvider";
+import { useWallet } from "../../providers/WalletProvider";
 import SimpleButton from "../Buttons/SimpleButton";
 import CodeDetailsSkeletons from "../Skeletons/CodeDetailsSkeleton";
 
@@ -12,7 +14,10 @@ interface Props {
 }
 
 const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
-  const { chain } = useClient();
+  const { chainColor } = useTheme();
+  const { push: goToPage } = useRouter();
+  const { chain } = useWallet();
+  const pageColor = color ? color : chainColor;
 
   if (skeleton) return <CodeDetailsSkeletons />;
 
@@ -28,26 +33,28 @@ const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
         <p className="text-cw-grey-400">Code ID</p>
       </div>
       <div className="col-span-4 flex items-center gap-2">
-        <p className={`text-chain-${color ? color : chain}-400`}>{details?.code_id}</p>
-        <SimpleButton color={color ? color : chain}>Reinstantiate</SimpleButton>
+        <p className={`text-chain-${pageColor}-400`}>{details?.code_id}</p>
+        <SimpleButton color={pageColor} scale="md" onClick={() => goToPage(`/${chain.chainName.toLowerCase()}/code/${details?.code_id}`)}>
+          Reinstantiate
+        </SimpleButton>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Creator</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${color ? color : chain}-400`}>{details?.creator}</p>
+        <p className={`text-chain-${pageColor}-400`}>{details?.creator}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Tx Hash</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${color ? color : chain}-400`}>{details?.tx_hash}</p>
+        <p className={`text-chain-${pageColor}-400`}>{details?.tx_hash}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Admin</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${color ? color : chain}-400`}>-</p>
+        <p className={`text-chain-${pageColor}-400`}>-</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Funds</p>

@@ -7,3 +7,5 @@ export { default as DobleArrowLeft } from "./DobleArrowLeft";
 export { default as ComswanderLogo } from "./ComswanderLogo";
 export { default as GitHubIcon } from "./GitHubIcon";
 export { default as VerifiedIcon } from "./VerifiedIcon";
+export { default as PlusIcon } from "./PlusIcon";
+export { default as MinusIcon } from "./MinusIcon";

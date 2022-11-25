@@ -9,7 +9,7 @@ import ContractDetails from "../../../components/ContractDetails";
 import TabsContainer from "../../../components/TabsContainer";
 import Transactions from "../../../components/Transactions";
 import { ContractDetails as IContractDetails } from "../../../interfaces/contract-details";
-import { useClient } from "../../../providers/ClientProvider";
+import { useTheme } from "../../../providers/ThemeProvider";
 import { getContractDetails } from "../../../services/cosmwander";
 import { Chain } from "../../../interfaces/chains";
 import NotExist from "../../../components/NotExist";
@@ -37,7 +37,7 @@ const Contract: React.FC = () => {
   const {
     query: { chain: queryChain, address: contractAddr },
   } = useRouter();
-  const { changeChain } = useClient();
+  const { changechainColor } = useTheme();
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
   const [contractDetails, setContractDetails] = useState<IContractDetails | null>(null);
@@ -48,7 +48,7 @@ const Contract: React.FC = () => {
   useAsync(async () => {
     setContractDetails(null);
     if (contractAddr) {
-      changeChain(queryChain as Chain);
+      changechainColor(queryChain as Chain);
       try {
         const contractDetails = await getContractDetails(queryChain as Chain, contractAddr as string);
         setContractDetails(contractDetails);
@@ -89,7 +89,7 @@ const Contract: React.FC = () => {
                 key: "see-contract",
                 container: (
                   <>
-                    {contractDetails?.init_msg && (
+                    {/* {contractDetails?.init_msg && (
                       <>
                         <div>
                           <p className="text-gray-400">Instantiate Message</p>
@@ -98,8 +98,14 @@ const Contract: React.FC = () => {
                           <ReactJson src={contractDetails.init_msg} theme="ashes" />
                         </div>
                       </>
-                    )}
-                    <CodeSchema codeId={contractDetails?.code_id} color={queryChain as Chain} skeleton={activeSkeleton} />
+                    )} */}
+                    <CodeSchema
+                      init_msg={contractDetails?.init_msg}
+                      isContract={true}
+                      codeId={contractDetails?.code_id}
+                      color={queryChain as Chain}
+                      skeleton={activeSkeleton}
+                    />
                   </>
                 ),
               },

@@ -67,7 +67,7 @@ const ChainsDropdown: React.FC<PropsWithChildren<DropdownProps>> = ({ options, c
             scale === "md" && open && "right-[58px]"
           )}
         >
-          <ArrowDown color={clsx(open ? "fill-white" : "fill-cw-grey-600")} className={clsx("hover:fill-cw-white ")} />
+          <ArrowDown color={clsx(open ? "fill-white" : "fill-cw-grey-300")} className={clsx("hover:fill-cw-white ")} />
         </motion.div>
       </motion.button>
       <motion.ul
