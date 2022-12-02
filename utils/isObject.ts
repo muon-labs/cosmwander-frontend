@@ -1,1 +1,1 @@
-export const isObject = (o) => o instanceof Object && o.constructor === Object;
+export const isObject = (o: unknown) => o instanceof Object && o.constructor === Object;

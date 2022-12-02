@@ -1,11 +1,8 @@
-import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Chain } from "../../../interfaces/chains";
 import { JSONSchema } from "../../../interfaces/json-schema";
 import QueryMessage from "./QueryMessage";
 import Expand from "../Expand/Expand";
-
-const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
 interface Props {
   json: JSONSchema;
