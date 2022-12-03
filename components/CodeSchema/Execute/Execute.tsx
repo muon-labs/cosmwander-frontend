@@ -1,12 +1,11 @@
 import React from "react";
-import { Chain } from "../../../interfaces/chains";
 import { JSONSchema } from "../../../interfaces/json-schema";
 import Expand from "../Expand/Expand";
 import ExecuteMessage from "./ExecuteMessage";
 
 interface Props {
   json: JSONSchema;
-  color: Chain;
+  color: string;
   isContract: boolean;
 }
 

@@ -12,7 +12,7 @@ interface Props {
     content: React.ReactElement | string;
     key: string;
   }[];
-  color?: Chain;
+  color?: string;
   skeleton?: boolean;
 }
 

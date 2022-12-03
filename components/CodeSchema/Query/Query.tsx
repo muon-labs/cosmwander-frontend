@@ -1,12 +1,11 @@
 import React from "react";
-import { Chain } from "../../../interfaces/chains";
 import { JSONSchema } from "../../../interfaces/json-schema";
 import QueryMessage from "./QueryMessage";
 import Expand from "../Expand/Expand";
 
 interface Props {
   json: JSONSchema;
-  color: Chain;
+  color: string;
   isContract: boolean;
 }
 
@@ -15,6 +14,14 @@ const Query: React.FC<Props> = ({ json, color, isContract }) => {
   const [expandedAll, setExpandedAll] = React.useState<boolean | null>(false);
 
   const messages = oneOf?.length ? oneOf : anyOf || [];
+
+  if (!messages.length) {
+    return (
+      <>
+        <Expand color={color} expanded={expandedAll} setExpanded={setExpandedAll} />
+      </>
+    );
+  }
 
   return (
     <>

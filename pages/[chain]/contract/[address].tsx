@@ -13,6 +13,7 @@ import { useTheme } from "../../../providers/ThemeProvider";
 import { getContractDetails } from "../../../services/cosmwander";
 import { Chain } from "../../../interfaces/chains";
 import NotExist from "../../../components/NotExist";
+import { JSONSchema } from "../../../interfaces/json-schema";
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
@@ -88,25 +89,13 @@ const Contract: React.FC = () => {
               {
                 key: "see-contract",
                 container: (
-                  <>
-                    {/* {contractDetails?.init_msg && (
-                      <>
-                        <div>
-                          <p className="text-gray-400">Instantiate Message</p>
-                        </div>
-                        <div className="w-full min-h-[400px]">
-                          <ReactJson src={contractDetails.init_msg} theme="ashes" />
-                        </div>
-                      </>
-                    )} */}
-                    <CodeSchema
-                      init_msg={contractDetails?.init_msg}
-                      isContract={true}
-                      codeId={contractDetails?.code_id}
-                      color={queryChain as Chain}
-                      skeleton={activeSkeleton}
-                    />
-                  </>
+                  <CodeSchema
+                    init_msg={contractDetails?.init_msg as JSONSchema}
+                    contractAddr={contractAddr as string}
+                    codeDetails={contractDetails?.code_details}
+                    color={queryChain as Chain}
+                    skeleton={activeSkeleton}
+                  />
                 ),
               },
               {
