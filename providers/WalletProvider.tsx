@@ -3,10 +3,9 @@ import { useRouter } from "next/router";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
 import { chainToKeplr, getSigner, loadKeplr } from "../services/keplr";
-import { assets, chains } from "chain-registry";
-import { AssetList, Chain } from "@chain-registry/types";
+import { chains } from "chain-registry";
+import { Chain } from "@chain-registry/types";
 import { ChainInfo } from "@keplr-wallet/types";
-import { chainRegistryChainToKeplr } from "@chain-registry/keplr";
 
 interface WalletState {
   chain: ChainInfo;

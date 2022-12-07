@@ -28,3 +28,8 @@ export const getCodeSchema = async (chainId: string, codeId: string) => {
   const { data } = await http.get(`/code/${chainId}/${codeId}/schema`);
   return data;
 };
+
+export const verifyCode = async (chainId: string, codeId: string, githubDetails: unknown) => {
+  const { data } = await http.post(`/code/${chainId}/${codeId}/schema`, githubDetails);
+  return data;
+};

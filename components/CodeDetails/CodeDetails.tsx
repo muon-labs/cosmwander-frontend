@@ -6,6 +6,9 @@ import { CodeDetails } from "../../interfaces/code-details";
 import Tag from "../Tag";
 import { Chain } from "../../interfaces/chains";
 import CodeDetailsSkeletons from "../Skeletons/CodeDetailsSkeleton";
+import { SimpleButton } from "../Buttons";
+import { useWallet } from "../../providers/WalletProvider";
+import { useRouter } from "next/router";
 
 interface Props {
   codeDetails: CodeDetails;
@@ -15,6 +18,8 @@ interface Props {
 
 const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
   const { chainColor } = useTheme();
+  const { chain } = useWallet();
+  const { push: goToPage } = useRouter();
   const pageColor = color ? color : chainColor;
 
   if (skeleton) return <CodeDetailsSkeletons />;
@@ -26,11 +31,18 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
           <Tag bg={`bg-chain-${pageColor}-600 capitalize`}>{pageColor}</Tag>
           {codeDetails.type && <Tag bg="bg-cw-grey-300">{codeDetails.type}</Tag>}
         </div>
-        {codeDetails.verified && (
+        {codeDetails.verified ? (
           <div className="flex items-center gap-2">
             <VerifiedIcon color={`fill-chain-${chainColor}-600`} />
             <p className={`text-chain-${chainColor}-200 text-md font-semibold`}>Verified</p>
           </div>
+        ) : (
+          <SimpleButton
+            className="px-4 py-1"
+            onClick={() => goToPage(`/verify?codeId=${codeDetails.code_id}&chainId=${chain.chainId}&creator=${codeDetails.creator}`)}
+          >
+            Verify
+          </SimpleButton>
         )}
       </div>
       <div className="col-span-1">

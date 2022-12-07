@@ -1,13 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("checkbox.css");
 
 * {
   box-sizing: border-box;
 }
 
 :root {
-  --chain-color: theme("colors.cw-purple-450") ;
+  --chain-color: theme("colors.cw-purple-450");
 }
 
 html,
@@ -17,7 +18,6 @@ body {
   font-family: theme("fontFamily.inter");
   overflow-x: hidden;
 }
-
 
 html {
   color-scheme: dark;
@@ -34,7 +34,7 @@ body {
 }
 
 .react-json-view .object-key {
-  color:theme("colors.cw-grey-100");
+  color: theme("colors.cw-grey-100");
 }
 
 .react-json-view .icon-container {
@@ -57,7 +57,9 @@ body {
   fill: var(--chain-color) !important;
 }
 
-.react-json-view .data-type-label, .react-json-view
-.string-value, .react-json-view .variable-value > *, .react-json-view .node-ellipsis {
-  color:var(--chain-color) !important;
+.react-json-view .data-type-label,
+.react-json-view .string-value,
+.react-json-view .variable-value > *,
+.react-json-view .node-ellipsis {
+  color: var(--chain-color) !important;
 }

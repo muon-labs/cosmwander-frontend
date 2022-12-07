@@ -1,0 +1,18 @@
+.form-check .form-check-input {
+  position: relative;
+  margin-top: 0.1rem;
+}
+
+.form-check .form-checkBox-input + .checkbox-icon {
+  position: absolute;
+  opacity: 0;
+  transition: all 0.15s ease-in-out;
+  top: -1px;
+  left: -1px;
+  width: 30px;
+  height: 30px;
+}
+
+.form-check .form-checkBox-input:checked + .checkbox-icon {
+  opacity: 1;
+}
