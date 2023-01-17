@@ -17,7 +17,9 @@ interface Props {
 const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
   const { definitions } = json as any;
   const [expanded, setExpanded] = React.useState<boolean | null>(true);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm();
+
+console.log({isContract})
 
   const onSubmit = ({ Instantiate: data }: Record<string, unknown>) => {
     console.log(data);
@@ -43,6 +45,7 @@ const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
                 expandedAll={expanded as boolean}
                 color={color}
                 bgColor="transparent"
+                formControl={control}
               />
             </form>
           </div>
