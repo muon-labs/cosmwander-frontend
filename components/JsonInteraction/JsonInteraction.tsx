@@ -21,7 +21,7 @@ interface Props {
   response?: Record<string, string>;
   index?: number;
   expandedAll: boolean;
-  formControl: Control<FieldValues, any>;
+  formControl?: Control<FieldValues, any>;
 }
 
 const JsonInteraction: React.FC<Props> = ({

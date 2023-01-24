@@ -17,7 +17,7 @@ interface Props {
   response?: Record<string, string>;
   index?: number;
   expandedAll: boolean;
-  formControl: Control<FieldValues, any>;
+  formControl?: Control<FieldValues, any>;
 }
 
 const FieldArray: React.FC<Props> = ({
@@ -51,7 +51,7 @@ const FieldArray: React.FC<Props> = ({
           buttonMessage={buttonMessage}
           name={name + "." + index}
           register={register}
-          properties={details.items.properties}
+          properties={(details.items as JSONSchema).properties as Record<string, JSONSchema>}
           definitions={definitions}
           isContract={isContract}
           color={color}
