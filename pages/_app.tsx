@@ -5,6 +5,7 @@ import "../styles/globals.css";
 import "@fontsource/inter";
 import WalletProvider from "../providers/WalletProvider";
 import CosmWasmProvider from "../providers/CosmWasmProvider";
+import { Toaster } from "react-hot-toast";
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -20,6 +21,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Layout>
             <Component {...pageProps} />
           </Layout>
+          <Toaster position="top-right" />
         </CosmWasmProvider>
       </WalletProvider>
     </ThemeProvider>
