@@ -1,12 +1,10 @@
 import clsx from "clsx";
 import dynamic from "next/dynamic";
-import React, { ReactNode, useEffect, useState } from "react";
-import { Control, FieldValues, UseFormRegister, UseFormRegisterReturn, Validate, ValidationRule } from "react-hook-form";
-import { Chain } from "../../interfaces/chains";
+import React, { useEffect, useState } from "react";
+import { Control, FieldValues, UseFormRegister } from "react-hook-form";
 import { JSONSchema } from "../../interfaces/json-schema";
 import { SimpleButton } from "../Buttons";
-import { ArrowRight, MinusIcon, PlusIcon } from "../Icons";
-import { BasicInput } from "../Input";
+import { ArrowRight } from "../Icons";
 import SimpleInput from "../Input/SImpleInput";
 import FieldArray from "./FieldArray";
 
@@ -125,7 +123,7 @@ const JsonInteraction: React.FC<Props> = ({
   //   },
   // };
 
-  const propertiesArray = (Object.entries(properties) as unknown) as [string, JSONSchema][];
+  const propertiesArray = Object.entries(properties) as unknown as [string, JSONSchema][];
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
@@ -179,7 +177,7 @@ const JsonInteraction: React.FC<Props> = ({
         )}
       </div>
       {expanded && (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           {propertiesArray.map(([param_name, details], i) => {
             const type = Array.isArray(details.type) ? details.type[0] : details.type;
             const ref = details.$ref;
@@ -215,8 +213,7 @@ const JsonInteraction: React.FC<Props> = ({
               );
             if ("array" === (type as string))
               return (
-                <div style={{ paddingLeft: 4, background: "red", display: "flex", flexDirection: "column" }}>
-                  
+                <div className="flex flex-col gap-4">
                   <FieldArray
                     key={`${name}.${param_name}`}
                     buttonMessage={buttonMessage}
@@ -251,5 +248,3 @@ const JsonInteraction: React.FC<Props> = ({
 };
 
 export default JsonInteraction;
-
-

@@ -1,6 +1,7 @@
 import { Control, FieldValues, useFieldArray, useForm, UseFormRegister } from "react-hook-form";
 import { JSONSchema } from "../../interfaces/json-schema";
 import { SimpleButton } from "../Buttons";
+import { MinusIcon, PlusIcon } from "../Icons";
 import JsonInteraction from "./JsonInteraction";
 
 interface Props {
@@ -19,33 +20,36 @@ interface Props {
   formControl: Control<FieldValues, any>;
 }
 
-const FieldArray: React.FC<Props> = ({  
-    properties,
-    details,
-    name,
-    register,
-    definitions,
-    color,
-    isContract,
-    buttonMessage,
-    bgColor,
-    response,
-    index,
-    expandedAll,
-    formControl,
+const FieldArray: React.FC<Props> = ({
+  details,
+  name,
+  register,
+  definitions,
+  color,
+  isContract,
+  buttonMessage,
+  bgColor,
+  expandedAll,
+  formControl,
 }) => {
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
-    control:formControl, // control props comes from useForm (optional: if you are using FormContext)
-    name, // unique name for your Field Array
+  const { fields, append, remove } = useFieldArray({
+    control: formControl,
+    name,
   });
 
   return (
     <>
+      {fields.length === 0 && (
+        <div className="justify-between flex">
+          <p>{name} (array)</p>
+          <p>no elements</p>
+        </div>
+      )}
       {fields.map((field, index) => (
         <JsonInteraction
           key={name + field.id}
           buttonMessage={buttonMessage}
-          name={name + '.' + index}
+          name={name + "." + index}
           register={register}
           properties={details.items.properties}
           definitions={definitions}
@@ -55,12 +59,17 @@ const FieldArray: React.FC<Props> = ({
           expandedAll={expandedAll}
           formControl={formControl}
         />
-        // <input
-        //   key={field.id} // important to include key with field's id
-        //   {...register(`${prefix}.${index}.value`)}
-        // />
       ))}
-      <SimpleButton onClick={append}>Add element</SimpleButton>
+      <div className="flex gap-4 justify-end text-white">
+        <SimpleButton onClick={() => append({})} className="py-1 px-2 flex items-center justify-center gap-2">
+          <PlusIcon width={15} height={15} color="fill-white" /> <p>Add element</p>
+        </SimpleButton>
+        {fields.length > 0 && (
+          <SimpleButton onClick={() => remove(fields.length - 1)} className="py-1 px-2 flex items-center justify-center gap-2">
+            <MinusIcon width={12} height={12} color="fill-white" /> <p>Remove element</p>
+          </SimpleButton>
+        )}
+      </div>
     </>
   );
 };
