@@ -35,7 +35,7 @@ const CodeSchema: React.FC<Props> = ({ contractAddr, init_msg, codeDetails, colo
 
   return (
     <>
-      <div className="mt-3 mb-[4rem] flex items-center justify-between">
+      <div className="mt-3 mb-[3rem] flex items-center justify-between">
         <GroupButtons selectedTab={contractTab} color={pageColor} handlerTab={setContractTab} tabs={contractTabGroup} skeleton={skeleton} />
         {address ? (
           <div className="flex flex-col gap-2">

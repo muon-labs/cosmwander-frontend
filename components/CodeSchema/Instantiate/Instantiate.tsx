@@ -5,6 +5,7 @@ import Expand from "../Expand/Expand";
 import InstantiateMessage from "./InstantiateMessage";
 import { useForm } from "react-hook-form";
 import JsonInteraction from "../../JsonInteraction";
+import { recursivePopulateProps } from "../../../utils/schema";
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
@@ -17,11 +18,13 @@ interface Props {
 const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
   const { definitions } = json as any;
   const [expanded, setExpanded] = React.useState<boolean | null>(true);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm();
 
   const onSubmit = ({ Instantiate: data }: Record<string, unknown>) => {
     console.log(data);
   };
+
+  if (json.properties) json.properties = recursivePopulateProps(json.properties!, definitions);
 
   return (
     <div className="mt-2 grid grid-cols-1 gap-8 ">
@@ -43,6 +46,7 @@ const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
                 expandedAll={expanded as boolean}
                 color={color}
                 bgColor="transparent"
+                formControl={control}
               />
             </form>
           </div>

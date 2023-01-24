@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { JSONSchema } from "../../../interfaces/json-schema";
 import { useCosmWasm } from "../../../providers/CosmWasmProvider";
 import JsonInteraction from "../../JsonInteraction";
+import { recursivePopulateProps } from "../../../utils/schema";
 
 const QueryMessage: React.FC<any> = ({ message, definitions, expandedAll, color, index, isContract }) => {
   const [[name, details]] = Object.entries(message.properties as Record<string, JSONSchema>);
@@ -25,6 +26,8 @@ const QueryMessage: React.FC<any> = ({ message, definitions, expandedAll, color,
   useEffect(() => {
     if (!expandedAll) setResponse(undefined);
   }, [expandedAll]);
+
+  if (details.properties) details.properties = recursivePopulateProps(details.properties!, definitions);
 
   return (
     <form

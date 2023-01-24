@@ -5,6 +5,7 @@ import { SimpleButton } from "../components/Buttons";
 import SimpleInput from "../components/Input/SImpleInput";
 import { useTheme } from "../providers/ThemeProvider";
 import { verifyCode } from "../services/cosmwander";
+import { toast } from "react-hot-toast";
 
 const Verify: React.FC = () => {
   const { chainColor } = useTheme();
@@ -12,7 +13,11 @@ const Verify: React.FC = () => {
   const { query } = useRouter();
 
   const onSubmit = async (data: unknown) => {
-    await verifyCode(query.chainId as string, query.codeId as string, data);
+    toast.promise(verifyCode(query.chainId as string, query.codeId as string, data), {
+      loading: "Verifying...",
+      success: "Verified!",
+      error: "Error: Failed to verify",
+    });
   };
 
   return (
