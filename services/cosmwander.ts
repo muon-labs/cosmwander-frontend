@@ -5,31 +5,26 @@ const baseURL = process.env.NEXT_PUBLIC_API_URL || "https://api.cosmwander.xyz";
 const http = axios.create({ baseURL });
 
 export const getContractDetails = async (chainId: string, contractAddress: string) => {
-  const { data } = await http.get(`/contract/${chainId}/${contractAddress}/metadata`);
+  const { data } = await http.get(`/${chainId}/contracts/${contractAddress}`);
   return data;
 };
 
 export const getContractsDetails = async (chainName: string, contractAddresses: string[]) => {
-  const { data } = await http.post(`/contract/${chainName}`, { contracts: contractAddresses });
+  const { data } = await http.post(`/${chainName}/contracts`, { contracts: contractAddresses });
   return data;
 };
 
-export const getContractSchema = async (chainId: string, contractAddress: string) => {
-  const { data } = await http.get(`/contract/${chainId}/${contractAddress}/schema`);
+export const getCodeDetails = async (chainName: string, codeId: string) => {
+  const { data } = await http.get(`/${chainName}/code/${codeId}`);
   return data;
 };
 
-export const getCodeDetails = async (chainId: string, codeId: string) => {
-  const { data } = await http.get(`/code/${chainId}/${codeId}/metadata`);
+export const getPinnedCodes = async (chainName: string) => {
+  const { data } = await http.get(`/${chainName}/code/pinned`);
   return data;
 };
 
-export const getCodeSchema = async (chainId: string, codeId: string) => {
-  const { data } = await http.get(`/code/${chainId}/${codeId}/schema`);
-  return data;
-};
-
-export const verifyCode = async (chainId: string, codeId: string, githubDetails: unknown) => {
-  const { data } = await http.post(`/code/${chainId}/${codeId}/schema`, githubDetails);
+export const verifyCode = async (chainName: string, codeId: string, githubDetails: unknown) => {
+  const { data } = await http.post(`/${chainName}/code/${codeId}`, githubDetails);
   return data;
 };

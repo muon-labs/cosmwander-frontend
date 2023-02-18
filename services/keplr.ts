@@ -30,8 +30,14 @@ export const chainToKeplr = (chain: Chain) => {
 };
 
 const getRpcEndpoint = (chain: Chain) => {
-  if (!chain.apis?.rpc) return "";
-  return chain.apis?.rpc[3].address;
+  if (chain.chain_name === "osmosis") return "https://rpc.cosmos.directory/osmosis";
+  if (chain.chain_name === "juno") return "https://rpc.cosmos.directory/juno";
+  if (chain.chain_name === "stargaze") return "https://rpc.cosmos.directory/stargaze";
+
+  if (chain.chain_name === "osmosistestnet") return "https://rpc-test.osmosis.zone:443";
+  if (chain.chain_name === "junotestnet") return "https://uni-rpc.reece.sh/"
+  if (chain.chain_name === "stargazetestnet") return "https://rpc.elgafar-1.stargaze-apis.com";
+  return '';
 };
 
 const getExplorer = (chain: Chain) => "";

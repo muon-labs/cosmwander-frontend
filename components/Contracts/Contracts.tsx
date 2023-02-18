@@ -19,9 +19,7 @@ const Contracts: React.FC<Props> = ({ contracts: contractAddresses, color }) => 
 
   useEffect(() => {
     const loadContracts = async () => {
-      console.log(chain);
-      const pagiantedContracts = await getContractsDetails(chain.chainId, contractAddresses.slice(currentPage, (currentPage + 1) * 6));
-      console.log(pagiantedContracts);
+      const pagiantedContracts = await getContractsDetails(chain.chainName.toLowerCase(), contractAddresses.slice(currentPage, (currentPage + 1) * 6));
       setContracts(pagiantedContracts);
     };
     loadContracts();

@@ -46,7 +46,7 @@ const ContractCard: React.FC<HTMLAttributes<HTMLElement> & Props> = ({ className
         <p className="text-cw-grey-400">Contract Address</p>
         <p
           className={`text-chain-${chainColor}-400 cursor-pointer`}
-          onClick={() => goToPage(`/${chain?.chainName.toLowerCase()}/contract/${contract?.address}`)}
+          onClick={() => goToPage(`/${chain?.chainName.replace('testnet', '').toLowerCase()}/contract/${contract?.address}`)}
         >
           {contract && IntlAddress(contract?.address)}
         </p>

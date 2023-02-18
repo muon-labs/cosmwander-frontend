@@ -9,15 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chain-registry/keplr": "^1.8.0",
-    "@chain-registry/types": "^0.13.1",
+    "@chain-registry/keplr": "^1.11.0",
+    "@chain-registry/types": "^0.14.0",
     "@cosmjs/cosmwasm-stargate": "^0.29.4",
     "@cosmjs/proto-signing": "^0.29.4",
     "@fontsource/inter": "^4.5.13",
     "@monaco-editor/react": "^4.4.6",
     "@tailwindcss/typography": "^0.5.7",
     "axios": "^1.1.2",
-    "chain-registry": "^1.5.0",
+    "chain-registry": "^1.7.0",
     "clsx": "^1.2.1",
     "framer-motion": "^7.5.3",
     "next": "^12.2.2",

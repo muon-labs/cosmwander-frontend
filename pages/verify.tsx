@@ -6,14 +6,16 @@ import SimpleInput from "../components/Input/SImpleInput";
 import { useTheme } from "../providers/ThemeProvider";
 import { verifyCode } from "../services/cosmwander";
 import { toast } from "react-hot-toast";
+import { useWallet } from "../providers/WalletProvider";
 
 const Verify: React.FC = () => {
   const { chainColor } = useTheme();
   const { register, handleSubmit } = useForm();
+  const { network } = useWallet();
   const { query } = useRouter();
 
   const onSubmit = async (data: unknown) => {
-    toast.promise(verifyCode(query.chainId as string, query.codeId as string, data), {
+    toast.promise(verifyCode(query.chainId as string + network, query.codeId as string, data), {
       loading: "Verifying...",
       success: "Verified!",
       error: "Error: Failed to verify",

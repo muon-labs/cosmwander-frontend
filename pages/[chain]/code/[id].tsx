@@ -8,11 +8,12 @@ import CodeDetails from "../../../components/CodeDetails";
 import CodeSchema from "../../../components/CodeSchema";
 import { useRouter } from "next/router";
 import { useAsync } from "react-use";
-import { getCodeDetails } from "../../../services/cosmwander";
+import { getCodeDetails, getPinnedCodes } from "../../../services/cosmwander";
 import { CodeDetails as ICodeDetails } from "../../../interfaces/code-details";
 import { Chain } from "../../../interfaces/chains";
 import { useTheme } from "../../../providers/ThemeProvider";
 import NotExist from "../../../components/NotExist";
+import { useWallet } from "../../../providers/WalletProvider";
 
 const buildTabs = (contractNumber?: number, chain?: Chain) => {
   return [
@@ -37,6 +38,7 @@ const CodeView: NextPage = () => {
     query: { chain: queryChain, id: codeId },
   } = useRouter();
   const { changechainColor } = useTheme();
+  const { chain } = useWallet();
 
   const [codeDetails, setCodeDetails] = useState<ICodeDetails | null>(null);
   const [searched, setSearched] = useState<boolean>(false);
@@ -44,21 +46,22 @@ const CodeView: NextPage = () => {
   const activeSkeleton = useMemo(() => !codeDetails, [codeDetails]);
 
   useAsync(async () => {
+    setSearched(false)
+    if (!codeId || !chain) return;
     setCodeDetails(null);
-    if (codeId) {
-      changechainColor(queryChain as Chain);
-      try {
-        const codeDetails = await getCodeDetails(queryChain as Chain, codeId as string);
-        setCodeDetails(codeDetails);
-      } catch (e) {
-        setSearched(true);
-      }
+    changechainColor(queryChain as Chain);
+    try {
+      const codeDetails = await getCodeDetails(chain.chainName, codeId as string);
+      setCodeDetails(codeDetails);
+    } catch (e) {
     }
-  }, [codeId, queryChain]);
+    setSearched(true);
+  }, [codeId, queryChain, chain]);
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
 
   if (searched && !codeDetails) {
+    console.log(searched, codeDetails)
     return <NotExist searchValue={codeId as string} />;
   }
 

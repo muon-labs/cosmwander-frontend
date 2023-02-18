@@ -1,6 +1,6 @@
 import { OfflineSigner } from "@cosmjs/proto-signing";
 import { useRouter } from "next/router";
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { useLocalStorage } from "react-use";
 import { chainToKeplr, getSigner, loadKeplr } from "../services/keplr";
 import { chains } from "chain-registry";
@@ -11,6 +11,7 @@ interface WalletState {
   chain: ChainInfo;
   address?: string;
   signer?: OfflineSigner;
+  network: 'mainnet' | 'testnet';
   connectWallet: () => void;
   disconnectWallet: () => void;
 }
@@ -22,6 +23,7 @@ const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const [address, setAddress] = useState<string>();
   const [signer, setSigner] = useState<OfflineSigner>();
   const [chain, setChain] = useState<ChainInfo>();
+  const [network, setNetwork] = useState<'mainnet' | 'testnet'>();
   const [allowPermission, setAllowPermission] = useLocalStorage<boolean>("allowPermission");
 
   const connectWallet = async () => {
@@ -48,9 +50,13 @@ const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    const network = ["dev", "testnet"].includes(window.location.href) || process.env.NEXT_PUBLIC_ENV !== "production" ? "testnet" : "mainnet"
+    setNetwork(network)
     if (!query.chain) return;
-    const chain = chains.find(({ chain_name }) => chain_name === query.chain) as Chain;
-    setChain(chainToKeplr(chain));
+    const chainName = network.includes('testnet') ? query.chain + 'testnet' : query.chain;
+    const chain = chains.find(({ chain_name }) => chain_name === chainName) as Chain;
+    const keplrParsedChain = chainToKeplr(chain);
+    setChain({ ...keplrParsedChain, chainName: keplrParsedChain.chainName.replace(' ', '').toLowerCase() });
   }, [query]);
 
   return (
@@ -60,6 +66,7 @@ const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
           chain,
           address,
           signer,
+          network,
           connectWallet,
           disconnectWallet,
         } as WalletState

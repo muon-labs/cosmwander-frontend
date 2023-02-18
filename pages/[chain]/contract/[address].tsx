@@ -14,6 +14,7 @@ import { getContractDetails } from "../../../services/cosmwander";
 import { Chain } from "../../../interfaces/chains";
 import NotExist from "../../../components/NotExist";
 import { JSONSchema } from "../../../interfaces/json-schema";
+import { useWallet } from "../../../providers/WalletProvider";
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
@@ -39,6 +40,7 @@ const Contract: React.FC = () => {
     query: { chain: queryChain, address: contractAddr },
   } = useRouter();
   const { changechainColor } = useTheme();
+  const { chain } = useWallet();
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
   const [contractDetails, setContractDetails] = useState<IContractDetails | null>(null);
@@ -47,16 +49,15 @@ const Contract: React.FC = () => {
   const activeSkeleton = useMemo(() => !contractDetails, [contractDetails]);
 
   useAsync(async () => {
+    setSearched(false)
     setContractDetails(null);
-    if (contractAddr) {
-      changechainColor(queryChain as Chain);
-      try {
-        const contractDetails = await getContractDetails(queryChain as Chain, contractAddr as string);
-        setContractDetails(contractDetails);
-      } catch (e) {
-        setSearched(true);
-      }
-    }
+    if (!contractAddr || !chain) return;
+    changechainColor(queryChain as Chain);
+    try {
+      const contractDetails = await getContractDetails(chain.chainName, contractAddr as string);
+      setContractDetails(contractDetails);
+    } catch (e) { }
+    setSearched(true)
   }, [contractAddr, queryChain]);
 
   if (searched && !contractDetails) {

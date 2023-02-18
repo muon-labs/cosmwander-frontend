@@ -132,8 +132,6 @@ const JsonInteraction: React.FC<Props> = ({
 
   const queryButton = isContract ? <SimpleButton className="w-fit self-end py-2 px-9">{buttonMessage}</SimpleButton> : null;
 
-  console.log({ propertiesArray, properties });
-
   return (
     <div
       className={clsx(
