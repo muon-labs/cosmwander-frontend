@@ -5,7 +5,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   safelist: [
-    { pattern: /(bg|text|border|shadow|fill|from|stroke)-chain-(juno|osmosis|stargaze)-(200|400|600|800)/, variants: ["hover", "focus", "sm", "md", "lg", "placeholder"] },
+    { pattern: /(bg|text|border|shadow|fill|from|stroke|before)-chain-(juno|osmosis|stargaze)-(200|400|600|800)/, variants: ["hover", "focus", "sm", "md", "lg", "placeholder"] },
   ],
   theme: {
     extend: {

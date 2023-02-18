@@ -44,7 +44,16 @@ const Navbar: React.FC = () => {
             },
           }}
         >
-          <CosmwanderLogo iconFill={`fill-chain-${chainColor}-600`} textFill={`fill-chain-${chainColor}-400`} />
+          <div className="flex justify-center items-center">
+            <div className="loader w-[4rem] h-[4rem]">
+              <span className={clsx({
+                'before:bg-[#D463FB] border-t-2 border-t-[#D463FB]/40': chainColor === 'osmosis',
+                'before:bg-[#F0827D] border-t-2 border-t-[#F0827D]/40': chainColor === 'juno',
+                'before:bg-[#46C7C9] border-t-2 border-t-[#46C7C9]/40': chainColor === 'stargaze'
+              })}></span>
+            </div>
+            <CosmwanderLogo iconFill={`fill-chain-${chainColor}-600`} textFill={`fill-chain-${chainColor}-400`} />
+          </div>
         </motion.div>
       </motion.div>
     </motion.nav>
