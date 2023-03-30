@@ -49,16 +49,16 @@ const Contract: React.FC = () => {
   const activeSkeleton = useMemo(() => !contractDetails, [contractDetails]);
 
   useAsync(async () => {
-    setSearched(false)
+    setSearched(false);
     setContractDetails(null);
     if (!contractAddr || !chain) return;
     changechainColor(queryChain as Chain);
     try {
       const contractDetails = await getContractDetails(chain.chainName, contractAddr as string);
       setContractDetails(contractDetails);
-    } catch (e) { }
-    setSearched(true)
-  }, [contractAddr, queryChain]);
+    } catch (e) {}
+    setSearched(true);
+  }, [contractAddr, queryChain, chain]);
 
   if (searched && !contractDetails) {
     return <NotExist searchValue={contractAddr as string} />;

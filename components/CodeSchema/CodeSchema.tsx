@@ -23,32 +23,43 @@ const CodeSchema: React.FC<Props> = ({ contractAddr, init_msg, codeDetails, colo
   const [contractTab, setContractTab] = useState<string>("instantiate");
   const { chainColor } = useTheme();
   const { connectWallet, address, disconnectWallet } = useWallet();
+  const [schema, setSchema] = useState<JSONSchema | null>(codeDetails?.full_schema as JSONSchema);
   const pageColor = color ? color : chainColor;
 
-  const hasSchema = useMemo(() => !!codeDetails?.full_schema?.instantiate, [codeDetails]);
+  const hasSchema = useMemo(() => !!schema?.instantiate, [schema]);
+
+  const onSchemaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileReader = new FileReader();
+    if (!e.target.files) return;
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => setSchema(JSON.parse(e.target?.result as string));
+  };
 
   const contractTabGroup = getTabsOptions();
 
   const options = hasSchema
-    ? getTabsOptionsWithSchema(codeDetails, contractAddr, pageColor, init_msg)
+    ? getTabsOptionsWithSchema(schema, contractAddr, pageColor, init_msg)
     : getTabsOptionsWithoutSchema(codeDetails?.code_id || 0, contractAddr);
 
   return (
     <>
       <div className="mt-3 mb-[3rem] flex items-center justify-between">
         <GroupButtons selectedTab={contractTab} color={pageColor} handlerTab={setContractTab} tabs={contractTabGroup} skeleton={skeleton} />
-        {address ? (
-          <div className="flex flex-col gap-2">
-            <div>{IntlAddress(address)}</div>
-            <OutlineButton className="text-xs px-2 py-1" onClick={disconnectWallet}>
-              Disconnect
-            </OutlineButton>
-          </div>
-        ) : (
-          <SimpleButton className="py-2 px-9" onClick={connectWallet}>
-            Connect Wallet
-          </SimpleButton>
-        )}
+        <div className="flex gap-2">
+          {hasSchema ? null : <input type="file" accept="application/JSON" placeholder="Upload schema" onChange={onSchemaUpload} />}
+          {address ? (
+            <div className="flex flex-col gap-2">
+              <div>{IntlAddress(address)}</div>
+              <OutlineButton className="text-xs px-2 py-1" onClick={disconnectWallet}>
+                Disconnect
+              </OutlineButton>
+            </div>
+          ) : (
+            <SimpleButton className="py-2 px-9" onClick={connectWallet}>
+              Connect Wallet
+            </SimpleButton>
+          )}
+        </div>
       </div>
       <TabsContainer skeleton={skeleton} selectedTab={contractTab} options={options} />
     </>
@@ -74,20 +85,15 @@ const getTabsOptions = () => {
   ];
 };
 
-const getTabsOptionsWithSchema = (
-  codeDetails: CodeDetails | undefined,
-  contractAddr: string | undefined,
-  color: string,
-  init_msg?: JSONSchema
-) => {
-  if (!codeDetails?.full_schema) return [];
+const getTabsOptionsWithSchema = (schema: JSONSchema | null, contractAddr: string | undefined, color: string, init_msg?: JSONSchema) => {
+  if (!schema) return [];
   return [
     {
       key: "instantiate",
-      container: <Instantiate isContract={!!contractAddr} color={color} json={init_msg || codeDetails.full_schema.instantiate} />,
+      container: <Instantiate isContract={!!contractAddr} color={color} json={init_msg || (schema.instantiate as JSONSchema)} />,
     },
-    { key: "query", container: <Query isContract={!!contractAddr} color={color} json={codeDetails.full_schema.query} /> },
-    { key: "execute", container: <Execute isContract={!!contractAddr} color={color} json={codeDetails.full_schema.execute} /> },
+    { key: "query", container: <Query isContract={!!contractAddr} color={color} json={schema.query as JSONSchema} /> },
+    { key: "execute", container: <Execute isContract={!!contractAddr} color={color} json={schema.execute as JSONSchema} /> },
   ];
 };
 
