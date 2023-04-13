@@ -10,6 +10,8 @@ import Execute from "./Execute";
 import Instantiate from "./Instantiate";
 import { ExecuteMsgBuilder, InstantiateMsgBuilder, QueryMsgBuilder } from "./MsgBuilder";
 import Query from "./Query";
+import clsx from "clsx";
+import UploadIcon from "../Icons/Upload";
 
 interface Props {
   codeDetails?: CodeDetails;
@@ -45,8 +47,34 @@ const CodeSchema: React.FC<Props> = ({ contractAddr, init_msg, codeDetails, colo
     <>
       <div className="mt-3 mb-[3rem] flex items-center justify-between">
         <GroupButtons selectedTab={contractTab} color={pageColor} handlerTab={setContractTab} tabs={contractTabGroup} skeleton={skeleton} />
+        {hasSchema ? null : (
+          <>
+            <input
+              id="upload-schema"
+              type="file"
+              accept="application/JSON"
+              placeholder="Upload schema"
+              onChange={onSchemaUpload}
+              className="h-0 w-0 overflow-hidden"
+            />
+            <label
+              htmlFor="upload-schema"
+              className={clsx(
+                `bg-chain-${pageColor}-800 py-2 px-4 rounded-[4px] group cursor-pointer hover:bg-chain-${pageColor}-400 border border-chain-${pageColor}-400 hover:border-chain-${pageColor}-200 transition-all relative overflow-hidden`
+              )}
+            >
+              <span
+                className={clsx(
+                  `bg-chain-${pageColor}-400 w-full absolute h-full left-0 rounded-[4px] flex items-center justify-center top-[-4rem] group-hover:top-0 transition-all`
+                )}
+              >
+                <UploadIcon className="w-6 h-6  " />
+              </span>
+              Upload schema
+            </label>
+          </>
+        )}
         <div className="flex gap-2">
-          {hasSchema ? null : <input type="file" accept="application/JSON" placeholder="Upload schema" onChange={onSchemaUpload} />}
           {address ? (
             <div className="flex flex-col gap-2">
               <div>{IntlAddress(address)}</div>

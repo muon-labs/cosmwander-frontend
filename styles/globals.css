@@ -60,7 +60,7 @@ body {
 
 .react-json-view .data-type-label,
 .react-json-view .string-value,
-.react-json-view .variable-value>*,
+.react-json-view .variable-value > *,
 .react-json-view .node-ellipsis {
   color: var(--chain-color) !important;
 }
@@ -78,25 +78,23 @@ body {
 }
 
 .loader::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 20px;
   background: transparent;
   border: 1px linear#444;
   border-radius: 50%;
-  box-shadow: inset -5px -5px 25px rgba(0, 0, 0, 0.25),
-    inset 5px 5px 35px rgba(0, 0, 0, 0.25);
+  box-shadow: inset -5px -5px 25px rgba(0, 0, 0, 0.25), inset 5px 5px 35px rgba(0, 0, 0, 0.25);
 }
 
 .loader::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   border: 1px linear#444;
-  box-shadow: inset -5px -5px 25px rgba(0, 0, 0, 0.25),
-    inset 5px 5px 35px rgba(0, 0, 0, 0.25);
+  box-shadow: inset -5px -5px 25px rgba(0, 0, 0, 0.25), inset 5px 5px 35px rgba(0, 0, 0, 0.25);
 }
 
 .loader span {
@@ -111,7 +109,7 @@ body {
 }
 
 .loader span::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
