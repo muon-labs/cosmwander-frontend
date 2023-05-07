@@ -22,7 +22,17 @@ const CosmosContext = createContext<CosmosContextProps | null>(null);
 const CosmosProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { query } = useRouter();
   const [chainName, setChainName] = useState<string>((query.chain as string) || "juno");
-  const { connect, username, address, chain: chainInfo, assets, isWalletConnected, disconnect, getSigningCosmWasmClient } = useChain(chainName);
+  const {
+    connect,
+    username,
+    address,
+    chain: chainInfo,
+    assets,
+    isWalletConnected,
+    disconnect,
+    getSigningCosmWasmClient,
+    walletRepo,
+  } = useChain(chainName);
   const [cwClient, setCwClient] = useState<SigningCosmWasmClient | null>(null);
   const [queryService, setQueryService] = useState<QueryService | null>(null);
 
@@ -62,7 +72,7 @@ const CosmosProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const cwClient = await getSigningCosmWasmClient();
       setCwClient(cwClient);
     })();
-  }, [address, getSigningCosmWasmClient]);
+  }, [address]);
 
   useEffect(() => {
     setChainName((query.chain as string) || "juno");
@@ -78,7 +88,18 @@ const CosmosProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <CosmosContext.Provider
-      value={{ connect, address, username, disconnect, isWalletConnected, queryService, chainName, cwClient } as CosmosContextProps}
+      value={
+        {
+          connect: () => walletRepo.connect("keplr-extension"),
+          address,
+          username,
+          disconnect,
+          isWalletConnected,
+          queryService,
+          chainName,
+          cwClient,
+        } as CosmosContextProps
+      }
     >
       {children}
     </CosmosContext.Provider>

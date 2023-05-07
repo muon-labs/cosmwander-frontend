@@ -14,7 +14,7 @@ interface Props {
 
 const Navbar: React.FC<Props> = ({ showSearchBar }) => {
   const { push: goToPage } = useRouter();
-  const { address, disconnect, connect } = useCosmos();
+  const { address, disconnect, connect, chainName } = useCosmos();
 
   return (
     <motion.nav className="min-h-[4.5rem] p-4 relative flex items-center justify-between">
@@ -34,7 +34,6 @@ const Navbar: React.FC<Props> = ({ showSearchBar }) => {
       <motion.div className="max-w-[1425px] w-full mx-[auto] my-0 flex items-center justify-between py-4">
         <motion.div
           className="cursor-pointer flex justify-between w-full"
-          onClick={() => goToPage("/")}
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
@@ -46,8 +45,8 @@ const Navbar: React.FC<Props> = ({ showSearchBar }) => {
             },
           }}
         >
-          <div className="flex justify-between items-center w-full">
-            <div className="flex justify-center items-center gap-4">
+          <div className="flex justify-between items-center w-full gap-4">
+            <div className="flex justify-center items-center gap-4" onClick={() => goToPage(`/${chainName}`)}>
               <div className="loader w-[4rem] h-[4rem]">
                 <span className="before:bg-chain-600 border-t-2 border-t-chain-600"></span>
               </div>
@@ -63,7 +62,7 @@ const Navbar: React.FC<Props> = ({ showSearchBar }) => {
                 </OutlineButton>
               </div>
             ) : (
-              <SimpleButton className="py-2 px-9" onClick={connect}>
+              <SimpleButton className="py-2 px-9" onClick={() => [connect(), console.log("test")]}>
                 Connect Wallet
               </SimpleButton>
             )}
