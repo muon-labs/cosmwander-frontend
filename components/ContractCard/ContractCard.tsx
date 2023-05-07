@@ -3,17 +3,16 @@ import clsx from "clsx";
 import { IntlAddress } from "../../utils/intl";
 import { VerifiedIcon } from "../Icons";
 import Tag from "../Tag";
-import { useTheme } from "../../providers/ThemeProvider";
-import { useWallet } from "../../providers/WalletProvider";
 import { useRouter } from "next/router";
+import { useCosmos } from "~/providers/CosmosProvider";
+import Link from "next/link";
 
 interface Props {
   contract?: any;
 }
 
 const ContractCard: React.FC<HTMLAttributes<HTMLElement> & Props> = ({ className = "", contract }) => {
-  const { chainColor } = useTheme();
-  const { chain } = useWallet();
+  const { chainName } = useCosmos();
   const { push: goToPage } = useRouter();
 
   return (
@@ -24,7 +23,7 @@ const ContractCard: React.FC<HTMLAttributes<HTMLElement> & Props> = ({ className
       )}
     >
       <div className="flex justify-start items-center gap-2">
-        <Tag bg={`bg-chain-${chainColor}-400 capitalize`}>{chainColor}</Tag>
+        <Tag bg={`bg-chain-400 capitalize`}>{chainName.replace("testnet", " Testnet")}</Tag>
         {/* <Tag bg="bg-cw-grey-300">CW20</Tag> */}
         <div className="flex items-center gap-2">
           {/* <VerifiedIcon color={`fill-chain-${chainColor}-600`} />
@@ -32,24 +31,21 @@ const ContractCard: React.FC<HTMLAttributes<HTMLElement> & Props> = ({ className
         </div>
       </div>
       <div className="flex items-center justify-between">
-        <p className="text-cw-grey-400">Executes</p>
-        <p className="text-white">-</p>
+        <p className="text-cw-grey-400">Height</p>
+        <p className="text-white">{contract?.height}</p>
       </div>
       <div className="flex items-end">
-        <p className="text-lg">{contract?.label}</p>
+        <p className="text-lg">{}</p>
       </div>
-      <div className="flex items-center justify-between">
-        <p className="text-cw-grey-400 mr-4">Instantiated at</p>
-        <p className="text-white">-</p>
+      <div className="flex items-center justify-between overflow-auto">
+        <p className="text-cw-grey-400 mr-4">Hash</p>
+        <p className="text-white truncate">{contract?.hash}</p>
       </div>
       <div className="col-span-2 flex justify-between items-center">
         <p className="text-cw-grey-400">Contract Address</p>
-        <p
-          className={`text-chain-${chainColor}-400 cursor-pointer`}
-          onClick={() => goToPage(`/${chain?.chainName.replace('testnet', '').toLowerCase()}/contract/${contract?.address}`)}
-        >
-          {contract && IntlAddress(contract?.address)}
-        </p>
+        <Link href={`/${chainName}/contract/${contract?.contractAddr}`} className={`text-chain-400 cursor-pointer`}>
+          {contract && IntlAddress(contract?.contractAddr)}
+        </Link>
       </div>
     </div>
   );

@@ -2,10 +2,9 @@ import clsx from "clsx";
 import React, { FormEvent, useState } from "react";
 import { SimpleButton } from "../../Buttons";
 import Editor from "@monaco-editor/react";
-import { useCosmWasm } from "../../../providers/CosmWasmProvider";
 import dynamic from "next/dynamic";
-import { useWallet } from "../../../providers/WalletProvider";
 import { InstantiateResult } from "@cosmjs/cosmwasm-stargate";
+import { useCosmos } from "~/providers/CosmosProvider";
 
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
@@ -16,13 +15,12 @@ interface Props {
 const InstantiateMsgBuilder: React.FC<Props> = ({ codeId }) => {
   const [code, setCode] = React.useState<string>();
   const [response, setResponse] = useState<{ value: InstantiateResult }>();
-  const { client } = useCosmWasm();
-  const { address } = useWallet();
+  const { address, cwClient } = useCosmos();
 
   const onSubmit = async (e: FormEvent) => {
     if (!code?.length) return;
     e.preventDefault();
-    const value = await client.instantiate(address as string, codeId, JSON.parse(code), "cosmwander.instantiate", "auto");
+    const value = await cwClient.instantiate(address as string, codeId, JSON.parse(code), "cosmwander.instantiate", "auto");
     setResponse({ value });
   };
 

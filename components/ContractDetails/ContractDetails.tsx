@@ -1,23 +1,18 @@
-import { useRouter } from "next/router";
 import React from "react";
-import { Chain } from "../../interfaces/chains";
-import { ContractDetails as IContractDetails } from "../../interfaces/contract-details";
-import { useTheme } from "../../providers/ThemeProvider";
-import { useWallet } from "../../providers/WalletProvider";
+import { useRouter } from "next/router";
+import { ContractDetails as IContractDetails } from "~/interfaces/contract-details";
 import SimpleButton from "../Buttons/SimpleButton";
 import CodeDetailsSkeletons from "../Skeletons/CodeDetailsSkeleton";
+import { useCosmos } from "~/providers/CosmosProvider";
 
 interface Props {
   details: IContractDetails | null;
-  color: Chain;
   skeleton?: boolean;
 }
 
-const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
-  const { chainColor } = useTheme();
+const ContractDetails: React.FC<Props> = ({ details, skeleton }) => {
   const { push: goToPage } = useRouter();
-  const { chain } = useWallet();
-  const pageColor = color ? color : chainColor;
+  const { chainName } = useCosmos();
 
   if (skeleton) return <CodeDetailsSkeletons />;
 
@@ -33,8 +28,8 @@ const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
         <p className="text-cw-grey-400">Code ID</p>
       </div>
       <div className="col-span-4 flex items-center gap-2">
-        <p className={`text-chain-${pageColor}-400`}>{details?.code_id}</p>
-        <SimpleButton color={pageColor} scale="md" onClick={() => goToPage(`/${chain.chainName.toLowerCase()}/code/${details?.code_id}`)}>
+        <p className={`text-chain-400`}>{details?.code_id}</p>
+        <SimpleButton scale="md" onClick={() => goToPage(`/${chainName}/code/${details?.code_id}`)}>
           Reinstantiate
         </SimpleButton>
       </div>
@@ -42,31 +37,31 @@ const ContractDetails: React.FC<Props> = ({ details, color, skeleton }) => {
         <p className="text-cw-grey-400">Creator</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${pageColor}-400`}>{details?.creator}</p>
+        <p className={`text-chain-400`}>{details?.creator}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Tx Hash</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${pageColor}-400`}>{details?.tx_hash}</p>
+        <p className={`text-chain-400`}>{details?.tx_hash}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Admin</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${pageColor}-400`}>-</p>
+        <p className={`text-chain-400`}>-</p>
+      </div>
+      <div className="col-span-1">
+        <p className="text-cw-grey-400">Checksum</p>
+      </div>
+      <div className="col-span-4">
+        <p className={`text-chain-400`}>{details?.checksum}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Funds</p>
       </div>
       <div className="col-span-4">
         <p className="text-white">????</p>
-      </div>
-      <div className="col-span-1">
-        <p className="text-cw-grey-400">Last executed at</p>
-      </div>
-      <div className="col-span-4">
-        <p className="text-white">-</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Created at</p>

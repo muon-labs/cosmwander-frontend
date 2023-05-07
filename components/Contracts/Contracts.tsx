@@ -1,33 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useTheme } from "../../providers/ThemeProvider";
-import { useWallet } from "../../providers/WalletProvider";
-import { getContractsDetails } from "../../services/cosmwander";
+import { useCosmos } from "~/providers/CosmosProvider";
+
 import ContractCard from "../ContractCard";
 import Pagination from "../Pagination ";
+import { useQuery } from "react-query";
 
 interface Props {
   contracts: string[];
-  color?: string;
 }
 
-const Contracts: React.FC<Props> = ({ contracts: contractAddresses, color }) => {
-  const { chainColor } = useTheme();
-  const { chain } = useWallet();
-  const [currentPage, setCurrentPage] = useState(0);
-  const [contracts, setContracts] = useState([]);
-  const pageColor = color ? color : chainColor;
+const Contracts: React.FC<Props> = ({ contracts: contractAddresses }) => {
+  const { chainName, queryService } = useCosmos();
+  const [page, setPage] = useState(0);
+  const { data: contracts } = useQuery(
+    ["contracts_by_code", chainName],
+    () => queryService.getContractsDetails(chainName, contractAddresses.slice(page, (page + 1) * 6)),
+    {
+      cacheTime: 1000 * 60,
+    }
+  );
 
-  useEffect(() => {
-    const loadContracts = async () => {
-      const pagiantedContracts = await getContractsDetails(chain.chainName.toLowerCase(), contractAddresses.slice(currentPage, (currentPage + 1) * 6));
-      setContracts(pagiantedContracts);
-    };
-    loadContracts();
-  }, [currentPage]);
   return (
     <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-9">
-      {contracts.map((contract, i) => (
-        <ContractCard key={i} contract={contract} color={pageColor} />
+      {contracts.map((contract: any, i: number) => (
+        <ContractCard key={i} contract={contract} />
       ))}
       {/* <ContractCard className="col-span-1" color={color}/>
       <ContractCard className="col-span-1" color={color}/>

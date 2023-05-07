@@ -2,22 +2,20 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { JSONSchema } from "../../../interfaces/json-schema";
-import { useCosmWasm } from "../../../providers/CosmWasmProvider";
-import { useWallet } from "../../../providers/WalletProvider";
 import JsonInteraction from "../../JsonInteraction";
+import { useCosmos } from "~/providers/CosmosProvider";
 
 const ExecuteMessage: React.FC<any> = ({ message, definitions, expandedAll, color, index, isContract }) => {
   const [[name, details]] = Object.entries(message.properties as Record<string, JSONSchema>);
   const { register, handleSubmit, setValue } = useForm();
-  const { client } = useCosmWasm();
-  const { address } = useWallet();
+  const { address, cwClient } = useCosmos();
   const { query } = useRouter();
   const [response, setResponse] = useState<any>();
 
   const onSubmit = (msg: Record<string, unknown>) => {
-    if (!client) return;
+    if (!cwClient) return;
     console.log(msg);
-    client.execute(address as string, query.address as string, msg, "auto").then(setResponse);
+    cwClient.execute(address as string, query.address as string, msg, "auto").then(setResponse);
   };
 
   useEffect(() => {

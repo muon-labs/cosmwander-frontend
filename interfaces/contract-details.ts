@@ -9,6 +9,7 @@ export interface ContractDetails {
   init_msg: Record<string, unknown>;
   creator: string;
   label: string;
-  ibcPortId?: string;
+  checksum: string;
+  contracts: string[];
   migrations?: Record<string, string>;
 }

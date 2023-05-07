@@ -8,7 +8,10 @@
 }
 
 :root {
-  --chain-color: theme("colors.cw-purple-450");
+  --chain-color-200: theme("colors.cw-purple-400");
+  --chain-color-400: theme("colors.cw-purple-400");
+  --chain-colors-600: theme("colors.cw-purple-600");
+  --chain-colors-800: theme("colors.black");
 }
 
 html,

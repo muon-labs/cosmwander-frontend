@@ -9,10 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chain-registry/keplr": "^1.11.0",
     "@chain-registry/types": "^0.14.0",
     "@cosmjs/cosmwasm-stargate": "^0.29.4",
     "@cosmjs/proto-signing": "^0.29.4",
+    "@cosmos-kit/keplr-extension": "^0.34.1",
+    "@cosmos-kit/react-lite": "^1.4.1",
     "@fontsource/inter": "^4.5.13",
     "@monaco-editor/react": "^4.4.6",
     "@tailwindcss/typography": "^0.5.7",
@@ -26,10 +27,10 @@
     "react-hook-form": "^7.39.5",
     "react-hot-toast": "^2.4.0",
     "react-json-view": "^1.21.3",
+    "react-query": "^3.39.3",
     "react-use": "^17.4.0"
   },
   "devDependencies": {
-    "@keplr-wallet/types": "^0.11.17",
     "@types/node": "18.8.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
@@ -37,8 +38,8 @@
     "eslint": "8.24.0",
     "eslint-config-next": "12.3.1",
     "postcss": "^8.4.17",
-    "tailwindcss": "^3.1.8",
-    "typescript": "4.8.4"
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.4"
   },
   "overrides": {
     "react-json-view": {

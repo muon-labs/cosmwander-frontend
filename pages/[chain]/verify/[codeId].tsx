@@ -1,21 +1,18 @@
-import { useRouter } from "next/router";
 import React from "react";
-import { useForm } from "react-hook-form";
-import { SimpleButton } from "../components/Buttons";
-import SimpleInput from "../components/Input/SImpleInput";
-import { useTheme } from "../providers/ThemeProvider";
-import { verifyCode } from "../services/cosmwander";
+import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
-import { useWallet } from "../providers/WalletProvider";
+import { useForm } from "react-hook-form";
+import { useCosmos } from "~/providers/CosmosProvider";
+import { SimpleButton } from "~/components/Buttons";
+import SimpleInput from "~/components/Input/SImpleInput";
 
 const Verify: React.FC = () => {
-  const { chainColor } = useTheme();
   const { register, handleSubmit } = useForm();
-  const { network } = useWallet();
   const { query } = useRouter();
+  const { queryService, chainName } = useCosmos();
 
   const onSubmit = async (data: unknown) => {
-    toast.promise(verifyCode(query.chainId as string + network, query.codeId as string, data), {
+    toast.promise(queryService.verifyCode(chainName, query.codeId as string, data), {
       loading: "Verifying...",
       success: "Verified!",
       error: "Error: Failed to verify",
@@ -31,8 +28,8 @@ const Verify: React.FC = () => {
       <div className="grid grid-cols-5 w-full">
         <div className="text-cw-grey-400">Code ID</div>
         <div className="text-cw-grey-400 col-span-4">Creator</div>
-        <div className={`text-chain-${chainColor}-400`}>{query.codeId}</div>
-        <div className={`text-chain-${chainColor}-400 col-span-4`}>{query.creator}</div>
+        <div className={`text-chain-400`}>{query.codeId}</div>
+        <div className={`text-chain-400 col-span-4`}>{query.creator}</div>
       </div>
       <div className="w-full">
         <SimpleInput placeholder="Github Repository" className="px-3 py-2 w-full rounded-lg" {...register("repoUrl")} />

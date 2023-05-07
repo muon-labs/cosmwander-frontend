@@ -1,26 +1,21 @@
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React from "react";
 import { GitHubIcon, VerifiedIcon } from "../Icons";
 import { IntlAddress } from "../../utils/intl";
-import { useTheme } from "../../providers/ThemeProvider";
 import { CodeDetails } from "../../interfaces/code-details";
 import Tag from "../Tag";
-import { Chain } from "../../interfaces/chains";
 import CodeDetailsSkeletons from "../Skeletons/CodeDetailsSkeleton";
 import { SimpleButton } from "../Buttons";
-import { useWallet } from "../../providers/WalletProvider";
 import { useRouter } from "next/router";
+import { useCosmos } from "~/providers/CosmosProvider";
 
 interface Props {
   codeDetails: CodeDetails;
-  color?: Chain;
   skeleton?: boolean;
 }
 
-const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
-  const { chainColor } = useTheme();
-  const { chain } = useWallet();
+const CodeDetails: React.FC<Props> = ({ codeDetails, skeleton }) => {
+  const { chainName } = useCosmos();
   const { push: goToPage } = useRouter();
-  const pageColor = color ? color : chainColor;
 
   if (skeleton) return <CodeDetailsSkeletons />;
 
@@ -28,18 +23,18 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
     <div className="py-6 grid grid-cols-1 lg:grid-cols-5 gap-5 w-full">
       <div className="col-span-5 flex justify-between items-center">
         <div className="flex items-center justify-center gap-2">
-          <Tag bg={`bg-chain-${pageColor}-600 capitalize`}>{pageColor}</Tag>
+          <Tag bg={`bg-chain-600 capitalize`}>{chainName.replace("testnet", " Testnet")}</Tag>
           {codeDetails.type && <Tag bg="bg-cw-grey-300">{codeDetails.type}</Tag>}
         </div>
         {codeDetails.verified ? (
           <div className="flex items-center gap-2">
-            <VerifiedIcon color={`fill-chain-${chainColor}-600`} />
-            <p className={`text-chain-${chainColor}-200 text-md font-semibold`}>Verified</p>
+            <VerifiedIcon color={`fill-chain-600`} />
+            <p className={`text-chain-200 text-md font-semibold`}>Verified</p>
           </div>
         ) : (
           <SimpleButton
             className="px-4 py-1"
-            onClick={() => goToPage(`/verify?codeId=${codeDetails.code_id}&chainId=${chain.chainId}&creator=${codeDetails.creator}`)}
+            onClick={() => goToPage(`/verify?codeId=${codeDetails.code_id}&chainId=${chainName}&creator=${codeDetails.creator}`)}
           >
             Verify
           </SimpleButton>
@@ -49,19 +44,19 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
         <p className="text-cw-grey-400 ">Code ID</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${pageColor}-400`}>{codeDetails.code_id}</p>
+        <p className={`text-chain-400`}>{codeDetails.code_id}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Creator</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${pageColor}-400`}>{codeDetails.creator}</p>
+        <p className={`text-chain-400`}>{codeDetails.creator}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Tx Hash</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${pageColor}-400`}>{codeDetails.tx_hash ? codeDetails.tx_hash : "-"}</p>
+        <p className={`text-chain-400`}>{codeDetails.tx_hash ? codeDetails.tx_hash : "-"}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400 ">Checksum</p>
@@ -97,14 +92,14 @@ const CodeDetails: React.FC<Props> = ({ codeDetails, color, skeleton }) => {
         <p className="text-cw-grey-400 ">Permission address</p>
       </div>
       <div className="col-span-1">
-        <p className={`text-chain-${pageColor}-400`}>{codeDetails.permission_address ? IntlAddress(codeDetails.permission_address) : "-"}</p>
+        <p className={`text-chain-400`}>{codeDetails.permission_address ? IntlAddress(codeDetails.permission_address) : "-"}</p>
       </div>
       <div className="col-span-1 flex items-center justify-start gap-2">
         <GitHubIcon />
         <p className="text-cw-grey-400 ">GitHub</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-${pageColor}-400`}>{codeDetails.code_ref?.repo_url ? codeDetails.code_ref.repo_url : "-"}</p>
+        <p className={`text-chain-400`}>{codeDetails.code_ref?.repo_url ? codeDetails.code_ref.repo_url : "-"}</p>
       </div>
     </div>
   );

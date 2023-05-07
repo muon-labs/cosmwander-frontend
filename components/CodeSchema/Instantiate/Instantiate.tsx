@@ -11,11 +11,10 @@ const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
 interface Props {
   json: JSONSchema;
-  color: string;
   isContract: boolean;
 }
 
-const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
+const Instantiate: React.FC<Props> = ({ json, isContract }) => {
   const { definitions } = json as any;
   const [expanded, setExpanded] = React.useState<boolean | null>(true);
   const { register, handleSubmit, control } = useForm();
@@ -32,7 +31,7 @@ const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
         <ReactJson src={json || {}} indentWidth={2} theme="ashes" />
       ) : (
         <>
-          <Expand color={color} expanded={expanded} setExpanded={setExpanded} />
+          <Expand expanded={expanded} setExpanded={setExpanded} />
           <div className="w-full flex flex-col gap-[20px]">
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 border border-cw-grey-700 bg-cw-grey-800 rounded-[6px] p-6">
               <JsonInteraction
@@ -44,7 +43,6 @@ const Instantiate: React.FC<Props> = ({ json, isContract, color }) => {
                 properties={(json.properties as Record<string, JSONSchema>) || {}}
                 definitions={definitions as Record<string, JSONSchema>}
                 expandedAll={expanded as boolean}
-                color={color}
                 bgColor="transparent"
                 formControl={control}
               />

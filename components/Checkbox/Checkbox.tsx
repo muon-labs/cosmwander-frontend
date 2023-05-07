@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import React, { InputHTMLAttributes, useState } from "react";
-import { useTheme } from "../../providers/ThemeProvider";
 
 interface ICheckBox {
   labelLeft?: string;
@@ -18,7 +17,6 @@ const CheckBox: React.FC<InputHTMLAttributes<HTMLInputElement> & ICheckBox> = ({
   ...props
 }) => {
   const [checked, setChecked] = useState<boolean>(defaultValue as boolean);
-  const { chainColor } = useTheme();
 
   const changeChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
@@ -36,7 +34,7 @@ const CheckBox: React.FC<InputHTMLAttributes<HTMLInputElement> & ICheckBox> = ({
         <input
           className={clsx(
             "form-checkBox-input appearance-none h-[30px] w-[30px] rounded-sm bg-cw-grey-950 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer",
-            `border border-chain-${chainColor}-400 text-chain-${chainColor}-400`
+            `border border-chain-400 text-chain-400`
           )}
           {...props}
           type="checkbox"
@@ -47,7 +45,7 @@ const CheckBox: React.FC<InputHTMLAttributes<HTMLInputElement> & ICheckBox> = ({
         <label htmlFor={`checkBox-${name}`} className="checkbox-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path
-              className={`stroke-chain-${chainColor}-200`}
+              className={`stroke-chain-200`}
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"

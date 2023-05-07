@@ -1,8 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import { useTheme } from "../../providers/ThemeProvider";
-import { Chain } from "../../interfaces/chains";
 import GroupButtonsSkeleton from "../Skeletons/GroupButtonsSkeleton";
 
 interface Props {
@@ -16,10 +14,7 @@ interface Props {
   skeleton?: boolean;
 }
 
-const GroupButtons: React.FC<Props> = ({ tabs, selectedTab, handlerTab, color, skeleton }) => {
-  const { chainColor } = useTheme();
-  const pageColor = color ? color : chainColor;
-
+const GroupButtons: React.FC<Props> = ({ tabs, selectedTab, handlerTab, skeleton }) => {
   if (skeleton) return <GroupButtonsSkeleton tabs={tabs} />;
 
   const Tabs = tabs.map(({ content, key }) => {
@@ -28,9 +23,7 @@ const GroupButtons: React.FC<Props> = ({ tabs, selectedTab, handlerTab, color, s
         key={key}
         className={clsx(
           "flex-1 p-4 flex justify-center items-center w-full relative transition border duration-150 ease-in-out rounded-[8px]",
-          key === selectedTab
-            ? `bg-chain-${pageColor}-800 border-chain-${pageColor}-400 hover:bg-chain-${pageColor}-400 hover:border-chain-${pageColor}-200`
-            : "bg-transparent border-transparent"
+          key === selectedTab ? `bg-chain-800 border-chain-400 hover:bg-chain-400 hover:border-chain-200` : "bg-transparent border-transparent"
         )}
         onClick={() => handlerTab(key)}
       >

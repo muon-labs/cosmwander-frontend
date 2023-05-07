@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { JSONSchema } from "../../../interfaces/json-schema";
-import { useCosmWasm } from "../../../providers/CosmWasmProvider";
 import JsonInteraction from "../../JsonInteraction";
 import { recursivePopulateProps } from "../../../utils/schema";
+import { useCosmos } from "~/providers/CosmosProvider";
 
 const QueryMessage: React.FC<any> = ({ message, definitions, expandedAll, color, index, isContract }) => {
   const [[name, details]] = Object.entries(message.properties as Record<string, JSONSchema>);
   const { register, handleSubmit, setValue } = useForm();
-  const { client } = useCosmWasm();
+  const { cwClient } = useCosmos();
   const { query } = useRouter();
   const [response, setResponse] = useState<Record<string, string>>();
 
   const onSubmit = (msg: Record<string, unknown>) => {
-    if (!client) return;
+    if (!cwClient) return;
     console.log(msg);
-    client.queryContractSmart(query.address as string, msg).then(setResponse);
+    cwClient.queryContractSmart(query.address as string, msg).then(setResponse);
   };
 
   useEffect(() => {

@@ -1,19 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { GroupButtons } from "../../../components/Buttons";
-import Contracts from "../../../components/Contracts";
-import TabsContainer from "../../../components/TabsContainer";
-import CodeDetails from "../../../components/CodeDetails";
-import CodeSchema from "../../../components/CodeSchema";
+import { useQuery } from "react-query";
+import { GroupButtons } from "~/components/Buttons";
+import Contracts from "~/components/Contracts";
+import TabsContainer from "~/components/TabsContainer";
+import CodeDetails from "~/components/CodeDetails";
+import CodeSchema from "~/components/CodeSchema";
 import { useRouter } from "next/router";
-import { useAsync } from "react-use";
-import { getCodeDetails, getPinnedCodes } from "../../../services/cosmwander";
-import { CodeDetails as ICodeDetails } from "../../../interfaces/code-details";
-import { Chain } from "../../../interfaces/chains";
-import { useTheme } from "../../../providers/ThemeProvider";
-import NotExist from "../../../components/NotExist";
-import { useWallet } from "../../../providers/WalletProvider";
+import NotExist from "~/components/NotExist";
+import { useCosmos } from "~/providers/CosmosProvider";
+
+import { CodeDetails as ICodeDetails } from "~/interfaces/code-details";
+import { Chain } from "~/interfaces/chains";
 
 const buildTabs = (contractNumber?: number, chain?: Chain) => {
   return [
@@ -34,36 +33,18 @@ const buildTabs = (contractNumber?: number, chain?: Chain) => {
 };
 
 const CodeView: NextPage = () => {
+  const { query } = useRouter();
+  const { chainName, queryService } = useCosmos();
   const {
-    query: { chain: queryChain, id: codeId },
-  } = useRouter();
-  const { changechainColor } = useTheme();
-  const { chain } = useWallet();
-
-  const [codeDetails, setCodeDetails] = useState<ICodeDetails | null>(null);
-  const [searched, setSearched] = useState<boolean>(false);
-
-  const activeSkeleton = useMemo(() => !codeDetails, [codeDetails]);
-
-  useAsync(async () => {
-    setSearched(false)
-    if (!codeId || !chain) return;
-    setCodeDetails(null);
-    changechainColor(queryChain as Chain);
-    try {
-      const codeDetails = await getCodeDetails(chain.chainName, codeId as string);
-      setCodeDetails(codeDetails);
-    } catch (e) {
-    }
-    setSearched(true);
-  }, [codeId, queryChain, chain]);
+    isLoading,
+    isIdle,
+    data: codeDetails,
+  } = useQuery<ICodeDetails>(["latest_contracts", chainName], () => queryService.getLatestContracts(chainName));
 
   const [activeCodeTab, setActiveCodeTab] = useState<string>("see-contract");
+  const queryChain = query.chain as string;
 
-  if (searched && !codeDetails) {
-    console.log(searched, codeDetails)
-    return <NotExist searchValue={codeId as string} />;
-  }
+  if (isIdle && !codeDetails) return <NotExist searchValue={query.codeId as string} />;
 
   return (
     <div className="w-full">
@@ -73,10 +54,10 @@ const CodeView: NextPage = () => {
       </Head>
       <div className="flex flex-col gap-11 mb-16">
         <div className="border-t border-cw-grey-700 w-full" />
-        <CodeDetails skeleton={activeSkeleton} codeDetails={codeDetails as ICodeDetails} color={queryChain as Chain} />
+        <CodeDetails skeleton={isLoading} codeDetails={codeDetails as ICodeDetails} color={queryChain as Chain} />
         <div className="mt-11">
           <GroupButtons
-            skeleton={activeSkeleton}
+            skeleton={isLoading}
             selectedTab={activeCodeTab}
             color={queryChain as Chain}
             handlerTab={setActiveCodeTab}
@@ -90,7 +71,7 @@ const CodeView: NextPage = () => {
             options={[
               {
                 key: "see-contract",
-                container: <CodeSchema codeDetails={codeDetails as ICodeDetails} color={queryChain as string} skeleton={activeSkeleton} />,
+                container: <CodeSchema codeDetails={codeDetails as ICodeDetails} color={queryChain as string} skeleton={isLoading} />,
               },
               {
                 key: "contracts",
