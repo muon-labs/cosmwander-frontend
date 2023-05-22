@@ -22,14 +22,14 @@ const ContractDetails: React.FC<Props> = ({ details, skeleton }) => {
         <p className="text-cw-grey-400">Contract name</p>
       </div>
       <div className="col-span-4">
-        <p className="text-cw-grey-100 text-xl">{details?.label}</p>
+        <p className="text-cw-grey-100 text-xl">{details?.name}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Code ID</p>
       </div>
       <div className="col-span-4 flex items-center gap-2">
-        <p className={`text-chain-400`}>{details?.code_id}</p>
-        <SimpleButton scale="md" onClick={() => goToPage(`/${chainName}/code/${details?.code_id}`)}>
+        <p className={`text-chain-400`}>{details?.codeId}</p>
+        <SimpleButton scale="md" onClick={() => goToPage(`/${chainName}/code/${details?.codeId}`)}>
           Reinstantiate
         </SimpleButton>
       </div>
@@ -43,7 +43,7 @@ const ContractDetails: React.FC<Props> = ({ details, skeleton }) => {
         <p className="text-cw-grey-400">Tx Hash</p>
       </div>
       <div className="col-span-4">
-        <p className={`text-chain-400`}>{details?.tx_hash}</p>
+        <p className={`text-chain-400`}>{details?.txHash}</p>
       </div>
       <div className="col-span-1">
         <p className="text-cw-grey-400">Admin</p>
@@ -51,23 +51,17 @@ const ContractDetails: React.FC<Props> = ({ details, skeleton }) => {
       <div className="col-span-4">
         <p className={`text-chain-400`}>-</p>
       </div>
-      <div className="col-span-1">
+      {/*  <div className="col-span-1">
         <p className="text-cw-grey-400">Checksum</p>
       </div>
       <div className="col-span-4">
         <p className={`text-chain-400`}>{details?.checksum}</p>
-      </div>
-      <div className="col-span-1">
-        <p className="text-cw-grey-400">Funds</p>
-      </div>
-      <div className="col-span-4">
-        <p className="text-white">????</p>
-      </div>
+      </div> */}
       <div className="col-span-1">
         <p className="text-cw-grey-400">Created at</p>
       </div>
       <div className="col-span-4">
-        <p className="text-white">-</p>
+        <p className="text-white">{details?.createdAt}</p>
       </div>
     </div>
   );

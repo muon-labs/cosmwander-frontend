@@ -22,9 +22,11 @@ const queryClient = new QueryClient({
 
 const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { query } = useRouter();
+  const [chainName, setChainName] = React.useState<string | null>(null);
 
   useEffect(() => {
     if (!query.chain) return;
+    setChainName(query.chain as string);
     const color = colors[query.chain as keyof typeof colors];
     const root = document.querySelector(":root") as HTMLElement;
     if (!root) return;
@@ -33,6 +35,8 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
     root.style.setProperty("--chain-color-600", color[600]);
     root.style.setProperty("--chain-color-800", color[800]);
   }, [query.chain]);
+
+  if (!chainName) return null;
 
   return (
     <ChainProvider
@@ -61,7 +65,7 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
         },
       }}
     >
-      <CosmosProvider>
+      <CosmosProvider chainName={chainName}>
         <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       </CosmosProvider>
     </ChainProvider>

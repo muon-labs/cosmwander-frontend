@@ -17,7 +17,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, Props>(({ className, scal
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const isCodeId = /\d/.test(searchValue);
+      const isCodeId = /^\d/.test(searchValue);
       goToPage(`/${chainName}/${isCodeId ? "code" : "contract"}/${searchValue}`);
     },
     [searchValue]

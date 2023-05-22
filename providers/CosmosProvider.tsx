@@ -19,9 +19,8 @@ interface CosmosContextProps {
 
 const CosmosContext = createContext<CosmosContextProps | null>(null);
 
-const CosmosProvider: React.FC<PropsWithChildren> = ({ children }) => {
+const CosmosProvider: React.FC<PropsWithChildren<{ chainName: string }>> = ({ children, chainName }) => {
   const { query } = useRouter();
-  const [chainName, setChainName] = useState<string>((query.chain as string) || "juno");
   const {
     connect,
     username,
@@ -73,10 +72,6 @@ const CosmosProvider: React.FC<PropsWithChildren> = ({ children }) => {
       setCwClient(cwClient);
     })();
   }, [address]);
-
-  useEffect(() => {
-    setChainName((query.chain as string) || "juno");
-  }, [query]);
 
   if (!queryService)
     return (

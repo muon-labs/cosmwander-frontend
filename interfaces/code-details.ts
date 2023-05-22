@@ -1,29 +1,21 @@
 export interface CodeDetails {
-  code_id: number;
-  chain_id: string;
+  codeId: number;
+  chainId: string;
   creator: string;
-  type?: string;
-  version?: string;
-  permission?: string;
-  permission_address?: string;
-  tx_hash?: string;
   checksum: string;
+  txHash: string;
   contracts: string[];
-  partial_schema?: {
+  createdAt: string;
+  contractSchema?: {
     instantiate: Record<string, string>;
     execute: Record<string, string>;
     query: Record<string, string>;
   };
-  full_schema?: {
-    instantiate: Record<string, string>;
-    execute: Record<string, string>;
-    query: Record<string, string>;
-  };
-  code_ref?: {
+  codeRef?: {
     repo_url: string;
     commit_hash: string;
   };
+  name?: string;
+  version?: string;
   verified?: boolean;
-  last_verified?: Date;
-  created_at?: string;
 }
